@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dva47lw34td0t"]
+
+[ext_resource type="Shader" uid="uid://duap828mxii5v" path="res://scenes/radar_pulse.gdshader" id="1_h23wn"]
+[ext_resource type="Script" uid="uid://vdca7p6oumeg" path="res://scenes/radar_pulse.gd" id="1_udmdm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_udmdm"]
+shader = ExtResource("1_h23wn")
+shader_parameter/time = 0.0
+shader_parameter/pulse_size = 192.0
+shader_parameter/pulse_color = Color(0, 1, 0, 1)
+
+[node name="RadarPulse" type="Node2D"]
+script = ExtResource("1_udmdm")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_udmdm")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 384.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
