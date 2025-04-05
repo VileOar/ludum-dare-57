@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dca88eh6c0qrc"]
+
+[ext_resource type="Script" uid="uid://dl8muomdyln1g" path="res://src/topscenes/temp_map.gd" id="1_ecct6"]
+[ext_resource type="TileSet" uid="uid://n1yasqcqq017" path="res://assets/tilesets/tileset.tres" id="1_n5vpo"]
+
+[node name="TempMap" type="Node2D"]
+script = ExtResource("1_ecct6")
+
+[node name="Dirt" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_n5vpo")
