@@ -1,3 +1,4 @@
+class_name Enemy
 extends CharacterBody2D
 
 @onready var agent: CharacterBody2D = $"."
@@ -8,19 +9,6 @@ extends CharacterBody2D
 
 var is_give_up_time : bool = false
 var origin_point : Vector2
-var exit_point : Vector2
-
-
-func _get_player_location() -> Vector2:
-	if is_give_up_time:
-		return origin_point
-	
-	if player_to_chase && player_to_chase.global_position:
-		return player_to_chase.global_position
-	else:
-		print_debug("[Warning] Player to Chase Not Set!")
-		# Inside the region, random place
-		return Vector2(randf_range(0, get_viewport_rect().size.x), randf_range(0, get_viewport_rect().size.y))
 
 
 func _ready():
@@ -40,8 +28,7 @@ func _physics_process(delta: float) -> void:
 		
 	var next_path_pos = nav_agent.get_next_path_position()
 	var direction = global_position.direction_to(next_path_pos)
-	var new_velocity
-	new_velocity = direction * SPEED * delta 
+	var new_velocity = direction * SPEED * delta 
 	
 	nav_agent.velocity = new_velocity
 	
@@ -58,31 +45,34 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity) -> void:
 	velocity = velocity.move_toward(safe_velocity, 100)
 	move_and_slide()
 
-	
-func make_path(pos: Vector2) -> void:
-	nav_agent.target_position = pos
+
+func _on_update_player_location_timeout() -> void:
+	make_path(_get_player_location())
 
 
 func _on_time_to_give_up_timeout() -> void:
 	is_give_up_time = true
-#	TODO TMP
+
+
+func _get_player_location() -> Vector2:
+	if is_give_up_time:
+		return origin_point
+	
 	if player_to_chase && player_to_chase.global_position:
-		#exit_point = -player_to_chase.global_position
-		exit_point = calculate_exit_point()
-		print(exit_point)
+		return player_to_chase.global_position
+	else:
+		print_debug("[Warning] Player to Chase Not Set!")
+		# Inside the region, random place
+		return Vector2(randf_range(0, get_viewport_rect().size.x), randf_range(0, get_viewport_rect().size.y))
+		
+	
+func enemy_collided_with_player() -> void:
+	queue_free()
+	
+	
+func make_path(pos: Vector2) -> void:
+	nav_agent.target_position = pos
 		
 		
 func set_player_to_chase(player: CharacterBody2D):
 	player_to_chase	= player
-	
-		
-func calculate_exit_point() -> Vector2:
-#	TODO constants
-	var center_region : Vector2 = Vector2( 1920 / 2, 1080 / 2)
-	var difference = center_region - player_to_chase.global_position
-	return -difference
-	#return 	exit_point = -player_to_chase.global_position
-
-
-func _on_update_player_location_timeout() -> void:
-	make_path(_get_player_location())

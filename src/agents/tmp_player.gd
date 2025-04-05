@@ -1,10 +1,24 @@
 extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@export var SPEED = 3000
+
+## usable 
+@export var health = 100 
+@export var DAMAGE_DONE = 10 
+
+## USABLE FUNCS
+
+func lose_health() -> void:
+	if health >= DAMAGE_DONE:
+		health = health - DAMAGE_DONE
+	else:
+		print("[END_GAME] Player is dead with ", health, " health.")
+		queue_free()
+	
 
 
-@export var SPEED = 3000 
-
+## DISCARD FUNCS
 
 func _random_place() -> Vector2:
 	return Vector2(randf_range(0, get_viewport_rect().size.x), randf_range(0, get_viewport_rect().size.y))
