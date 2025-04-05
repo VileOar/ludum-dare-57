@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://vwlsca0e5nlq"]
+
+[ext_resource type="Script" uid="uid://din21siafdx74" path="res://src/world/world.gd" id="1_bsf3i"]
+[ext_resource type="PackedScene" uid="uid://dep203c1at75h" path="res://src/temp/tmp_player.tscn" id="1_jte2u"]
+[ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/agent.tscn" id="2_bsf3i"]
+[ext_resource type="PackedScene" uid="uid://bbi1df8fhl2ub" path="res://src/temp/wall_tmp.tscn" id="3_43c6p"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1yfgu"]
+vertices = PackedVector2Array(1594.98, 299.922, 1150.82, 854.68, 807.461, 642.906, 807.461, 363.094, 1669.18, 359.32, 1910, 10, 1910, 1070, 1225.02, 914.078, 10, 1070, 190.539, 642.906, 10, 10, 190.539, 363.094)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6), PackedInt32Array(7, 4, 6), PackedInt32Array(7, 6, 8), PackedInt32Array(2, 1, 7, 8, 9), PackedInt32Array(9, 8, 10, 11), PackedInt32Array(3, 11, 10, 5, 0), PackedInt32Array(0, 5, 4)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 1920, 0, 1920, 1080, 0, 1080, 0, 0)])
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_bsf3i")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_1yfgu")
+
+[node name="EnemySpawnPoint" type="Node2D" parent="NavigationRegion2D"]
+position = Vector2(1748, 984)
+
+[node name="Player" parent="NavigationRegion2D" instance=ExtResource("1_jte2u")]
+position = Vector2(160, 121)
+
+[node name="PresetEnemies" type="Node2D" parent="NavigationRegion2D"]
+visible = false
+
+[node name="Agent2" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(1463, 267)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent3" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(1390, 587)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent4" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(512, 308)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent5" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(439, 628)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent6" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(1711, 512)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent7" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(1638, 832)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent8" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(760, 553)
+player_to_chase = NodePath("../../Player")
+
+[node name="Agent9" parent="NavigationRegion2D/PresetEnemies" node_paths=PackedStringArray("player_to_chase") instance=ExtResource("2_bsf3i")]
+position = Vector2(687, 873)
+player_to_chase = NodePath("../../Player")
+
+[node name="WallTmp2" parent="NavigationRegion2D" instance=ExtResource("3_43c6p")]
+position = Vector2(1410, 607)
+rotation = -0.895663
+scale = Vector2(5.39573, -0.586246)
+
+[node name="WallTmp" parent="NavigationRegion2D" instance=ExtResource("3_43c6p")]
+position = Vector2(499, 503)
+scale = Vector2(4.66346, 2.02992)
