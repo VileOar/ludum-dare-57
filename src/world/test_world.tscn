@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cg16t70toga63"]
+[gd_scene load_steps=6 format=3 uid="uid://cg16t70toga63"]
 
 [ext_resource type="Script" uid="uid://dm8xu2vmb74u0" path="res://src/world/world_nav.gd" id="1_qenvy"]
 [ext_resource type="Script" uid="uid://c2ugmn8cuft6s" path="res://src/navigation/generate_navigation_region.gd" id="2_hcmtl"]
+[ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/agent.tscn" id="2_mi5yt"]
 [ext_resource type="PackedScene" uid="uid://c41k20yhtuteq" path="res://src/characters/player/player.tscn" id="3_qenvy"]
 [ext_resource type="PackedScene" uid="uid://bbi1df8fhl2ub" path="res://src/temp/wall_tmp.tscn" id="5_maara"]
 
 [node name="TestWorld" type="Node2D"]
 script = ExtResource("1_qenvy")
+enemy = ExtResource("2_mi5yt")
 
 [node name="CustomNavRegion" type="Node2D" parent="."]
 script = ExtResource("2_hcmtl")

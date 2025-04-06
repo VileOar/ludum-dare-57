@@ -1,3 +1,4 @@
+class_name NavGenerator
 extends Node2D
 
 # From:

@@ -23,6 +23,7 @@ const MIN_COLOR_BRI := 0.2
 
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
+@onready var _nav_layer: TileMapLayer = $NavLayer
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
@@ -81,6 +82,11 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
+	for cell in cells:
+		if terrain == -1:
+			_nav_layer.set_cell(cell, 0, Vector2i(0, 0))
+		else:
+			_nav_layer.set_cell(cell, 0, Vector2i(-1, -1))
 
 
 func _generate_tiles():
