@@ -21,7 +21,7 @@ func _instantiate_enemy(pos: Vector2) -> void:
 		enemy_holder.add_child.call_deferred(instance)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		var pos = get_local_mouse_position()
 		_instantiate_enemy(pos)

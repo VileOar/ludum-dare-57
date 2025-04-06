@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var enemy: PackedScene
+@export var wall: PackedScene
+
 
 @onready var player: CharacterBody2D = $CustomNavRegion/Player
 @onready var enemy_spawn_point: Node2D = $CustomNavRegion/EnemySpawnPoint
@@ -21,16 +23,20 @@ func _instantiate_enemy() -> void:
 	
 	
 ## DEBUGGING 
-#func _add_wall(mouse_pos : Vector2):
-	#var wall_instance = wall.instantiate()
-	#custom_nav_region.add_child(wall_instance)
-	#wall_instance.position = mouse_pos
-	#custom_nav_region.parse_source_geometry()
+func _add_wall(mouse_pos : Vector2):
+	print("add wall")
+	var wall_instance = wall.instantiate()
+	custom_nav_region.add_child(wall_instance)
+	wall_instance.position = mouse_pos
+	custom_nav_region.parse_source_geometry()
 	
 	
-#	Puts wall on mouse click
-#func _input(event):
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 	#if event is InputEventMouseButton:
-		#_add_wall(event.position)
+	#if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+		var pos = get_local_mouse_position()
+		_add_wall(pos)
+		
 	
 	

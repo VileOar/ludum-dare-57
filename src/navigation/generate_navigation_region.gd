@@ -14,6 +14,7 @@ var region_rid: RID
 func _ready() -> void:
 	navigation_mesh = NavigationPolygon.new()
 	navigation_mesh.agent_radius = 64.0
+	navigation_mesh.border_size = 64.0
 	source_geometry = NavigationMeshSourceGeometryData2D.new()
 	callback_parsing = on_parsing_done
 	callback_baking = on_baking_done

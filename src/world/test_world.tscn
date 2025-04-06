@@ -9,6 +9,7 @@
 [node name="TestWorld" type="Node2D"]
 script = ExtResource("1_qenvy")
 enemy = ExtResource("2_mi5yt")
+wall = ExtResource("5_maara")
 
 [node name="CustomNavRegion" type="Node2D" parent="."]
 script = ExtResource("2_hcmtl")
@@ -17,12 +18,13 @@ script = ExtResource("2_hcmtl")
 position = Vector2(1748, 984)
 
 [node name="Player" parent="CustomNavRegion" instance=ExtResource("3_qenvy")]
+position = Vector2(995, 450)
 
 [node name="WallTmp2" parent="CustomNavRegion" instance=ExtResource("5_maara")]
-position = Vector2(1410, 607)
+position = Vector2(1622, 391)
 rotation = -0.895663
 scale = Vector2(5.39573, -0.586246)
 
 [node name="WallTmp" parent="CustomNavRegion" instance=ExtResource("5_maara")]
-position = Vector2(499, 503)
+position = Vector2(1095, 800)
 scale = Vector2(4.66346, 2.02992)
