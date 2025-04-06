@@ -10,6 +10,7 @@ const _FRICTION: float = 40 * Global.CELL_SIZE
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 
+# Movement
 # Stores last movement direction on x axis
 var _was_moving_left: bool = false
 # Stores current input direction
@@ -27,6 +28,7 @@ var _fuel: int
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
 
+var can_play = false
 
 func _ready() -> void:
 	Global.player_ref = self
@@ -47,11 +49,16 @@ func _unhandled_input(_event: InputEvent) -> void:
 	_current_input = _get_input()
 
 func _physics_process(delta: float) -> void:
-	_move(_current_input, delta)
-	_try_to_mine(_current_input)
+	if can_play:
+		_move(_current_input, delta)
+		_try_to_mine(_current_input)
 
 func _process(_delta: float) -> void:
-	_update_sprite(_current_input)
+	if can_play:
+		_update_sprite(_current_input)
+	else: 
+		if Global.world_map_tiles.are_tiles_generated:
+			can_play = true
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:
@@ -133,6 +140,16 @@ func _get_input() -> Vector2:
 			new_input.y = 1
 	
 	return new_input
+	
+	
+# Player loses health when collision is detected from ENEMY
+func lose_health() -> void:
+	if _health >= Global.ENEMY_DAMAGE_DONE:
+		_health = _health - Global.ENEMY_DAMAGE_DONE
+	else:
+		print("[END_GAME] Player is dead with ", _health, " health.")
+		queue_free()
+	
 
 
 func set_health(delta:int):

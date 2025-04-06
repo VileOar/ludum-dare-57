@@ -4,9 +4,9 @@ extends Node2D
 # TODO: remove
 var strength = 0
 
-
 ## The rectangle encompassing the full traverseable map
 const MAP_LIMITS := Rect2i(-25, -25, 50, 100)
+const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 
 # TODO: change
 ## The y value above which danger should effectively be 0
@@ -23,6 +23,7 @@ const MIN_COLOR_BRI := 0.2
 
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
+@onready var _nav_layer: TileMapLayer = $NavLayer
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
@@ -32,9 +33,13 @@ var _terrain_noise_thresholds := {
 	1.0: 3
 }
 
+var load_percent: int = 0
+var thread: Thread
+var are_tiles_generated: bool = false
 
 func _ready() -> void:
-	_generate_tiles()
+	thread = Thread.new()
+	thread.start(_generate_tiles, 2)
 	Global.world_map_tiles = self
 
 
@@ -81,6 +86,10 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
+	if terrain == -1:
+		_nav_layer.set_cells_terrain_connect(cells, 0, 0)
+	else:
+		_nav_layer.set_cells_terrain_connect(cells, 0, -1)
 
 
 func _generate_tiles():
@@ -92,6 +101,8 @@ func _generate_tiles():
 	var terrain_noise = _get_noise_map(map_seed, 0.02, _terrain_noise_thresholds.size(), 0.2)
 	# the noise map for choosing the danger level (and spawning ratio) of enemy spawners
 	var danger_noise = _get_noise_map(danger_seed, 0.01, 4, 0.0)
+	
+	var tile_num: int = 0
 	
 	# set the terrains according to noise
 	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y):
@@ -108,10 +119,23 @@ func _generate_tiles():
 			var shade_tile := _get_danger_tile(danger_level)
 			_danger_levels.set_cell(cell, 0, shade_tile)
 			
+			tile_num += 1
+			load_percent = floor(float(tile_num)/float(TOTAL_TILE_AMOUNT) * 100)
+			
 			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
 			
-			# TODO: check spawn enemies/resources
+			# the chance to spawn something on a tile will be higher with higher danger levels
+			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_level
+			if Global.rng.randf() < spawn_chance: # this tile will spawn something
+				_spawn_tile_data(cell)
 	#_tiles.force_update_tiles()
+	are_tiles_generated = true
+
+
+func _spawn_tile_data(cell_pos: Vector2i):
+	var types = Global.tile_type_weights.keys()
+	var selected = Global.rng.rand_weighted(Global.tile_type_weights.values())
+	_tiles.save_cell_data(cell_pos, selected)
 
 
 func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, fractal_gain: float) -> FastNoiseLite:

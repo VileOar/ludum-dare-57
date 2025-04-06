@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dca88eh6c0qrc"]
+[gd_scene load_steps=6 format=3 uid="uid://dca88eh6c0qrc"]
 
 [ext_resource type="Script" uid="uid://dl8muomdyln1g" path="res://src/topscenes/world_maptiles.gd" id="1_1b85c"]
 [ext_resource type="TileSet" uid="uid://n1yasqcqq017" path="res://assets/tilesets/tileset.tres" id="2_vehs4"]
 [ext_resource type="Script" uid="uid://bhvqu25bi6dnv" path="res://src/topscenes/map_tiles.gd" id="3_khffx"]
 [ext_resource type="TileSet" uid="uid://b5t1cjso2kfm7" path="res://assets/tilesets/danger_shades.tres" id="4_vehs4"]
+[ext_resource type="TileSet" uid="uid://8pqwb8nmsf0u" path="res://assets/tilesets/nav_tileset.tres" id="5_khffx"]
 
 [node name="WorldMapTiles" type="Node2D"]
 script = ExtResource("1_1b85c")
+
+[node name="NavLayer" type="TileMapLayer" parent="."]
+visible = false
+tile_set = ExtResource("5_khffx")
 
 [node name="MapTiles" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_vehs4")
