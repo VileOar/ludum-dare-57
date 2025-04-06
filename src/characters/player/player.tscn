@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://egc2hrb3tddq" path="res://assets/characters/player/YellowMiner.png" id="1_bxhu7"]
 [ext_resource type="Script" uid="uid://c3s1fv0ne5jxk" path="res://src/player/player_area.gd" id="3_5c1al"]
+[ext_resource type="PackedScene" uid="uid://dva47lw34td0t" path="res://src/radar/radar_pulse.tscn" id="3_5c1al"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxhu7"]
 atlas = ExtResource("1_bxhu7")
@@ -134,6 +135,7 @@ size = Vector2(64, 112)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 4
+motion_mode = 1
 script = ExtResource("1_7nd6e")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -156,6 +158,8 @@ collision_mask = 4
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3_5c1al")
+
+[node name="RadarPulse" parent="." instance=ExtResource("3_5c1al")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 shape = SubResource("RectangleShape2D_03ylq")
