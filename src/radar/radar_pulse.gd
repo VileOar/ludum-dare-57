@@ -1,16 +1,14 @@
 extends Node2D
 
-var _tile_size: int = 128  # devíamos guardar isto no equivalente a uma global readonly variable
 var _level: int = 0
 var _is_active: bool = false
 var _active_time: float = 0.0
-var _pulse_size: int = 3 * _tile_size
+var _pulse_size: int = 3 * Global.CELL_SIZE
 
 @onready var color_rect: ColorRect = $ColorRect
 
 func _ready() -> void:
-	color_rect.material.set_shader_parameter("tile_size", _tile_size)
-	increase_level()
+	color_rect.material.set_shader_parameter("tile_size", Global.CELL_SIZE)
 
 func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_1):
@@ -27,7 +25,7 @@ func _process(delta: float) -> void:
 
 func increase_level() -> void:
 	_level += 1
-	_pulse_size = (3 + (2 * _level)) * _tile_size
+	_pulse_size = (3 + (2 * _level)) * Global.CELL_SIZE
 	color_rect.size = Vector2(_pulse_size, _pulse_size)
 	color_rect.material.set_shader_parameter("pulse_size", _pulse_size)
 

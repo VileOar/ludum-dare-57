@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Ludum Dare 57"
-run/main_scene="uid://cg16t70toga63"
+run/main_scene="uid://dca88eh6c0qrc"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://src/autoloads/Global.gd"
 AudioController="*res://src/audio_controller/audio_controller.tscn"
+Global="*res://src/autoloads/Global.gd"
 
 [display]
 
