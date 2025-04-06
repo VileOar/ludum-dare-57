@@ -19,7 +19,6 @@ func lose_health() -> void:
 
 
 ## DISCARD FUNCS
-
 func _random_place() -> Vector2:
 	return Vector2(randf_range(0, get_viewport_rect().size.x), randf_range(0, get_viewport_rect().size.y))
 

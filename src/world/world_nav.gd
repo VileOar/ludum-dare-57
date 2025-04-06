@@ -2,12 +2,13 @@ extends Node2D
 
 var enemy = preload("res://src/agents/agent.tscn")
 var wall = preload("res://src/temp/wall_tmp.tscn")
-@onready var player: CharacterBody2D = $NavigationRegion2D/Player
-@onready var enemy_spawn_point: Node2D = $NavigationRegion2D/EnemySpawnPoint
+
+@onready var player: CharacterBody2D = $CustomNavRegion/Player
+@onready var enemy_spawn_point: Node2D = $CustomNavRegion/EnemySpawnPoint
+@onready var custom_nav_region: Node2D = $CustomNavRegion
 
 @export var enemies_to_spawn : int = 10
 @export var time_between_spawns = 0.2
-
 
 
 func _ready():
@@ -24,20 +25,16 @@ func _instantiate_enemy() -> void:
 	
 	
 ## DEBUGGING 
-
-func _random_place() -> Vector2:
-	return Vector2(randf_range(0, get_viewport_rect().size.x), randf_range(0, get_viewport_rect().size.y))
-
-
-func _add_wall():
+func _add_wall(mouse_pos : Vector2):
 	var wall_instance = wall.instantiate()
-	#custom_nav_region.add_child(wall_instance)
-	#wall_instance.position = _random_place()
+	custom_nav_region.add_child(wall_instance)
+	wall_instance.position = mouse_pos
+	custom_nav_region.parse_source_geometry()
 	
 	
-func _input(_inp):
-	if Input.is_key_pressed(KEY_0):
-		_add_wall()
-	
+#	Puts wall on mouse click
+func _input(event):
+	if event is InputEventMouseButton:
+		_add_wall(event.position)
 	
 	
