@@ -23,6 +23,8 @@ enum Upgrades {
 	SCANNER_3,
 }
 
+# Reference to the world map tiles scene
+var world_map_tiles: WorldMapTiles
 
 func _ready() -> void:
 	randomize()
