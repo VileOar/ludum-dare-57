@@ -139,3 +139,6 @@ animation = &"Walk"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_ej0fg")
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
