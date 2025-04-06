@@ -1,6 +1,7 @@
 extends Node
 
 const CELL_SIZE = 128
+const  MAX_MINING_STRENGTH: int = 4
 
 var rng: RandomNumberGenerator
 var max_health := 10

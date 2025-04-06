@@ -7,13 +7,19 @@ const _MAX_MOVE_SPEED: float = 4 * Global.CELL_SIZE
 const _ACCELERATION: float = 20 * Global.CELL_SIZE
 # Player movement friction
 const _FRICTION: float = 40 * Global.CELL_SIZE
+# List of possible input directions
+const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 
 # Stores last movement direction on x axis
 var _was_moving_left: bool = false
 # Stores current input direction
 var _current_input: Vector2 = Vector2.ZERO
-# Stores currently pressed movement inputs
-var _input_queue: = [null]
+# Stores a priority value for each input (lower = higher priority)
+var _input_order: Dictionary = {
+"MoveLeft" = 0, 
+"MoveRight" = 0, 
+"MoveUp" = 0, 
+"MoveDown" = 0}
 
 var _health: int
 var _fuel: int
@@ -27,6 +33,9 @@ func _ready() -> void:
 
 	_health = Global.max_health
 	_fuel = Global.max_fuel
+
+	if Global.world_map_tiles:
+		Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
 
 
 func _input(event):
@@ -57,7 +66,7 @@ func _move(input_dir: Vector2, delta: float) -> void:
 func _try_to_mine(input_dir: Vector2) -> void:
 	_mining_check_ray.target_position = input_dir * Global.CELL_SIZE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
-		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 3)
+		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 1)
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
@@ -95,13 +104,25 @@ func _update_sprite(input_dir: Vector2) -> void:
 # (prioritizes most recently pressed direction)
 func _get_input() -> Vector2:
 	var new_input = Vector2.ZERO
-	for input in ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]:
-		if Input.is_action_just_pressed(input): 
-			_input_queue.push_back(input)
-		if Input.is_action_just_released(input): 
-			_input_queue.erase(input)
+	for possible_input in _POSSIBLE_INPUT_DIRS:
+		if Input.is_action_pressed(possible_input): 
+			if _input_order[possible_input] == 0:
+				for input in _input_order:
+					if _input_order[input] != 0:
+						_input_order[input] += 1
+				
+				_input_order[possible_input] = 1
+		else: 
+			_input_order[possible_input] = 0
 	
-	match _input_queue.back():
+	var latest_input = ""
+	var latest_input_order = 999
+	for ordered_input in _input_order:
+		if _input_order[ordered_input] <= latest_input_order and _input_order[ordered_input] != 0:
+			latest_input = ordered_input
+			latest_input_order = _input_order[ordered_input]
+	
+	match latest_input:
 		"MoveLeft":
 			new_input.x = -1
 		"MoveRight":

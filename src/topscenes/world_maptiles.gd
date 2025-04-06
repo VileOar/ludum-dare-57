@@ -37,32 +37,19 @@ func _ready() -> void:
 	_generate_tiles()
 	Global.world_map_tiles = self
 
-## TODO: remove
-func _physics_process(delta: float) -> void:
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		var mouse_pos = _tiles.get_local_mouse_position()
-		try_dig_tile(mouse_pos, strength)
-	
-	if Input.is_key_pressed(KEY_W):
-		$Camera2D.position.y -= 320 * delta
-	if Input.is_key_pressed(KEY_S):
-		$Camera2D.position.y += 320 * delta
-	if Input.is_key_pressed(KEY_A):
-		$Camera2D.position.x -= 320 * delta
-	if Input.is_key_pressed(KEY_D):
-		$Camera2D.position.x += 320 * delta
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT:
-		strength = (strength + 1) % 5
-		print(strength)
-
 
 ## Attempt to dig a tile at a position.
 func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
 	var cell_pos = _tiles.local_to_map(pos)
+	if _tiles.get_cell_tile_data(cell_pos) == null:
+		return false
+	
 	var can_dig = _can_dig(cell_pos, dig_strength)
+
 	if can_dig:
 		_dig_tiles([cell_pos])
+	else:
+		AudioController.play_stone_dig_fail()
 	
 	return can_dig
 
@@ -78,9 +65,16 @@ func _can_dig(cell_pos: Vector2i, dig_strength: int) -> bool:
 
 # Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
 func _dig_tiles(cells: Array[Vector2i]):
-	_set_cells(cells, -1)
 	for cell in cells:
 		_danger_levels.set_cell(cell, 0, Vector2i(-1, -1))
+		var cell_data = _tiles.get_cell_tile_data(cell)
+		if cell_data != null:
+			var hardness = cell_data.get_custom_data("hardness")
+			if hardness == 0:
+				AudioController.play_dirt_dig()
+			else:
+				AudioController.play_stone_dig()
+	_set_cells(cells, -1)
 	#_tiles.force_update_tiles()
 
 
