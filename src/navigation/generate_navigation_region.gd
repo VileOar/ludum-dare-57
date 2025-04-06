@@ -21,8 +21,6 @@ func _ready() -> void:
 	# Enable the region and set it to the default navigation map.
 	NavigationServer2D.region_set_enabled(region_rid, true)
 	NavigationServer2D.region_set_map(region_rid, get_world_2d().get_navigation_map())
-	print(get_world_2d())
-	print(get_world_2d().get_navigation_map())
 	
 	# Some mega-nodes like TileMap are often not ready on the first frame.
 	# Also the parsing needs to happen on the main-thread.

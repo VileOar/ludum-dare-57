@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dm8xu2vmb74u0" path="res://src/world/world_nav.gd" id="1_qenvy"]
 [ext_resource type="Script" uid="uid://c2ugmn8cuft6s" path="res://src/navigation/generate_navigation_region.gd" id="2_hcmtl"]
-[ext_resource type="PackedScene" uid="uid://dep203c1at75h" path="res://src/temp/tmp_player.tscn" id="3_e7n38"]
+[ext_resource type="PackedScene" uid="uid://c41k20yhtuteq" path="res://src/characters/player/player.tscn" id="3_qenvy"]
 [ext_resource type="PackedScene" uid="uid://bbi1df8fhl2ub" path="res://src/temp/wall_tmp.tscn" id="5_maara"]
 
 [node name="TestWorld" type="Node2D"]
@@ -14,8 +14,7 @@ script = ExtResource("2_hcmtl")
 [node name="EnemySpawnPoint" type="Node2D" parent="CustomNavRegion"]
 position = Vector2(1748, 984)
 
-[node name="Player" parent="CustomNavRegion" instance=ExtResource("3_e7n38")]
-position = Vector2(160, 121)
+[node name="Player" parent="CustomNavRegion" instance=ExtResource("3_qenvy")]
 
 [node name="WallTmp2" parent="CustomNavRegion" instance=ExtResource("5_maara")]
 position = Vector2(1410, 607)

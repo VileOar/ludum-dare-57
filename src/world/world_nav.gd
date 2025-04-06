@@ -17,8 +17,8 @@ func _ready():
 func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
 	if enemy_spawn_point:
-		enemy_spawn_point.add_child(instance)
 		instance.set_player_to_chase(player)
+		enemy_spawn_point.add_child(instance)
 	
 	
 ## DEBUGGING 

@@ -77,8 +77,8 @@ func _get_input() -> Vector2:
 	
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
-	if _health >= Global.DAMAGE_DONE:
-		_health = _health - Global.DAMAGE_DONE
+	if _health >= Global.ENEMY_DAMAGE_DONE:
+		_health = _health - Global.ENEMY_DAMAGE_DONE
 	else:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()
