@@ -10,6 +10,7 @@
 script = ExtResource("1_1b85c")
 
 [node name="NavLayer" type="TileMapLayer" parent="."]
+visible = false
 tile_set = ExtResource("5_khffx")
 
 [node name="MapTiles" type="TileMapLayer" parent="."]

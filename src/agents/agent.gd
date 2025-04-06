@@ -24,8 +24,6 @@ func _physics_process(delta: float) -> void:
 	if nav_agent && !player_to_chase:
 		return
 	# If agent is on player, doesn't jitter
-	#print("nav_agent.target_position= ", nav_agent.target_position)
-	#print("player_to_chase.global_position= ", player_to_chase.global_position)
 	if agent.global_position == player_to_chase.global_position:
 		return
 		
@@ -77,4 +75,4 @@ func make_path(pos: Vector2) -> void:
 		
 		
 func set_player_to_chase(player: CharacterBody2D):
-	player_to_chase	= player
+	player_to_chase = player

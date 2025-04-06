@@ -82,11 +82,10 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
-	for cell in cells:
-		if terrain == -1:
-			_nav_layer.set_cell(cell, 0, Vector2i(0, 0))
-		else:
-			_nav_layer.set_cell(cell, 0, Vector2i(-1, -1))
+	if terrain == -1:
+		_nav_layer.set_cells_terrain_connect(cells, 0, 0)
+	else:
+		_nav_layer.set_cells_terrain_connect(cells, 0, -1)
 
 
 func _generate_tiles():
