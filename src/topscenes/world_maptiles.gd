@@ -35,7 +35,7 @@ var _terrain_noise_thresholds := {
 
 func _ready() -> void:
 	_generate_tiles()
-
+	Global.world_map_tiles = self
 
 ## TODO: remove
 func _physics_process(delta: float) -> void:
