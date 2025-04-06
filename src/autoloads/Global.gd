@@ -3,9 +3,10 @@ extends Node
 const CELL_SIZE = 128
 
 var rng: RandomNumberGenerator
+var max_health := 10
+var max_fuel := 10
 
 var _currency := 12
-
 var _current_upgrades = {}
 
 enum Upgrades {
@@ -25,6 +26,10 @@ enum Upgrades {
 
 # Reference to the world map tiles scene
 var world_map_tiles: WorldMapTiles
+
+# Reference to the player scene
+var player_ref: Player
+
 
 func _ready() -> void:
 	randomize()

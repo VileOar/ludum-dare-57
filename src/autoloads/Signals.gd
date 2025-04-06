@@ -7,3 +7,6 @@ signal upgrade_selected(type, cost:int, text, button_ref)
 
 @warning_ignore("unused_signal")
 signal currency_changed(value:int)
+
+@warning_ignore("unused_signal")
+signal change_shop_visibility(visible:bool)
