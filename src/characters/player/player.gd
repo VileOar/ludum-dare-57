@@ -143,11 +143,18 @@ func _get_input() -> Vector2:
 			_input_order[possible_input] = 0
 	
 	var latest_input = ""
-	var latest_input_order = 999
+	var latest_input_order = 0
+	var is_latest_input_set = false
 	for ordered_input in _input_order:
-		if _input_order[ordered_input] <= latest_input_order and _input_order[ordered_input] != 0:
-			latest_input = ordered_input
-			latest_input_order = _input_order[ordered_input]
+		if _input_order[ordered_input] != 0:
+			if !is_latest_input_set:
+				latest_input = ordered_input
+				latest_input_order = _input_order[ordered_input]
+				is_latest_input_set = true
+			
+			if _input_order[ordered_input] <= latest_input_order:
+				latest_input = ordered_input
+				latest_input_order = _input_order[ordered_input]
 	
 	match latest_input:
 		"MoveLeft":
