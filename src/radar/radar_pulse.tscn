@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dva47lw34td0t"]
 
-[ext_resource type="Shader" uid="uid://duap828mxii5v" path="res://scenes/radar_pulse.gdshader" id="1_h23wn"]
-[ext_resource type="Script" uid="uid://vdca7p6oumeg" path="res://scenes/radar_pulse.gd" id="1_udmdm"]
+[ext_resource type="Shader" uid="uid://duap828mxii5v" path="res://src/radar/radar_pulse.gdshader" id="1_h23wn"]
+[ext_resource type="Script" uid="uid://vdca7p6oumeg" path="res://src/radar/radar_pulse.gd" id="1_udmdm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_udmdm"]
 shader = ExtResource("1_h23wn")
