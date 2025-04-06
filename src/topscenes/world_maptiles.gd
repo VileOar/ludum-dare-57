@@ -124,9 +124,18 @@ func _generate_tiles():
 			
 			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
 			
-			# TODO: check spawn enemies/resources
+			# the chance to spawn something on a tile will be higher with higher danger levels
+			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_level
+			if Global.rng.randf() < spawn_chance: # this tile will spawn something
+				_spawn_tile_data(cell)
 	#_tiles.force_update_tiles()
 	are_tiles_generated = true
+
+
+func _spawn_tile_data(cell_pos: Vector2i):
+	var types = Global.tile_type_weights.keys()
+	var selected = Global.rng.rand_weighted(Global.tile_type_weights.values())
+	_tiles.save_cell_data(cell_pos, selected)
 
 
 func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, fractal_gain: float) -> FastNoiseLite:

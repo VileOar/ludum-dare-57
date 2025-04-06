@@ -1,8 +1,19 @@
 class_name MapTiles
 extends TileMapLayer
 
-# adapted from https://www.reddit.com/r/godot/comments/sdypwa/how_to_modulate_specific_tiles_in_a_tilemap/
 
+# Store cells which have a feature in them (those that don't, will not show up here)
+var _cell_data: Dictionary
+
+
+func save_cell_data(cell_pos: Vector2i, cell_data: int):
+	_cell_data[cell_pos] = cell_data
+
+
+func get_cell_data(cell_pos: Vector2i) -> int:
+	return _cell_data.get(cell_pos, Global.TileType.NONE)
+
+# adapted from https://www.reddit.com/r/godot/comments/sdypwa/how_to_modulate_specific_tiles_in_a_tilemap/
 
 # Ignore all of this
 

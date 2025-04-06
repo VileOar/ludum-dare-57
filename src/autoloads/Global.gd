@@ -40,6 +40,23 @@ enum Upgrades {
 	SCANNER_3,
 }
 
+enum TileType {
+	NONE,
+	MONEY,
+	HEALTH,
+	FUEL,
+	EGG,
+}
+## Dictionary holding all the possible spawnable tile types and their weights
+var tile_type_weights := {
+	TileType.MONEY: 0.8,
+	TileType.HEALTH: 0.2,
+	TileType.FUEL: 1.2,
+	TileType.EGG: 1.5
+}
+## Probability of spawning anything
+const TILE_SPAWN_RATIO = 0.4
+
 # Reference to the world map tiles scene
 var world_map_tiles: WorldMapTiles
 
