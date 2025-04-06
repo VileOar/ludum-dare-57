@@ -1,14 +1,15 @@
+class_name WorldMapTiles
 extends Node2D
 
 
 ## The rectangle encompassing the full traverseable map
-const MAP_LIMITS := Rect2i(-15, -8, 30, 16)
+const MAP_LIMITS := Rect2i(-25, -25, 50, 100)
 
 # TODO: change
 ## The y value above which danger should effectively be 0
-const MIN_DANGER_Y = -8
+const MIN_DANGER_Y = -25
 ## The y value below which danger should effectively be 1
-const MAX_DANGER_Y = 8
+const MAX_DANGER_Y = 75
 ## the max value to add/subtract to the danger value, depending on y coordinate
 const MAX_DANGER_MODIFIER = 0.5
 
@@ -18,6 +19,7 @@ const BASE_DANGER_HUE := 0.74
 const MIN_COLOR_BRI := 0.2
 
 @onready var _tiles: MapTiles = $MapTiles
+@onready var _danger_levels: TileMapLayer = $DangerLevels
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
@@ -52,7 +54,9 @@ func _physics_process(delta: float) -> void:
 ## Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
 func dig_tiles(cells: Array[Vector2i]):
 	_set_cells(cells, -1)
-	_tiles.force_update_tiles()
+	for cell in cells:
+		_danger_levels.set_cell(cell, 0, Vector2i(-1, -1))
+	#_tiles.force_update_tiles()
 
 
 func _set_cells(cells: Array[Vector2i], terrain):
@@ -76,21 +80,18 @@ func _generate_tiles():
 			
 			var terrain = _noise_to_terrain(terrain_noise.get_noise_2dv(cell))
 			_set_cells([cell], terrain)
-	
-	# must run again not to interfere with the autotiling adjustments
-	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y):
-		for xx in range(MAP_LIMITS.position.x, MAP_LIMITS.end.x):
-			var cell = Vector2i(xx, yy)
 			
 			var danger_level = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
-			danger_level = clamp(_get_danger_level(danger_level, yy), 0.0, 1.0)
 			# adapt it to be above the minimum brightness value and calculate saturation
-			var col := _get_danger_colour(danger_level)
+			danger_level = clamp(_get_danger_level(danger_level, yy), 0.0, 1.0)
 			
-			_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
+			var shade_tile := _get_danger_tile(danger_level)
+			_danger_levels.set_cell(cell, 0, shade_tile)
 			
-			# TODO: check spawn enemies
-	_tiles.force_update_tiles()
+			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
+			
+			# TODO: check spawn enemies/resources
+	#_tiles.force_update_tiles()
 
 
 func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, fractal_gain: float) -> FastNoiseLite:
@@ -119,13 +120,10 @@ func _noise_to_terrain(noise_value: float) -> int:
 	return fallback
 
 
-# Get a color value to use in cell modulate according to its danger level (0 - 1)
-func _get_danger_colour(danger_ratio: float) -> Color:
-	danger_ratio = 1 - snapped(danger_ratio, 0.2)
-	return Color.from_hsv(
-		BASE_DANGER_HUE,
-		max(0.0, lerp(1.0, -0.6, danger_ratio)),
-		lerp(MIN_COLOR_BRI, 1.0, danger_ratio))
+func _get_danger_tile(danger_ratio: float) -> Vector2i:
+	var danger_step = 0.2
+	danger_ratio = snapped(danger_ratio, danger_step)
+	return Vector2i(int(danger_ratio / danger_step), 0)
 
 
 # Calculate a danger value from the descending danger rule and a noise value (0 - 1)[br]
