@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cs44endvqv7tw"]
+[gd_scene load_steps=5 format=3 uid="uid://cs44endvqv7tw"]
 
+[ext_resource type="Script" uid="uid://s3ouk3248eaw" path="res://src/gui/shop.gd" id="1_bs6l6"]
 [ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="1_fipq1"]
+[ext_resource type="PackedScene" uid="uid://dclmc4j02l3sc" path="res://src/gui/UpgradeButton.tscn" id="1_seu2g"]
 [ext_resource type="Texture2D" uid="uid://cb18oyfhvlb1m" path="res://assets/gui/shop_banner.png" id="2_seu2g"]
 
 [node name="Shop" type="Control"]
@@ -10,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bs6l6")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(1200, 600)
@@ -82,17 +85,19 @@ size_flags_vertical = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-icon = ExtResource("1_fipq1")
+description = "Text 1"
 
-[node name="Button2" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-icon = ExtResource("1_fipq1")
+description = "Text 2"
+cost = 12
 
-[node name="Button3" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-icon = ExtResource("1_fipq1")
+description = "This one is very cool for sure."
+cost = 13
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -209,13 +214,15 @@ layout_mode = 2
 text = "Cost: "
 
 [node name="CostValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer/PanelContainer"]
+[node name="Description" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 150)
 layout_mode = 2
 size_flags_vertical = 1

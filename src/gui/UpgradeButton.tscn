@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dclmc4j02l3sc"]
+
+[ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="1_wp0qq"]
+[ext_resource type="Script" uid="uid://qtq2x85x3r76" path="res://src/gui/upgrade_button.gd" id="2_hktaq"]
+
+[node name="UpgradeButton" type="Button"]
+icon = ExtResource("1_wp0qq")
+script = ExtResource("2_hktaq")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
