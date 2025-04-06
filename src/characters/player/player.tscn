@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=19 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://egc2hrb3tddq" path="res://assets/characters/player/YellowMiner.png" id="1_bxhu7"]
@@ -58,22 +58,6 @@ region = Rect2(96, 96, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_otj2h"]
 atlas = ExtResource("1_bxhu7")
 region = Rect2(144, 96, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gplkj"]
-atlas = ExtResource("1_bxhu7")
-region = Rect2(0, 48, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1k6q5"]
-atlas = ExtResource("1_bxhu7")
-region = Rect2(48, 48, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5tftc"]
-atlas = ExtResource("1_bxhu7")
-region = Rect2(96, 48, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i4ppf"]
-atlas = ExtResource("1_bxhu7")
-region = Rect2(144, 48, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_03ylq"]
 animations = [{
@@ -138,39 +122,20 @@ animations = [{
 "loop": true,
 "name": &"Walk",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gplkj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1k6q5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5tftc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i4ppf")
-}],
-"loop": true,
-"name": &"WalkUp",
-"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ej0fg"]
-radius = 32.0
-height = 128.0
+radius = 51.0
+height = 102.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_7nd6e")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(8, 8)
+position = Vector2(-5.96046e-08, -4.76837e-07)
+scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_03ylq")
-animation = &"Idle"
+animation = &"Walk"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_ej0fg")
-
-[node name="MoveCheckRay" type="RayCast2D" parent="."]
-target_position = Vector2(128, 0)

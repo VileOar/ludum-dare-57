@@ -1,60 +1,60 @@
 extends CharacterBody2D
 
 # Size of game units in pixels (128x128)
-const TILE_SIZE: int = 128
-const MOVE_SPEED: float = 3 * TILE_SIZE
-const _TWEEN_SPEED: float = 2
+const _TILE_SIZE: int = 128
+# Maximum move speed of the player
+const _MAX_MOVE_SPEED: float = 4 * _TILE_SIZE
+# Player movement acceleration
+const _ACCELERATION: float = 20 * _TILE_SIZE
+# Player movement friction
+const _FRICTION: float = 40 * _TILE_SIZE
 
-var _is_moving: bool = false
+var _input: Vector2 = Vector2.ZERO
+var _input_queue: = [null]
 
-var _directions: Dictionary = {
-	"MoveRight": Vector2.RIGHT,
-	"MoveLeft": Vector2.LEFT,
-	"MoveUp": Vector2.UP,
-	"MoveDown": Vector2.DOWN
-}
+func _physics_process(delta: float) -> void:
+	_move(delta)
 
-@onready var _move_check_ray = $MoveCheckRay
-
-func _ready() -> void:
-	position = position.snapped(Vector2.ONE * TILE_SIZE) + Vector2.ONE * TILE_SIZE / 2
-
-func _process(delta: float) -> void:
-	if !_is_moving and !$Sprite.animation == "Idle":
-		$Sprite.play("Idle")
-
-func _unhandled_input(event: InputEvent) -> void:
-	if _is_moving:
-		return
-	for direction in _directions.keys():
-		if event.is_action(direction):
-			print("input detected")
-			_move(direction)
-			$Sprite.flip_h = false
-			$Sprite.rotation_degrees = 0
-			match direction:
-				"MoveRight":
-					return
-				"MoveLeft":
-					$Sprite.flip_h = true
-					return
-				"MoveUp":
-					$Sprite.rotation_degrees = 270
-					return
-				"MoveDown":
-					$Sprite.rotation_degrees = 90
-					return
-
-func _move(move_direction: String) -> void:
-	_move_check_ray.target_position = _directions[move_direction] * TILE_SIZE
-	_move_check_ray.force_raycast_update()
+func _move(delta: float) -> void:
+	_input = _get_input()
+	if _input: 
+		velocity = velocity.move_toward(_input * _MAX_MOVE_SPEED , delta * _ACCELERATION)
+		if $Sprite.animation != "Mine":
+				$Sprite.play("Mine")
+	else: 
+		velocity = velocity.move_toward(Vector2(0,0), delta * _FRICTION)
+		if $Sprite.animation != "Idle":
+			$Sprite.play("Idle")
 	
-	if !_move_check_ray.is_colliding():
-		var tween = get_tree().create_tween()
-		tween.tween_property(self, "position", position + _directions[move_direction] * TILE_SIZE,
-		1.0/_TWEEN_SPEED).set_trans(Tween.TRANS_SINE)
-		_is_moving = true
-		if !$Sprite.animation == "Mine":
-			$Sprite.play("Mine")
-		await tween.finished
-		_is_moving = false
+	move_and_slide();
+	
+	$Sprite.flip_h = false
+	$Sprite.rotation_degrees = 0
+	
+	if _input.x == -1:
+			$Sprite.flip_h = true
+	
+	if _input.y == -1:
+		$Sprite.rotation_degrees = 270
+	elif _input.y == 1:
+		$Sprite.rotation_degrees = 90
+
+func _get_input() -> Vector2:
+	_input = Vector2.ZERO
+	for input in ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]:
+		if Input.is_action_just_pressed(input): 
+			_input_queue.push_back(input)
+		if Input.is_action_just_released(input): 
+			_input_queue.erase(input)
+	
+	match _input_queue.back():
+		"MoveLeft":
+			_input.x = -1
+		"MoveRight":
+			_input.x = 1
+		"MoveUp":
+			_input.y = -1
+		"MoveDown":
+			_input.y = 1
+	
+	return _input
