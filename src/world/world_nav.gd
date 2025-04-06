@@ -35,5 +35,3 @@ func _input(event: InputEvent) -> void:
 		var pos = get_local_mouse_position()
 		_add_wall(pos)
 		
-	
-	

@@ -10,7 +10,7 @@ var _pulse_size: int = (4 + (2 * _level)) * Global.CELL_SIZE
 func _ready() -> void:
 	color_rect.material.set_shader_parameter("tile_size", Global.CELL_SIZE)
 	color_rect.size = Vector2(_pulse_size, _pulse_size)
-	var pos = -_pulse_size/2
+	var pos = -_pulse_size/2.0
 	color_rect.position = Vector2(pos, pos)
 
 func _process(delta: float) -> void:
@@ -38,4 +38,3 @@ func activate() -> void:
 	if not _is_active:
 		_is_active = true
 		AudioController.play_radar_pulse()
-		Global.world_map_tiles._tiles
