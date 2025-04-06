@@ -17,7 +17,7 @@ func _instantiate_enemy(pos: Vector2) -> void:
 	var instance = enemy.instantiate()
 	if enemy_holder:
 		instance.position = pos
-		instance.set_player_to_chase(player)
+		instance.set_player_to_chase()
 		enemy_holder.add_child.call_deferred(instance)
 
 

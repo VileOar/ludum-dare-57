@@ -17,6 +17,8 @@ func _ready():
 	make_path(_get_player_location())
 #	Sets target position as origin when starting
 	nav_agent.target_position = origin_point
+	set_player_to_chase()
+
 
 
 func _physics_process(delta: float) -> void:
@@ -24,8 +26,6 @@ func _physics_process(delta: float) -> void:
 	if nav_agent && !player_to_chase:
 		return
 	# If agent is on player, doesn't jitter
-	#print("nav_agent.target_position= ", nav_agent.target_position)
-	#print("player_to_chase.global_position= ", player_to_chase.global_position)
 	if agent.global_position == player_to_chase.global_position:
 		return
 		
@@ -76,5 +76,5 @@ func make_path(pos: Vector2) -> void:
 	nav_agent.target_position = pos
 		
 		
-func set_player_to_chase(player: CharacterBody2D):
-	player_to_chase	= player
+func set_player_to_chase():
+	player_to_chase	= Global.player_ref

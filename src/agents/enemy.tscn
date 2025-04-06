@@ -1,15 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0ew4d6t5xafg"]
 
-[ext_resource type="Script" uid="uid://23orrypofmld" path="res://src/agents/agent.gd" id="1_i4ekf"]
-[ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="2_4c3h7"]
+[ext_resource type="Script" uid="uid://23orrypofmld" path="res://src/agents/enemy.gd" id="1_oesbp"]
+[ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="2_od2ya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vbgr5"]
 size = Vector2(64, 64)
 
-[node name="Agent" type="CharacterBody2D"]
-z_index = 4
+[node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
-script = ExtResource("1_i4ekf")
+script = ExtResource("1_oesbp")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
@@ -19,12 +18,10 @@ debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0.984314, 0, 0.0196078, 1)
-position = Vector2(-32, -32)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_4c3h7")
+texture = ExtResource("2_od2ya")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-32, -32)
 shape = SubResource("RectangleShape2D_vbgr5")
 
 [node name="UpdatePlayerLocation" type="Timer" parent="."]

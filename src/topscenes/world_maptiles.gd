@@ -21,6 +21,7 @@ const BASE_DANGER_HUE := 0.74
 ## The minimum colour brightness, relative to danger tiles
 const MIN_COLOR_BRI := 0.2
 
+@onready var _egg_spawner: Node2D = %EggSpawner
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
 @onready var _nav_layer: TileMapLayer = $NavLayer
@@ -75,7 +76,10 @@ func _dig_tiles(cells: Array[Vector2i]):
 				AudioController.play_dirt_dig()
 			else:
 				AudioController.play_stone_dig()
+#			TODO tmp
+			_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * (Global.CELL_SIZE / 2))
 	_set_cells(cells, -1)
+
 	#_tiles.force_update_tiles()
 
 

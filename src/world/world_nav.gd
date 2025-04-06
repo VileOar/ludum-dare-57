@@ -18,7 +18,6 @@ func _ready():
 func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
 	if enemy_spawn_point:
-		instance.set_player_to_chase(player)
 		enemy_spawn_point.add_child.call_deferred(instance)
 	
 	
@@ -33,8 +32,6 @@ func _add_wall(mouse_pos : Vector2):
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-	#if event is InputEventMouseButton:
-	#if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		var pos = get_local_mouse_position()
 		_add_wall(pos)
 		
