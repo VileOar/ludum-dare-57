@@ -10,3 +10,6 @@ script = ExtResource("1_ecct6")
 [node name="MapTiles" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_n5vpo")
 script = ExtResource("3_0uq5u")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
