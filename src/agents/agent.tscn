@@ -7,13 +7,14 @@
 size = Vector2(64, 64)
 
 [node name="Agent" type="CharacterBody2D"]
+z_index = 4
 collision_layer = 2
 script = ExtResource("1_i4ekf")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
 avoidance_enabled = true
-radius = 64.0
+radius = 32.0
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

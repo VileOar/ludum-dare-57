@@ -34,6 +34,7 @@ var current_interactable = null
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
 
+var can_play = false
 
 func _ready() -> void:
 	Global.player_ref = self
@@ -53,12 +54,11 @@ func _unhandled_input(_event: InputEvent) -> void:
 	_current_input = _get_input()
 
 func _physics_process(delta: float) -> void:
-	_move(_current_input, delta)
-	_try_to_mine(_current_input)
+	if can_play:
+		_move(_current_input, delta)
+		_try_to_mine(_current_input)
 
 func _process(_delta: float) -> void:
-	_update_sprite(_current_input)
-	
 	# If multiple interactables are available to the player then
 	# check which one is closer and set it as current
 	if available_interactables.size() > 1:
@@ -73,6 +73,12 @@ func _process(_delta: float) -> void:
 			current_interactable.exit_interaction()
 			closest_interactable.enter_interaction()
 			current_interactable = closest_interactable
+
+	if can_play:
+		_update_sprite(_current_input)
+	else: 
+		if Global.world_map_tiles.are_tiles_generated:
+			can_play = true
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:

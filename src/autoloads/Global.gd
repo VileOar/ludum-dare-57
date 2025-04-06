@@ -6,7 +6,7 @@ extends Node
 
 @export var ENEMY_DAMAGE_DONE = 10
 
-var max_health := 10
+var max_health := 100
 var max_fuel := 10
 
 # not yet used
