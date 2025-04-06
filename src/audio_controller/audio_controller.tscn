@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://c41lpw0a2v2iq"]
+
+[ext_resource type="AudioStream" uid="uid://4puijewqwfhb" path="res://assets/sounds/radar-pulse.wav" id="1_gnbjh"]
+[ext_resource type="Script" uid="uid://dgej0u7isxwm5" path="res://src/audio_controller/audio_controller.gd" id="1_hgdds"]
+[ext_resource type="AudioStream" uid="uid://bhdcm0spx5qys" path="res://assets/sounds/squeak1.wav" id="2_hgdds"]
+[ext_resource type="AudioStream" uid="uid://ca01x11jmyujf" path="res://assets/sounds/squeak2.wav" id="3_dwq47"]
+[ext_resource type="AudioStream" uid="uid://lcjprsbba88k" path="res://assets/sounds/squeak3.wav" id="4_ffqbn"]
+
+[node name="AudioController" type="Node2D"]
+script = ExtResource("1_hgdds")
+
+[node name="RadarPulse" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_gnbjh")
+
+[node name="Squeak1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_hgdds")
+
+[node name="Squeak2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_dwq47")
+
+[node name="Squeak3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ffqbn")
