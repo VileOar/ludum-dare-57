@@ -12,7 +12,6 @@ size = Vector2(80, 80)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_2bp6n")
-SPEED = 6000
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true

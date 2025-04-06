@@ -7,6 +7,8 @@ const _ACCELERATION: float = 20 * Global.CELL_SIZE
 # Player movement friction
 const _FRICTION: float = 40 * Global.CELL_SIZE
 
+var _health : int = Global.PLAYER_HEALTH
+# Movement
 var _was_moving_left: bool = false
 var _input: Vector2 = Vector2.ZERO
 var _input_queue: = [null]
@@ -71,3 +73,12 @@ func _get_input() -> Vector2:
 			_input.y = 1
 	
 	return _input
+	
+	
+# Player loses health when collision is detected from ENEMY
+func lose_health() -> void:
+	if _health >= Global.DAMAGE_DONE:
+		_health = _health - Global.DAMAGE_DONE
+	else:
+		print("[END_GAME] Player is dead with ", _health, " health.")
+		queue_free()

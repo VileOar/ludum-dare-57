@@ -1,17 +1,14 @@
 extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-@export var SPEED = 3000
 
-## usable 
-@export var health = 100 
-@export var DAMAGE_DONE = 10 
+var health : int = Global.PLAYER_HEALTH
 
 ## USABLE FUNCS
 
 func lose_health() -> void:
-	if health >= DAMAGE_DONE:
-		health = health - DAMAGE_DONE
+	if health >= Global.DAMAGE_DONE:
+		health = health - Global.DAMAGE_DONE
 	else:
 		print("[END_GAME] Player is dead with ", health, " health.")
 		queue_free()
@@ -25,7 +22,7 @@ func _random_place() -> Vector2:
 func _physics_process(delta: float) -> void:
 	var next_path_pos = nav_agent.get_next_path_position()
 	var direction = global_position.direction_to(next_path_pos)
-	var new_velocity = direction * SPEED * delta
+	var new_velocity = direction * Global.PLAYER_SPEED * delta
 	
 	nav_agent.velocity = new_velocity
 

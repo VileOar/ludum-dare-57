@@ -7,13 +7,10 @@ var wall = preload("res://src/temp/wall_tmp.tscn")
 @onready var enemy_spawn_point: Node2D = $CustomNavRegion/EnemySpawnPoint
 @onready var custom_nav_region: Node2D = $CustomNavRegion
 
-@export var enemies_to_spawn : int = 10
-@export var time_between_spawns = 0.2
-
 
 func _ready():
-	for n in enemies_to_spawn:
-		await get_tree().create_timer(time_between_spawns).timeout
+	for n in Global.ENEMIES_TO_SPAWN:
+		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 		_instantiate_enemy()
 
 
