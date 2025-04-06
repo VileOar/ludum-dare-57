@@ -15,6 +15,8 @@ func _ready():
 	nav_agent.navigation_finished.connect(_on_nav_finished)
 	nav_agent.velocity_computed.connect(_on_navigation_agent_2d_velocity_computed)
 	make_path(_get_player_location())
+#	Sets target position as origin when starting
+	nav_agent.target_position = origin_point
 
 
 func _physics_process(delta: float) -> void:
@@ -22,7 +24,9 @@ func _physics_process(delta: float) -> void:
 	if nav_agent && !player_to_chase:
 		return
 	# If agent is on player, doesn't jitter
-	if nav_agent.target_position == player_to_chase.global_position:
+	#print("nav_agent.target_position= ", nav_agent.target_position)
+	#print("player_to_chase.global_position= ", player_to_chase.global_position)
+	if agent.global_position == player_to_chase.global_position:
 		return
 		
 	var next_path_pos = nav_agent.get_next_path_position()

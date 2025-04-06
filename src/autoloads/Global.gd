@@ -1,7 +1,8 @@
 extends Node
 
 @export var PLAYER_SPEED = 3000
-@export var ENEMY_SPEED = 6000
+#@export var ENEMY_SPEED = 6000
+@export var ENEMY_SPEED = 20000
 
 @export var PLAYER_HEALTH = 100 
 @export var ENEMY_DAMAGE_DONE = 10 
