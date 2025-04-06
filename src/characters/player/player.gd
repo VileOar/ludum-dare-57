@@ -1,13 +1,11 @@
 extends CharacterBody2D
 
-# Size of game units in pixels (128x128)
-const _TILE_SIZE: int = 128
 # Maximum move speed of the player
-const _MAX_MOVE_SPEED: float = 4 * _TILE_SIZE
+const _MAX_MOVE_SPEED: float = 4 * Global.CELL_SIZE
 # Player movement acceleration
-const _ACCELERATION: float = 20 * _TILE_SIZE
+const _ACCELERATION: float = 20 * Global.CELL_SIZE
 # Player movement friction
-const _FRICTION: float = 40 * _TILE_SIZE
+const _FRICTION: float = 40 * Global.CELL_SIZE
 
 var _input: Vector2 = Vector2.ZERO
 var _input_queue: = [null]
