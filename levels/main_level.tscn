@@ -9,3 +9,4 @@
 
 [node name="Player" parent="." instance=ExtResource("2_0vhbo")]
 position = Vector2(960, 540)
+motion_mode = 1
