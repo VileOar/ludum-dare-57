@@ -10,7 +10,6 @@ const _FRICTION: float = 40 * Global.CELL_SIZE
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 
-var _health : int = Global.PLAYER_HEALTH
 # Movement
 # Stores last movement direction on x axis
 var _was_moving_left: bool = false

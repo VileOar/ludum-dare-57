@@ -4,8 +4,10 @@ extends Node
 #@export var ENEMY_SPEED = 6000
 @export var ENEMY_SPEED = 20000
 
-@export var PLAYER_HEALTH = 100 
-@export var ENEMY_DAMAGE_DONE = 10 
+@export var ENEMY_DAMAGE_DONE = 10
+
+var max_health := 10
+var max_fuel := 10
 
 # not yet used
 @export var ENEMIES_TO_SPAWN_MAX : int = 15
@@ -19,8 +21,6 @@ const CELL_SIZE = 128
 const  MAX_MINING_STRENGTH: int = 4
 
 var rng: RandomNumberGenerator
-var max_health := 10
-var max_fuel := 10
 
 var _currency := 12
 var _current_upgrades = {}

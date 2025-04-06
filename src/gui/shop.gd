@@ -21,8 +21,8 @@ func _ready():
 	Signals.change_shop_visibility.connect(_toggle_visibility)
 
 	_set_money_label(Global.get_currency())
-	_set_health_label(Global.player_ref.get_stats().x)
-	_set_fuel_label(Global.player_ref.get_stats().y)
+	_set_health_label(int(Global.player_ref.get_stats().x))
+	_set_fuel_label(int(Global.player_ref.get_stats().y))
 
 
 func _toggle_visibility(value:bool):

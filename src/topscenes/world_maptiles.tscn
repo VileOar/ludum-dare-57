@@ -9,13 +9,12 @@
 [node name="WorldMapTiles" type="Node2D"]
 script = ExtResource("1_1b85c")
 
+[node name="NavLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("5_khffx")
+
 [node name="MapTiles" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_vehs4")
 script = ExtResource("3_khffx")
 
 [node name="DangerLevels" type="TileMapLayer" parent="."]
 tile_set = ExtResource("4_vehs4")
-
-[node name="NavLayer" type="TileMapLayer" parent="."]
-visible = false
-tile_set = ExtResource("5_khffx")
