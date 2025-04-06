@@ -40,7 +40,7 @@ func _move(input_dir: Vector2, delta: float) -> void:
 func _try_to_mine(input_dir: Vector2) -> void:
 	_mining_check_ray.target_position = input_dir * Global.CELL_SIZE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
-		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 3)
+		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 1)
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
