@@ -129,6 +129,7 @@ radius = 51.0
 height = 102.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 6
 script = ExtResource("1_7nd6e")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -142,3 +143,7 @@ shape = SubResource("CapsuleShape2D_ej0fg")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+
+[node name="MiningCheckRay" type="RayCast2D" parent="."]
+target_position = Vector2(128, 0)
+collision_mask = 4
