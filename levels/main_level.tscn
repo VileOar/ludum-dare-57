@@ -10,4 +10,8 @@
 
 [node name="Player" parent="." instance=ExtResource("2_0vhbo")]
 position = Vector2(960, 540)
-motion_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Shop" parent="CanvasLayer" instance=ExtResource("3_ldao0")]
+visible = false
