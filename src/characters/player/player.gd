@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 # Maximum move speed of the player
 const _MAX_MOVE_SPEED: float = 4 * Global.CELL_SIZE
@@ -22,12 +23,27 @@ var _input_order: Dictionary = {
 "MoveUp" = 0, 
 "MoveDown" = 0}
 
+var _health: int
+var _fuel: int
+
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
 
+
 func _ready() -> void:
+	Global.player_ref = self
+
+	_health = Global.max_health
+	_fuel = Global.max_fuel
+
 	if Global.world_map_tiles:
 		Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+
+
+func _input(event):
+	if event.is_action_pressed("Interact"):
+		Signals.change_shop_visibility.emit(true)
+
 
 func _unhandled_input(_event: InputEvent) -> void:
 	_current_input = _get_input()
@@ -129,3 +145,17 @@ func lose_health() -> void:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()
 	
+
+
+func set_health(delta:int):
+	_health = max(_health + delta, 0)
+	#TODO: signal emit game over
+
+
+func set_fuel(delta:int):
+	_fuel = max(_fuel + delta, 0)
+
+
+## Returns current health (x) and fuel (y)
+func get_stats() -> Vector2:
+	return Vector2(_health, _fuel)
