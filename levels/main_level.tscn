@@ -23,4 +23,3 @@ unique_name_in_owner = true
 [node name="Player" parent="NavGenerator" instance=ExtResource("2_0vhbo")]
 unique_name_in_owner = true
 position = Vector2(960, 540)
-motion_mode = 1
