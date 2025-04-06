@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=20 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://egc2hrb3tddq" path="res://assets/characters/player/YellowMiner.png" id="1_bxhu7"]
+[ext_resource type="PackedScene" uid="uid://dva47lw34td0t" path="res://src/radar/radar_pulse.tscn" id="3_5c1al"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxhu7"]
 atlas = ExtResource("1_bxhu7")
@@ -147,3 +148,5 @@ position_smoothing_enabled = true
 [node name="MiningCheckRay" type="RayCast2D" parent="."]
 target_position = Vector2(128, 0)
 collision_mask = 4
+
+[node name="RadarPulse" parent="." instance=ExtResource("3_5c1al")]

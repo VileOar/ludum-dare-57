@@ -49,8 +49,8 @@ stream = ExtResource("10_xahc4")
 
 [node name="StoneDig" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_k1nwg")
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="StoneDigFail" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_ffqbn")
-volume_db = -10.0
+volume_db = -15.0

@@ -44,6 +44,5 @@ func play_squeak(random_pitch: bool = true) -> void:
 		squeak.play()
 
 func play_radar_pulse() -> void:
-	if not $RadarPulse.playing:
-		$RadarPulse.play()
-		play_squeak()
+	$RadarPulse.play()
+	play_squeak()
