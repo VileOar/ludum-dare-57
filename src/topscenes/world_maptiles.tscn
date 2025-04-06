@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://n1yasqcqq017" path="res://assets/tilesets/tileset.tres" id="2_vehs4"]
 [ext_resource type="Script" uid="uid://bhvqu25bi6dnv" path="res://src/topscenes/map_tiles.gd" id="3_khffx"]
 [ext_resource type="TileSet" uid="uid://b5t1cjso2kfm7" path="res://assets/tilesets/danger_shades.tres" id="4_vehs4"]
-[ext_resource type="TileSet" uid="uid://cglkl64c2fkck" path="res://assets/tilesets/nav_tileset.tres" id="5_khffx"]
+[ext_resource type="TileSet" uid="uid://8pqwb8nmsf0u" path="res://assets/tilesets/nav_tileset.tres" id="5_khffx"]
 
 [node name="WorldMapTiles" type="Node2D"]
 script = ExtResource("1_1b85c")

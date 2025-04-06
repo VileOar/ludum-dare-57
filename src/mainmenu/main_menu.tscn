@@ -12,6 +12,7 @@ grow_vertical = 2
 script = ExtResource("1_pfhkm")
 
 [node name="MenuMarginContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,6 +42,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="LoadingMarginContainer" type="MarginContainer" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -62,7 +64,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Loading..."
 
-[node name="ProgressBar" type="ProgressBar" parent="LoadingMarginContainer/VBoxContainer"]
+[node name="LoadingBar" type="ProgressBar" parent="LoadingMarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [connection signal="pressed" from="MenuMarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
