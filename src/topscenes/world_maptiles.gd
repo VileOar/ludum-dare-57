@@ -1,6 +1,9 @@
 class_name WorldMapTiles
 extends Node2D
 
+# TODO: remove
+var strength = 0
+
 
 ## The rectangle encompassing the full traverseable map
 const MAP_LIMITS := Rect2i(-25, -25, 50, 100)
@@ -38,8 +41,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		var mouse_pos = _tiles.get_local_mouse_position()
-		var cell = _tiles.local_to_map(mouse_pos)
-		dig_tiles([cell])
+		try_dig_tile(mouse_pos, strength)
 	
 	if Input.is_key_pressed(KEY_W):
 		$Camera2D.position.y -= 320 * delta
@@ -49,16 +51,40 @@ func _physics_process(delta: float) -> void:
 		$Camera2D.position.x -= 320 * delta
 	if Input.is_key_pressed(KEY_D):
 		$Camera2D.position.x += 320 * delta
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT:
+		strength = (strength + 1) % 5
+		print(strength)
 
 
-## Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
-func dig_tiles(cells: Array[Vector2i]):
+## Attempt to dig a tile at a position.
+func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
+	var cell_pos = _tiles.local_to_map(pos)
+	var can_dig = _can_dig(cell_pos, dig_strength)
+	if can_dig:
+		_dig_tiles([cell_pos])
+	
+	return can_dig
+
+
+# Whether the cell at the given position can be dug with given strentgh
+func _can_dig(cell_pos: Vector2i, dig_strength: int) -> bool:
+	var tile_data = _tiles.get_cell_tile_data(cell_pos)
+	if tile_data == null:
+		return false
+	var hardness = tile_data.get_custom_data("hardness")
+	return dig_strength >= hardness
+
+
+# Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
+func _dig_tiles(cells: Array[Vector2i]):
 	_set_cells(cells, -1)
 	for cell in cells:
 		_danger_levels.set_cell(cell, 0, Vector2i(-1, -1))
 	#_tiles.force_update_tiles()
 
 
+# Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
 
