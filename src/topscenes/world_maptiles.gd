@@ -4,9 +4,9 @@ extends Node2D
 # TODO: remove
 var strength = 0
 
-
 ## The rectangle encompassing the full traverseable map
 const MAP_LIMITS := Rect2i(-25, -25, 50, 100)
+const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 
 # TODO: change
 ## The y value above which danger should effectively be 0
@@ -33,9 +33,13 @@ var _terrain_noise_thresholds := {
 	1.0: 3
 }
 
+var load_percent: int = 0
+var thread: Thread
+var are_tiles_generated: bool = false
 
 func _ready() -> void:
-	_generate_tiles()
+	thread = Thread.new()
+	thread.start(_generate_tiles, 2)
 	Global.world_map_tiles = self
 
 
@@ -98,6 +102,8 @@ func _generate_tiles():
 	# the noise map for choosing the danger level (and spawning ratio) of enemy spawners
 	var danger_noise = _get_noise_map(danger_seed, 0.01, 4, 0.0)
 	
+	var tile_num: int = 0
+	
 	# set the terrains according to noise
 	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y):
 		for xx in range(MAP_LIMITS.position.x, MAP_LIMITS.end.x):
@@ -113,10 +119,14 @@ func _generate_tiles():
 			var shade_tile := _get_danger_tile(danger_level)
 			_danger_levels.set_cell(cell, 0, shade_tile)
 			
+			tile_num += 1
+			load_percent = floor(float(tile_num)/float(TOTAL_TILE_AMOUNT) * 100)
+			
 			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
 			
 			# TODO: check spawn enemies/resources
 	#_tiles.force_update_tiles()
+	are_tiles_generated = true
 
 
 func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, fractal_gain: float) -> FastNoiseLite:
