@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0ew4d6t5xafg"]
+
+[ext_resource type="Script" uid="uid://23orrypofmld" path="res://src/agents/agent.gd" id="1_i4ekf"]
+[ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="2_4c3h7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbgr5"]
+size = Vector2(64, 64)
+
+[node name="Agent" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_i4ekf")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 32.0
+debug_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.984314, 0, 0.0196078, 1)
+position = Vector2(-32, -32)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_4c3h7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-32, -32)
+shape = SubResource("RectangleShape2D_vbgr5")
+
+[node name="UpdatePlayerLocation" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="TimeToGiveUp" type="Timer" parent="."]
+wait_time = 45.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="UpdatePlayerLocation" to="." method="_on_update_player_location_timeout"]
+[connection signal="timeout" from="TimeToGiveUp" to="." method="_on_time_to_give_up_timeout"]
