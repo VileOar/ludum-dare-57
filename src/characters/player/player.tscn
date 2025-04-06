@@ -148,6 +148,10 @@ shape = SubResource("CapsuleShape2D_ej0fg")
 [node name="PlayerCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 
+[node name="MiningCheckRay" type="RayCast2D" parent="."]
+target_position = Vector2(128, 0)
+collision_mask = 4
+
 [node name="PlayerArea" type="Area2D" parent="."]
 collision_mask = 2
 script = ExtResource("3_5c1al")
@@ -157,6 +161,3 @@ position = Vector2(-32, -32)
 shape = SubResource("RectangleShape2D_03ylq")
 
 [connection signal="body_entered" from="PlayerArea" to="PlayerArea" method="_on_body_entered"]
-[node name="MiningCheckRay" type="RayCast2D" parent="."]
-target_position = Vector2(128, 0)
-collision_mask = 4
