@@ -5,6 +5,9 @@ extends Node2D
 func _init() -> void:
 	add_to_group(Global.INTERACTABLE_GROUP)
 
+func _ready() -> void:
+	$AnimatedSprite2D.play("Idle")
+
 func enter_interaction() -> void:
 	_interact_ui.visible = true
 	_interact_ui.play_animation()

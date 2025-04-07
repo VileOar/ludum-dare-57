@@ -124,10 +124,14 @@ func _on_buy_button_pressed():
 	if _refuel:
 		_refuel = false
 		Global.player_ref.set_fuel(Global.max_fuel-int(Global.player_ref.get_stats().y))
+		@warning_ignore("narrowing_conversion")
+		Global.hud_ref.update_stamina_bar(Global.player_ref.get_stats().y)
 
 	if _repair:
 		_repair = false
 		Global.player_ref.set_health(Global.max_health-int(Global.player_ref.get_stats().x))
+		@warning_ignore("narrowing_conversion")
+		Global.hud_ref.update_health_bar(Global.player_ref.get_stats().x)
 
 	_refresh_buy_button_state()
 	_reset_cost_and_description()

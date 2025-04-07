@@ -9,14 +9,16 @@ const _ACCELERATION: float = 20 * Global.CELL_SIZE
 const _FRICTION: float = 40 * Global.CELL_SIZE
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
+
+# Mining
 # How far from a tile the the player tries to mine
 const _MINING_RANGE = int(float(Global.CELL_SIZE)/2.0)
+# How long it takes to mine a tile (in seconds)
+const _TIME_TO_MINE: float = 0.5
 
 # Movement
-# Stores last movement direction on x axis
-var _was_moving_left: bool = false
 # Stores current input direction
-var _current_input: Vector2 = Vector2.ZERO
+var _current_move_input: Vector2 = Vector2.ZERO
 # Stores a priority value for each input (lower = higher priority)
 var _input_order: Dictionary = {
 "MoveLeft" = 0, 
@@ -24,26 +26,43 @@ var _input_order: Dictionary = {
 "MoveUp" = 0, 
 "MoveDown" = 0}
 
+# The player's current health (initialized on _ready)
 var _health: int
+# The player's current fuel (initialized on _ready)
 var _fuel: int
-var _mining_strength: int = 0
+# The player's current mining strength
+var _mining_strength: int = 5
+
+# Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
+var _time_trying_to_mine: float = 0
+# Stores the direction the player is currently trying to mine in
+var _current_mining_direction: Vector2 = Vector2.ZERO
 
 var available_interactables: Array = []
 var current_interactable = null 
 
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
+@onready var _radar_pulse: RadarPulse = $RadarPulse
 
 var can_play = false
 
 func _ready() -> void:
 	Global.player_ref = self
-
+	
+	# Initialize player variables
 	_health = Global.max_health
 	_fuel = Global.max_fuel
-
-	if Global.world_map_tiles:
-		Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+	
+	# wait while the map has not yet loaded
+	var busy = true
+	while busy:
+		if Global.world_map_tiles and Global.world_map_tiles.is_stable():
+			busy = false
+			can_play = true
+			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+		else:
+			await Signals.map_stable
 
 
 func _input(event):
@@ -51,12 +70,13 @@ func _input(event):
 		current_interactable.interact()
 
 func _unhandled_input(_event: InputEvent) -> void:
-	_current_input = _get_input()
+	_current_move_input = _get_movement_input()
+	_check_radar_input()
 
 func _physics_process(delta: float) -> void:
 	if can_play:
-		_move(_current_input, delta)
-		_try_to_mine(_current_input)
+		_move(_current_move_input, delta)
+		_try_to_mine(_current_move_input, delta)
 
 func _process(_delta: float) -> void:
 	# If multiple interactables are available to the player then
@@ -75,10 +95,7 @@ func _process(_delta: float) -> void:
 			current_interactable = closest_interactable
 
 	if can_play:
-		_update_sprite(_current_input)
-	else: 
-		if Global.world_map_tiles.are_tiles_generated:
-			can_play = true
+		_update_sprite(_current_move_input)
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:
@@ -90,10 +107,25 @@ func _move(input_dir: Vector2, delta: float) -> void:
 	move_and_slide();
 
 # Update ray cast position to face movement direction and try to mine in that direction
-func _try_to_mine(input_dir: Vector2) -> void:
+func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 	_mining_check_ray.target_position = input_dir * _MINING_RANGE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
-		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), _mining_strength)
+		# Reset time trying to mine if direction changed
+		if input_dir != _current_mining_direction:
+			_current_mining_direction = input_dir
+			_time_trying_to_mine = 0
+		# Update time trying to mine
+		_time_trying_to_mine += delta
+		# Mine block if time trying to mine exceeds mining time
+		if _time_trying_to_mine >= _TIME_TO_MINE:
+			Global.world_map_tiles.try_dig_tile(
+				to_global(_mining_check_ray.target_position), 
+				_mining_strength)
+			# Reset time trying to mine
+			_time_trying_to_mine = 0
+	else:
+		# Reset time trying to mine
+		_time_trying_to_mine = 0
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
@@ -105,31 +137,22 @@ func _update_sprite(input_dir: Vector2) -> void:
 			_player_sprite.play("Idle")
 	
 	if input_dir.x == -1:
-			_player_sprite.flip_h = true
 			_player_sprite.flip_v = false
-			_was_moving_left = true
-			_player_sprite.rotation_degrees = 0
+			_player_sprite.rotation_degrees = 270
 	elif input_dir.x == 1:
-			_player_sprite.flip_h = false
 			_player_sprite.flip_v = false
-			_was_moving_left = false
-			_player_sprite.rotation_degrees = 0
+			_player_sprite.rotation_degrees = 90
 	
 	if input_dir.y == -1:
-		_player_sprite.flip_h = false
-		_player_sprite.rotation_degrees = 270
-		if _was_moving_left:
-			_player_sprite.flip_v = true
-
+		_player_sprite.rotation_degrees = 0
+		_player_sprite.flip_v = false
 	elif input_dir.y == 1:
-		_player_sprite.flip_h = false
-		_player_sprite.rotation_degrees = 90
-		if _was_moving_left:
-			_player_sprite.flip_v = true
+		_player_sprite.rotation_degrees = 0
+		_player_sprite.flip_v = true
 
 # Updates input vector based on pressed input direction
 # (prioritizes most recently pressed direction)
-func _get_input() -> Vector2:
+func _get_movement_input() -> Vector2:
 	var new_input = Vector2.ZERO
 	for possible_input in _POSSIBLE_INPUT_DIRS:
 		if Input.is_action_pressed(possible_input): 
@@ -167,12 +190,23 @@ func _get_input() -> Vector2:
 			new_input.y = 1
 	
 	return new_input
-	
-	
+
+func _check_radar_input():
+	if Input.is_action_just_pressed("RadarPulse") and _fuel > 0:
+		var radar_activated = _radar_pulse.activate()
+		if radar_activated:
+			_fuel -= 1
+			Global.hud_ref.update_stamina_bar(_fuel)
+
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
 	if _health >= Global.ENEMY_DAMAGE_DONE:
 		_health = _health - Global.ENEMY_DAMAGE_DONE
+		
+		# Update health bar
+		if Global.hud_ref:
+			Global.hud_ref.update_health_bar(_health)
+
 	else:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()

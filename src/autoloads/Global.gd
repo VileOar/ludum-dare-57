@@ -17,7 +17,7 @@ var max_fuel := 10
 @export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 
 const CELL_SIZE = 128
-const  MAX_MINING_STRENGTH: int = 4
+const MAX_MINING_STRENGTH: int = 4
 
 const INTERACTABLE_GROUP: String = "Interactable"
 
@@ -63,7 +63,8 @@ var world_map_tiles: WorldMapTiles
 
 # Reference to the player scene
 var player_ref: Player
-
+# Reference to the HUD scene
+var hud_ref: Hud
 
 func _ready() -> void:
 	randomize()

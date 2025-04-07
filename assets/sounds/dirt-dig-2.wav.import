@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://c4h7gadw5e7ml"
-path="res://.godot/imported/dig-dirt.wav-b232bacebe211b873831cd5737271600.sample"
+uid="uid://c0d7w6858j28a"
+path="res://.godot/imported/dirt-dig-2.wav-f193add432cf5aec0cea54e2d457e2b0.sample"
 
 [deps]
 
-source_file="res://assets/sounds/dig-dirt.wav"
-dest_files=["res://.godot/imported/dig-dirt.wav-b232bacebe211b873831cd5737271600.sample"]
+source_file="res://assets/sounds/dirt-dig-2.wav"
+dest_files=["res://.godot/imported/dirt-dig-2.wav-f193add432cf5aec0cea54e2d457e2b0.sample"]
 
 [params]
 

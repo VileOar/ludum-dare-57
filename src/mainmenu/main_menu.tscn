@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=3 format=3 uid="uid://b67yrqq2iad43"]
 
-[ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://main_menu.gd" id="1_pfhkm"]
+[ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
+[ext_resource type="PackedScene" uid="uid://btoglak145h8n" path="res://levels/main_level.tscn" id="2_u17xg"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pfhkm")
+_play_scene = ExtResource("2_u17xg")
 
 [node name="MenuMarginContainer" type="MarginContainer" parent="."]
 unique_name_in_owner = true
@@ -40,32 +42,6 @@ text = "Options"
 [node name="Quit" type="Button" parent="MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
-
-[node name="LoadingMarginContainer" type="MarginContainer" parent="."]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -145.0
-offset_top = -63.0
-offset_right = 146.0
-offset_bottom = 38.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="LoadingMarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="LoadingMarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Loading..."
-
-[node name="LoadingBar" type="ProgressBar" parent="LoadingMarginContainer/VBoxContainer"]
-layout_mode = 2
 
 [connection signal="pressed" from="MenuMarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MenuMarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]

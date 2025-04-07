@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://citeafwq8u4cc"
-path="res://.godot/imported/dirt-move-1.wav-8100caa13cbe5e872ce164aec9aaed1c.sample"
+path="res://.godot/imported/dirt-dig-1.wav-d00a5941984c485a4a60f374c828bf68.sample"
 
 [deps]
 
-source_file="res://assets/sounds/dirt-move-1.wav"
-dest_files=["res://.godot/imported/dirt-move-1.wav-8100caa13cbe5e872ce164aec9aaed1c.sample"]
+source_file="res://assets/sounds/dirt-dig-1.wav"
+dest_files=["res://.godot/imported/dirt-dig-1.wav-d00a5941984c485a4a60f374c828bf68.sample"]
 
 [params]
 
