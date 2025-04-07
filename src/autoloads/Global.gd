@@ -84,6 +84,8 @@ var player_ref: Player
 # Reference to the HUD scene
 var hud_ref: Hud
 
+var end_state := false
+
 func _ready() -> void:
 	randomize()
 	rng = RandomNumberGenerator.new()
