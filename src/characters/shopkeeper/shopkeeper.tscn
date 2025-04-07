@@ -41,7 +41,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pni27"]
-size = Vector2(128, 128)
+size = Vector2(256, 128)
 
 [node name="Shopkeeper" type="StaticBody2D"]
 collision_layer = 8
@@ -55,10 +55,10 @@ animation = &"Idle"
 [node name="InteractPrompt" parent="." instance=ExtResource("2_pni27")]
 visible = false
 z_index = 3
-offset_left = 120.0
-offset_top = -4.0
-offset_right = 120.0
-offset_bottom = -4.0
+offset_left = -12.0
+offset_top = 108.0
+offset_right = -12.0
+offset_bottom = 108.0
 
 [node name="InteractionArea" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pni27")
