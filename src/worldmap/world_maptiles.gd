@@ -5,23 +5,22 @@ extends Node2D
 const BEDROCK_THICKNESS := 8
 
 ## The rectangle encompassing the full traverseable map.
-const MAP_LIMITS := Rect2i(-25, -40, 50, 100)
+const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 const STARTING_AREA := Rect2i(-3, -2, 6, 4)
 
 ## The y value above which danger should effectively be 0.
-const MIN_DANGER_Y = -25
+const MIN_DANGER_Y = -5
 ## The y value below which danger should effectively be 1.
-const MAX_DANGER_Y = 75
+const MAX_DANGER_Y = 95
 ## the max value to add/subtract to the danger value, depending on y coordinate.
 const MAX_DANGER_MODIFIER = 0.5
 
 ## The upper-most y value, at which all blocks should effectively be the strongest stone.
-const TOP_STONE_Y = -40
+const TOP_STONE_Y = -20
 ## The lower-most y value, at which terrain generation should no longer be modified to include stone.
-const BOTTOM_STONE_Y = -25
+const BOTTOM_STONE_Y = -5
 
-@onready var _egg_spawner: Node2D = %EggSpawner
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
 @onready var _nav_layer: TileMapLayer = $NavLayer
@@ -80,8 +79,11 @@ func _dig_tiles(cells: Array[Vector2i]):
 				AudioController.play_dirt_dig()
 			else:
 				AudioController.play_stone_dig()
-			if _tiles.get_cell_data(cell) == Global.TileType.EGG:
-				_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * int(float(Global.CELL_SIZE) / 2.0))
+			# TODO: update to call the 'dig' function on any detected Detectable Node (call func on maptiles to dig)
+			# try to dig a feature tile on position
+			_tiles.try_dig_feature(cell)
+			#if _tiles.get_cell_data(cell) == Global.TileType.EGG:
+				#_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * int(float(Global.CELL_SIZE) / 2.0))
 	_set_cells(cells, -1)
 
 	#_tiles.force_update_tiles()
@@ -163,7 +165,7 @@ func is_stable() -> bool:
 func _spawn_tile_data(cell_pos: Vector2i):
 	var types = Global.tile_type_weights.keys()
 	var selected = types[Global.rng.rand_weighted(Global.tile_type_weights.values())] 
-	_tiles.save_cell_data(cell_pos, selected)
+	_tiles.save_feature(cell_pos, selected)
 
 
 func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, fractal_gain: float) -> FastNoiseLite:

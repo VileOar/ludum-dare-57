@@ -11,14 +11,13 @@ var origin_point : Vector2
 
 
 func _ready():
-	origin_point = agent.position
+	origin_point = agent.global_position
 	nav_agent.navigation_finished.connect(_on_nav_finished)
 	nav_agent.velocity_computed.connect(_on_navigation_agent_2d_velocity_computed)
 	set_player_to_chase()
 	make_path(_get_player_location())
 #	Sets target position as origin when starting
 	nav_agent.target_position = origin_point
-
 
 
 func _physics_process(_delta: float) -> void:
@@ -41,7 +40,8 @@ func _physics_process(_delta: float) -> void:
 func _on_nav_finished():
 #	When it reachs spawn point, dissapears
 	if is_give_up_time:
-		queue_free()
+		if position.distance_to(Vector2.ZERO) < 7:
+			queue_free()
 	
 	
 func _on_navigation_agent_2d_velocity_computed(safe_velocity) -> void:

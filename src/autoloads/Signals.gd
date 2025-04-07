@@ -5,6 +5,9 @@ extends Node
 ## Sent when the map finishes loading
 signal map_stable
 
+## Sent when an egg is uncovered (order to spawn and enemy egg)
+signal spawn_egg(pos)
+
 ## sent when a game stat is altered
 signal upgrade_selected(type, cost:int, text, button_ref)
 
