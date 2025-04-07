@@ -10,7 +10,7 @@ const _FRICTION: float = 40 * Global.CELL_SIZE
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 # How far from a tile the the player tries to mine
-const _MINING_RANGE = Global.CELL_SIZE/2
+const _MINING_RANGE = int(float(Global.CELL_SIZE)/2.0)
 
 # Movement
 # Stores last movement direction on x axis

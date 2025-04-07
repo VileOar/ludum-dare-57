@@ -21,7 +21,7 @@ func _ready():
 
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# validate 
 	if nav_agent && !player_to_chase:
 		return

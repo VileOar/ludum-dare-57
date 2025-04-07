@@ -35,8 +35,8 @@ func _toggle_visibility(value:bool):
 	visible = value
 	if value:
 		_set_money_label(Global.get_currency())
-		_set_health_label(Global.player_ref.get_stats().x)
-		_set_fuel_label(Global.player_ref.get_stats().y)
+		_set_health_label(int(Global.player_ref.get_stats().x))
+		_set_fuel_label(int(Global.player_ref.get_stats().y))
 
 		_current_cost = 0
 		_current_btn = null

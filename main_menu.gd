@@ -15,7 +15,7 @@ func _on_play_pressed() -> void:
 	get_tree().root.add_child(new_scene)
 	new_scene.visible = false
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Global.world_map_tiles:
 		_loading_bar.value = Global.world_map_tiles.load_percent
 		if Global.world_map_tiles.are_tiles_generated and new_scene:

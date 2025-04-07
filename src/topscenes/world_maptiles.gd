@@ -4,17 +4,21 @@ extends Node2D
 # TODO: remove
 var strength = 0
 
-## The rectangle encompassing the full traverseable map
-const MAP_LIMITS := Rect2i(-25, -25, 50, 100)
+## The rectangle encompassing the full traverseable map.
+const MAP_LIMITS := Rect2i(-25, -40, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 
-# TODO: change
-## The y value above which danger should effectively be 0
+## The y value above which danger should effectively be 0.
 const MIN_DANGER_Y = -25
-## The y value below which danger should effectively be 1
+## The y value below which danger should effectively be 1.
 const MAX_DANGER_Y = 75
-## the max value to add/subtract to the danger value, depending on y coordinate
+## the max value to add/subtract to the danger value, depending on y coordinate.
 const MAX_DANGER_MODIFIER = 0.5
+
+## The upper-most y value, at which all blocks should effectively be the strongest stone.
+const TOP_STONE_Y = -40
+## The lower-most y value, at which terrain generation should no longer be modified to include stone.
+const BOTTOM_STONE_Y = -25
 
 ## The hue to be used for the danger indication
 const BASE_DANGER_HUE := 0.74
@@ -40,7 +44,7 @@ var are_tiles_generated: bool = false
 
 func _ready() -> void:
 	thread = Thread.new()
-	thread.start(_generate_tiles, 2)
+	thread.start(_generate_tiles, Thread.PRIORITY_HIGH)
 	Global.world_map_tiles = self
 
 
@@ -81,7 +85,7 @@ func _dig_tiles(cells: Array[Vector2i]):
 			else:
 				AudioController.play_stone_dig()
 			if _tiles.get_cell_data(cell) == Global.TileType.EGG:
-				_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * (Global.CELL_SIZE / 2))
+				_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * int(float(Global.CELL_SIZE) / 2.0))
 	_set_cells(cells, -1)
 
 	#_tiles.force_update_tiles()
@@ -113,9 +117,17 @@ func _generate_tiles():
 		for xx in range(MAP_LIMITS.position.x, MAP_LIMITS.end.x):
 			var cell = Vector2i(xx, yy)
 			
-			var terrain = _noise_to_terrain(terrain_noise.get_noise_2dv(cell))
+			var noise = terrain_noise.get_noise_2dv(cell)
+			# modify the noise value to account for forcing stone in the upper layers
+			if yy >= TOP_STONE_Y and yy < BOTTOM_STONE_Y:
+				var y_weight: float = float(yy - TOP_STONE_Y) / float(BOTTOM_STONE_Y - TOP_STONE_Y)
+				var mod = lerp(2.0, 0.0, y_weight)
+				noise = clamp(noise + mod, -1.0, 1.0)
+			# generate the terrain tiles, deciding between the different dirt/stone tiles
+			var terrain = _noise_to_terrain(noise)
 			_set_cells([cell], terrain)
 			
+			# determine the danger level of each tile
 			var danger_level = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
 			# adapt it to be above the minimum brightness value and calculate saturation
 			danger_level = clamp(_get_danger_level(danger_level, yy), 0.0, 1.0)
@@ -177,6 +189,10 @@ func _get_danger_tile(danger_ratio: float) -> Vector2i:
 # Calculate a danger value from the descending danger rule and a noise value (0 - 1)[br]
 # Also depends on the cell y coordinate
 func _get_danger_level(noise_value: float, cy: int) -> float:
+	if cy <= MIN_DANGER_Y:
+		return 0.0
+	elif cy >= MAX_DANGER_Y:
+		return 1.0
 	# get the percent of the y coordinate between the two limits
 	var y_percent: float = float(cy - MIN_DANGER_Y) / float(MAX_DANGER_Y - MIN_DANGER_Y)
 	# calculate the modifier

@@ -31,6 +31,7 @@ func increase_level() -> void:
 	_pulse_size = (4 + (2 * _level)) * Global.CELL_SIZE
 	color_rect.material.set_shader_parameter("pulse_size", _pulse_size)
 	color_rect.size = Vector2(_pulse_size, _pulse_size)
+	@warning_ignore("integer_division")
 	var pos = -_pulse_size/2
 	color_rect.position = Vector2(pos, pos)
 
