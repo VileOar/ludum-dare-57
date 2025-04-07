@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://s3ouk3248eaw" path="res://src/gui/shop.gd" id="1_bs6l6"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_kmbby"]
 [ext_resource type="PackedScene" uid="uid://dclmc4j02l3sc" path="res://src/gui/UpgradeButton.tscn" id="1_seu2g"]
-[ext_resource type="Texture2D" uid="uid://cb18oyfhvlb1m" path="res://assets/gui/shop_banner.png" id="2_seu2g"]
 [ext_resource type="Texture2D" uid="uid://bt0ds7snodwce" path="res://assets/gui/upgrades/claws-up-1.png" id="4_lpuwk"]
 [ext_resource type="Texture2D" uid="uid://c74dqlaqsjbcq" path="res://assets/gui/upgrades/claws-up-2.png" id="5_ooxj2"]
 [ext_resource type="Texture2D" uid="uid://b7j5o4nf1ksln" path="res://assets/gui/upgrades/claws-up-3.png" id="6_f44um"]
@@ -16,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://sm263bksexki" path="res://assets/gui/upgrades/stamina-up-1.png" id="13_mp73b"]
 [ext_resource type="Texture2D" uid="uid://cu2u731me13c2" path="res://assets/gui/upgrades/stamina-up-2.png" id="14_yfeso"]
 [ext_resource type="Texture2D" uid="uid://ch2c2q2mv3kvi" path="res://assets/gui/upgrades/stamina-up-3.png" id="15_wa1mf"]
+[ext_resource type="Texture2D" uid="uid://dgnuumudwkvi8" path="res://assets/characters/shopkeeper/shopkeeper_portrait.png" id="16_bts76"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -244,7 +244,7 @@ Stamina
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("2_seu2g")
+texture = ExtResource("16_bts76")
 stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
