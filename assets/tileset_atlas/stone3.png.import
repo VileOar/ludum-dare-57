@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crwebg2dph2y4"
-path="res://.godot/imported/stone1.png-d70018cbcccb0777ad94f95404d5a719.ctex"
+uid="uid://crmjssjdpyiai"
+path="res://.godot/imported/stone3.png-063564ab387cfeb7d306afa4d774548e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/tileset_atlas/stone1.png"
-dest_files=["res://.godot/imported/stone1.png-d70018cbcccb0777ad94f95404d5a719.ctex"]
+source_file="res://assets/tileset_atlas/stone3.png"
+dest_files=["res://.godot/imported/stone3.png-063564ab387cfeb7d306afa4d774548e.ctex"]
 
 [params]
 
