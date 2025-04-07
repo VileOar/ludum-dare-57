@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://egc2hrb3tddq"
-path="res://.godot/imported/YellowMiner.png-c8cb9b50fb9a4a42178cc7891be2acf3.ctex"
+uid="uid://b84dcw5smdx6j"
+path="res://.godot/imported/player.png-928f4d30a37c774758bcb01de07ddedf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/player/YellowMiner.png"
-dest_files=["res://.godot/imported/YellowMiner.png-c8cb9b50fb9a4a42178cc7891be2acf3.ctex"]
+source_file="res://assets/characters/player/player.png"
+dest_files=["res://.godot/imported/player.png-928f4d30a37c774758bcb01de07ddedf.ctex"]
 
 [params]
 

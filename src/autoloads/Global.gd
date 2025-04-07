@@ -18,7 +18,7 @@ var max_fuel := 10
 @export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 
 const CELL_SIZE = 128
-const  MAX_MINING_STRENGTH: int = 4
+const MAX_MINING_STRENGTH: int = 4
 
 const INTERACTABLE_GROUP: String = "Interactable"
 
