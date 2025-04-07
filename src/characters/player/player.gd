@@ -200,7 +200,7 @@ func _check_radar_input():
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
-	if _health >= Global.ENEMY_DAMAGE_DONE:
+	if _health > Global.ENEMY_DAMAGE_DONE:
 		_health = _health - Global.ENEMY_DAMAGE_DONE
 		
 		# Update health bar
