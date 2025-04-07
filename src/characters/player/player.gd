@@ -202,15 +202,13 @@ func _check_radar_input():
 func lose_health() -> void:
 	if _health > Global.ENEMY_DAMAGE_DONE:
 		_health = _health - Global.ENEMY_DAMAGE_DONE
-		
-		# Update health bar
-		if Global.hud_ref:
-			Global.hud_ref.update_health_bar(_health)
-
 	else:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()
 	
+	# Update health bar
+	if Global.hud_ref:
+		Global.hud_ref.update_health_bar(_health)	
 
 func set_health(delta:int):
 	_health = max(_health + delta, 0)
