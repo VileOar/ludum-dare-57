@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cs44endvqv7tw" path="res://src/gui/shop.tscn" id="3_ldao0"]
 [ext_resource type="Script" uid="uid://ccaft6o1ot13l" path="res://src/agents/egg_spawner.gd" id="4_43k3a"]
 [ext_resource type="PackedScene" uid="uid://kmdgdqrhrsw5" path="res://src/agents/egg.tscn" id="5_ttu8v"]
+[ext_resource type="PackedScene" uid="uid://d3r0by2c0a703" path="res://src/characters/shopkeeper/shopkeeper.tscn" id="7_43k3a"]
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_55n5f")
@@ -30,7 +31,10 @@ egg = ExtResource("5_ttu8v")
 
 [node name="Player" parent="NavGenerator" instance=ExtResource("2_0vhbo")]
 unique_name_in_owner = true
-position = Vector2(960, 540)
+position = Vector2(960, 576)
+
+[node name="ShopInteractable" parent="." instance=ExtResource("7_43k3a")]
+position = Vector2(1216, 576)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

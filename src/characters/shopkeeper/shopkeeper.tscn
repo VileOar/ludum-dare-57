@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3r0by2c0a703"]
+
+[ext_resource type="Script" uid="uid://1uugkkpv2k7j" path="res://src/characters/shopkeeper/shopkeeper.gd" id="1_gcabt"]
+[ext_resource type="PackedScene" uid="uid://dp0ehem5i8n0e" path="res://src/interactables/interact_prompt.tscn" id="2_pni27"]
+[ext_resource type="Texture2D" uid="uid://bs3526f3o4yt6" path="res://assets/characters/shopkeeper/shopkeeper.png" id="2_y3yh0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pni27"]
+size = Vector2(128, 128)
+
+[node name="ShopInteractable" type="StaticBody2D"]
+collision_layer = 8
+script = ExtResource("1_gcabt")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(14, -51)
+texture = ExtResource("2_y3yh0")
+
+[node name="InteractPrompt" parent="." instance=ExtResource("2_pni27")]
+visible = false
+z_index = 3
+offset_left = 76.0
+offset_top = 31.0
+offset_right = 76.0
+offset_bottom = 31.0
+
+[node name="InteractionArea" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pni27")

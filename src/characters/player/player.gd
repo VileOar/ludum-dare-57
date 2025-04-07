@@ -9,6 +9,8 @@ const _ACCELERATION: float = 20 * Global.CELL_SIZE
 const _FRICTION: float = 40 * Global.CELL_SIZE
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
+# How far from a tile the the player tries to mine
+const _MINING_RANGE = Global.CELL_SIZE/2
 
 # Movement
 # Stores last movement direction on x axis
@@ -24,6 +26,10 @@ var _input_order: Dictionary = {
 
 var _health: int
 var _fuel: int
+var _mining_strength: int = 0
+
+var available_interactables: Array = []
+var current_interactable = null 
 
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
@@ -41,9 +47,8 @@ func _ready() -> void:
 
 
 func _input(event):
-	if event.is_action_pressed("Interact"):
-		Signals.change_shop_visibility.emit(true)
-
+	if event.is_action_pressed("Interact") && !available_interactables.is_empty():
+		current_interactable.interact()
 
 func _unhandled_input(_event: InputEvent) -> void:
 	_current_input = _get_input()
@@ -54,6 +59,21 @@ func _physics_process(delta: float) -> void:
 		_try_to_mine(_current_input)
 
 func _process(_delta: float) -> void:
+	# If multiple interactables are available to the player then
+	# check which one is closer and set it as current
+	if available_interactables.size() > 1:
+		var closest_interactable
+		
+		for interactable in available_interactables:
+			if (interactable.position.distance_to(position) < 
+			current_interactable.position.distance_to(position)):
+				closest_interactable = interactable
+				
+		if closest_interactable:
+			current_interactable.exit_interaction()
+			closest_interactable.enter_interaction()
+			current_interactable = closest_interactable
+
 	if can_play:
 		_update_sprite(_current_input)
 	else: 
@@ -71,9 +91,9 @@ func _move(input_dir: Vector2, delta: float) -> void:
 
 # Update ray cast position to face movement direction and try to mine in that direction
 func _try_to_mine(input_dir: Vector2) -> void:
-	_mining_check_ray.target_position = input_dir * Global.CELL_SIZE
+	_mining_check_ray.target_position = input_dir * _MINING_RANGE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
-		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 1)
+		Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), _mining_strength)
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
@@ -123,11 +143,18 @@ func _get_input() -> Vector2:
 			_input_order[possible_input] = 0
 	
 	var latest_input = ""
-	var latest_input_order = 999
+	var latest_input_order = 0
+	var is_latest_input_set = false
 	for ordered_input in _input_order:
-		if _input_order[ordered_input] <= latest_input_order and _input_order[ordered_input] != 0:
-			latest_input = ordered_input
-			latest_input_order = _input_order[ordered_input]
+		if _input_order[ordered_input] != 0:
+			if !is_latest_input_set:
+				latest_input = ordered_input
+				latest_input_order = _input_order[ordered_input]
+				is_latest_input_set = true
+			
+			if _input_order[ordered_input] <= latest_input_order:
+				latest_input = ordered_input
+				latest_input_order = _input_order[ordered_input]
 	
 	match latest_input:
 		"MoveLeft":
@@ -154,13 +181,24 @@ func lose_health() -> void:
 
 func set_health(delta:int):
 	_health = max(_health + delta, 0)
+	Signals.health_changed.emit(_health)
 	#TODO: signal emit game over
 
 
 func set_fuel(delta:int):
 	_fuel = max(_fuel + delta, 0)
+	Signals.fuel_changed.emit(_fuel)
 
 
 ## Returns current health (x) and fuel (y)
 func get_stats() -> Vector2:
 	return Vector2(_health, _fuel)
+
+func get_available_interactables() -> Array:
+	return available_interactables
+
+func set_current_interactable(new_interactable: Node2D) -> void:
+	current_interactable = new_interactable
+
+func add_interactable(interactable_to_add: Node2D) -> void:
+	available_interactables.append(interactable_to_add)
