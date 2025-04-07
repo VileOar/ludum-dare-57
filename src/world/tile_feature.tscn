@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dwdfoeq4gqw3c"]
 
-[ext_resource type="Texture2D" uid="uid://b0d2d3m31rro1" path="res://icon.svg" id="1_m5fjt"]
 [ext_resource type="Script" uid="uid://djv65fg6hs12j" path="res://src/world/detectable.gd" id="1_qsvft"]
+[ext_resource type="Texture2D" uid="uid://dt8oui4idl0r5" path="res://assets/gui/item_alert.png" id="2_ow8xw"]
 [ext_resource type="Texture2D" uid="uid://dw1hf5mps44el" path="res://assets/gui/particle.png" id="3_ow8xw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uxj8i"]
@@ -28,7 +28,7 @@ script = ExtResource("1_qsvft")
 visible = false
 position = Vector2(-4.76837e-07, -4.76837e-07)
 scale = Vector2(0.625, 0.625)
-texture = ExtResource("1_m5fjt")
+texture = ExtResource("2_ow8xw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_uxj8i")

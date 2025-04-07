@@ -4,6 +4,8 @@ extends Node2D
 ## How many tiles should the bedrock border be.
 const BEDROCK_THICKNESS := 8
 
+const MAX_NAVIGATION_Y := -5
+
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
@@ -99,10 +101,12 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
-	if terrain == -1:
-		_nav_layer.set_cells_terrain_connect(cells, 0, 0)
-	else:
-		_nav_layer.set_cells_terrain_connect(cells, 0, -1)
+	
+	for cell in cells:
+		if terrain == -1 and cell.y >= MAX_NAVIGATION_Y:
+			_nav_layer.set_cells_terrain_connect([cell], 0, 0)
+		else:
+			_nav_layer.set_cells_terrain_connect([cell], 0, -1)
 
 
 func _generate_tiles():
