@@ -1,7 +1,6 @@
 class_name Enemy
 extends CharacterBody2D
 
-@onready var agent: CharacterBody2D = $"."
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 @export var player_to_chase: CharacterBody2D
@@ -11,7 +10,7 @@ var origin_point : Vector2
 
 
 func _ready():
-	origin_point = agent.global_position
+	origin_point = position
 	nav_agent.navigation_finished.connect(_on_nav_finished)
 	nav_agent.velocity_computed.connect(_on_navigation_agent_2d_velocity_computed)
 	set_player_to_chase()
@@ -25,11 +24,11 @@ func _physics_process(_delta: float) -> void:
 	if nav_agent && !player_to_chase:
 		return
 	# If agent is on player, doesn't jitter
-	if agent.global_position == player_to_chase.global_position:
+	if position == player_to_chase.position:
 		return
 		
 	var next_path_pos = nav_agent.get_next_path_position()
-	var direction = global_position.direction_to(next_path_pos)
+	var direction = position.direction_to(next_path_pos)
 	var new_velocity = direction * Global.ENEMY_SPEED 
 	
 	nav_agent.velocity = new_velocity
@@ -40,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 func _on_nav_finished():
 #	When it reachs spawn point, dissapears
 	if is_give_up_time:
-		if position.distance_to(Vector2.ZERO) < 7:
+		if position.distance_to(origin_point) < 7:
 			queue_free()
 	
 	
@@ -62,7 +61,7 @@ func _get_player_location() -> Vector2:
 		return origin_point
 
 	if player_to_chase:
-		return player_to_chase.global_position
+		return player_to_chase.position
 	else:
 		print_debug("[Warning] Player to Chase Not Set!")
 		# Inside the region, random place

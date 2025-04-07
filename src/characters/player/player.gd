@@ -44,6 +44,8 @@ var current_interactable = null
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
 @onready var _radar_pulse: RadarPulse = $RadarPulse
+@onready var _dig_particles: GPUParticles2D = $Sprite/GPUParticles2D
+
 
 var can_play = false
 
@@ -93,8 +95,9 @@ func _process(_delta: float) -> void:
 			current_interactable.exit_interaction()
 			closest_interactable.enter_interaction()
 			current_interactable = closest_interactable
-
+	
 	if can_play:
+		_dig_particles.emitting = _time_trying_to_mine > 0
 		_update_sprite(_current_move_input)
 
 # Updates player velocity based on the input direction
@@ -147,8 +150,8 @@ func _update_sprite(input_dir: Vector2) -> void:
 		_player_sprite.rotation_degrees = 0
 		_player_sprite.flip_v = false
 	elif input_dir.y == 1:
-		_player_sprite.rotation_degrees = 0
-		_player_sprite.flip_v = true
+		_player_sprite.rotation_degrees = 180
+		_player_sprite.flip_v = false
 
 # Updates input vector based on pressed input direction
 # (prioritizes most recently pressed direction)

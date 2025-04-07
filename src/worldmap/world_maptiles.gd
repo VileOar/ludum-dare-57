@@ -4,6 +4,8 @@ extends Node2D
 ## How many tiles should the bedrock border be.
 const BEDROCK_THICKNESS := 8
 
+const MAX_NAVIGATION_Y := -5
+
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
@@ -50,13 +52,23 @@ func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
 		return false
 	
 	var can_dig = _can_dig(cell_pos, dig_strength)
-
+	
 	if can_dig:
 		_dig_tiles([cell_pos])
 	else:
 		AudioController.play_stone_dig_fail()
 	
 	return can_dig
+
+
+func is_stable() -> bool:
+	return are_tiles_generated
+
+
+func get_random_spawn_position() -> Vector2:
+	var valid_cells = _nav_layer.get_used_cells()
+	var cell = valid_cells[Global.rng.randi() % valid_cells.size()]
+	return _nav_layer.map_to_local(cell)
 
 
 # Whether the cell at the given position can be dug with given strentgh
@@ -79,11 +91,8 @@ func _dig_tiles(cells: Array[Vector2i]):
 				AudioController.play_dirt_dig()
 			else:
 				AudioController.play_stone_dig()
-			# TODO: update to call the 'dig' function on any detected Detectable Node (call func on maptiles to dig)
 			# try to dig a feature tile on position
 			_tiles.try_dig_feature(cell)
-			#if _tiles.get_cell_data(cell) == Global.TileType.EGG:
-				#_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * int(float(Global.CELL_SIZE) / 2.0))
 	_set_cells(cells, -1)
 
 	#_tiles.force_update_tiles()
@@ -92,10 +101,12 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
 	_tiles.set_cells_terrain_connect(cells, 0, terrain)
-	if terrain == -1:
-		_nav_layer.set_cells_terrain_connect(cells, 0, 0)
-	else:
-		_nav_layer.set_cells_terrain_connect(cells, 0, -1)
+	
+	for cell in cells:
+		if terrain == -1 and cell.y >= MAX_NAVIGATION_Y:
+			_nav_layer.set_cells_terrain_connect([cell], 0, 0)
+		else:
+			_nav_layer.set_cells_terrain_connect([cell], 0, -1)
 
 
 func _generate_tiles():
@@ -156,10 +167,6 @@ func _generate_tiles():
 	#_tiles.force_update_tiles()
 	are_tiles_generated = true
 	Signals.map_stable.emit.call_deferred()
-
-
-func is_stable() -> bool:
-	return are_tiles_generated
 
 
 func _spawn_tile_data(cell_pos: Vector2i):
