@@ -13,7 +13,7 @@ func _ready() -> void:
 	animation_player.active = true
 	animation_player.play("Shake")
 	egg_spawner = get_parent()
-	egg_spawner.connect(_egg_triggered_to_spawn_enemies
+	#egg_spawner.connect(_egg_triggered_to_spawn_enemies)
 	
 
 # TODO test
