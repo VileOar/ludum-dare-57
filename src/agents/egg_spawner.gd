@@ -15,6 +15,7 @@ func instantiate_egg(pos: Vector2) -> void:
 		return
 		
 	var instance = egg.instantiate()
+	_egg_found()
 	instance.position = pos
 	egg_spawner.add_child.call_deferred(instance)
 
