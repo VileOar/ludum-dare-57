@@ -27,7 +27,7 @@ func try_dig_feature(cell_pos: Vector2i) -> bool:
 	feature.mine()
 	# remove and delete the feature
 	_cell_features.erase(cell_pos)
-	feature.queue_free()
+	# NOTE: feature nodes are responsible for destroying themselves
 	return true
 
 

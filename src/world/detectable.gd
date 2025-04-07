@@ -2,8 +2,18 @@ class_name Detectable
 extends Area2D
 
 @onready var _sprite: Sprite2D = $Sprite2D
+@onready var _particles: GPUParticles2D = $GPUParticles2D
 
 var _type_id := Global.TileType.NONE
+var _amount: int = 0
+
+var _dying := false
+
+var _particle_colours := {
+	Global.TileType.MONEY: Color.YELLOW,
+	Global.TileType.HEALTH: Color.RED,
+	Global.TileType.FUEL: Color.GREEN,
+}
 
 
 ## Setup this feature
@@ -13,6 +23,9 @@ func setup_feature(cell_type: Global.TileType):
 
 ## Called by the radar to ping the tile
 func ping():
+	if _dying or _type_id == Global.TileType.EGG:
+		return
+	
 	_sprite.position = Vector2.ZERO
 	_sprite.modulate = Color(Color.WHITE, 1.0)
 	_sprite.show()
@@ -26,15 +39,21 @@ func ping():
 
 ## Called by the dig function.
 ## Will respond differently depending on tile type.
-# TODO: move the enemy spawn code here
 func mine():
+	_dying = true # death process has begun
 	match _type_id:
 		Global.TileType.EGG:
 			Signals.spawn_egg.emit(position)
+			_die()
+		Global.TileType.MONEY, Global.TileType.HEALTH, Global.TileType.FUEL:
+			_particles.modulate = _particle_colours[_type_id]
+			_particles.emitting = true
 
 
-# Function that briefly reveals this tile.
-# TODO: have a tween that moves the sprite 2d up (with ease out) and slowly makes it fade away (opacity)
-# NOTE: the sprite should NOT be the same as its tile type, just a '?' or something
-func _reveal():
-	pass
+func _die():
+	queue_free()
+
+
+func _on_gpu_particles_2d_finished() -> void:
+	if _dying:
+		_die()

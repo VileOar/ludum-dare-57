@@ -5,21 +5,21 @@ extends Node2D
 const BEDROCK_THICKNESS := 8
 
 ## The rectangle encompassing the full traverseable map.
-const MAP_LIMITS := Rect2i(-25, -40, 50, 100)
+const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 const STARTING_AREA := Rect2i(-3, -2, 6, 4)
 
 ## The y value above which danger should effectively be 0.
-const MIN_DANGER_Y = -25
+const MIN_DANGER_Y = -5
 ## The y value below which danger should effectively be 1.
-const MAX_DANGER_Y = 75
+const MAX_DANGER_Y = 95
 ## the max value to add/subtract to the danger value, depending on y coordinate.
 const MAX_DANGER_MODIFIER = 0.5
 
 ## The upper-most y value, at which all blocks should effectively be the strongest stone.
-const TOP_STONE_Y = -40
+const TOP_STONE_Y = -20
 ## The lower-most y value, at which terrain generation should no longer be modified to include stone.
-const BOTTOM_STONE_Y = -25
+const BOTTOM_STONE_Y = -5
 
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
@@ -139,7 +139,7 @@ func _generate_tiles():
 			# determine the danger level of each tile
 			var danger_level = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
 			# adapt it to be above the minimum brightness value and calculate saturation
-			danger_level = clamp(_get_danger_level(danger_level, yy), 0.2, 1.0)
+			danger_level = clamp(_get_danger_level(danger_level, yy), 0.0, 1.0)
 			
 			var shade_tile := _get_danger_tile(danger_level)
 			_danger_levels.set_cell(cell, 0, shade_tile)
