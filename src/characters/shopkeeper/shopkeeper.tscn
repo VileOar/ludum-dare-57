@@ -1,28 +1,64 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3r0by2c0a703"]
+[gd_scene load_steps=10 format=3 uid="uid://d3r0by2c0a703"]
 
 [ext_resource type="Script" uid="uid://1uugkkpv2k7j" path="res://src/characters/shopkeeper/shopkeeper.gd" id="1_gcabt"]
 [ext_resource type="PackedScene" uid="uid://dp0ehem5i8n0e" path="res://src/interactables/interact_prompt.tscn" id="2_pni27"]
-[ext_resource type="Texture2D" uid="uid://bs3526f3o4yt6" path="res://assets/characters/shopkeeper/shopkeeper.png" id="2_y3yh0"]
+[ext_resource type="Texture2D" uid="uid://bpnp2yn3ep8cr" path="res://assets/characters/shopkeeper/shopkeeper.png" id="2_y3yh0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2o2m"]
+atlas = ExtResource("2_y3yh0")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udlt5"]
+atlas = ExtResource("2_y3yh0")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_si1rd"]
+atlas = ExtResource("2_y3yh0")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g70j6"]
+atlas = ExtResource("2_y3yh0")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x7hpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2o2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udlt5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_si1rd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g70j6")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pni27"]
 size = Vector2(128, 128)
 
-[node name="ShopInteractable" type="StaticBody2D"]
+[node name="Shopkeeper" type="StaticBody2D"]
 collision_layer = 8
 script = ExtResource("1_gcabt")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-z_index = 2
-position = Vector2(14, -51)
-texture = ExtResource("2_y3yh0")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -46)
+sprite_frames = SubResource("SpriteFrames_x7hpc")
+animation = &"Idle"
 
 [node name="InteractPrompt" parent="." instance=ExtResource("2_pni27")]
 visible = false
 z_index = 3
-offset_left = 76.0
-offset_top = 31.0
-offset_right = 76.0
-offset_bottom = 31.0
+offset_left = 120.0
+offset_top = -4.0
+offset_right = 120.0
+offset_bottom = -4.0
 
 [node name="InteractionArea" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pni27")
