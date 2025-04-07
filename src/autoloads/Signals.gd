@@ -18,3 +18,5 @@ signal health_changed(value:int)
 signal fuel_changed(value:int)
 
 signal change_shop_visibility(visible:bool)
+
+signal end_condition(win:bool)

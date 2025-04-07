@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var enemy_holder: Node2D = %EnemyHolder
 @onready var egg_spawner: Node2D = $"."
 @export var egg : PackedScene
 
