@@ -159,6 +159,7 @@ position = Vector2(960, 540)
 texture = ExtResource("10_fbsfs")
 
 [node name="Back" type="Button" parent="HowTo"]
+layout_mode = 0
 offset_left = 1554.0
 offset_top = 908.0
 offset_right = 1868.0
