@@ -14,7 +14,7 @@ func _ready() -> void:
 	animation_player.play("Shake")
 	egg_spawner = get_parent()
 	egg_spawner.egg_was_found.connect(_egg_triggered_to_spawn_enemies)
-	
+
 
 # TODO test
 func _egg_triggered_to_spawn_enemies() -> void:
@@ -39,4 +39,5 @@ func _on_time_to_hatch_timeout() -> void:
 
 func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
-	egg.add_child.call_deferred(instance)
+	instance.position = position
+	Global.enemy_holder.add_child.call_deferred(instance)

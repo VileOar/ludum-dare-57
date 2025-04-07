@@ -6,6 +6,9 @@ extends Node2D
 @onready var enemy_holder: Node2D = %EnemyHolder
 @onready var custom_nav_region: Node2D = %NavGenerator
 
+func _ready() -> void:
+	Global.enemy_holder = enemy_holder
+
 
 # TODO delete
 #func _instantiate_enemy(pos: Vector2) -> void:

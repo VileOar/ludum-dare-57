@@ -79,6 +79,9 @@ const TILE_SPAWN_RATIO = 0.4
 # Reference to the world map tiles scene
 var world_map_tiles: WorldMapTiles
 
+# Reference to Enemy Holder
+var enemy_holder: Node2D
+
 # Reference to the player scene
 var player_ref: Player
 # Reference to the HUD scene
