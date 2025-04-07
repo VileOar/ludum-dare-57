@@ -20,30 +20,30 @@ func _get_random_volume() -> float:
 func play_music() -> void:
 	$Music.play()
 
-func play_dirt_dig(randomize: bool = true) -> void:
+func play_dirt_dig(randomizer: bool = true) -> void:
 	var dirt_dig: AudioStreamPlayer = _dirt_digs.pick_random()
-	if randomize:
+	if randomizer:
 		dirt_dig.pitch_scale = _get_random_pitch()
 		dirt_dig.volume_db = _get_random_volume()
 	dirt_dig.play()
 	
-func play_stone_dig(randomize: bool = true) -> void:
+func play_stone_dig(randomizer: bool = true) -> void:
 	var stone_break = _stone_breaks.pick_random()
-	if randomize:
+	if randomizer:
 		stone_break.pitch_scale = _get_random_pitch()
 		stone_break.volume_db = _get_random_volume()
 	stone_break.play()
 
-func play_stone_dig_fail(randomize: bool = true) -> void:
-	if randomize:
+func play_stone_dig_fail(randomizer: bool = true) -> void:
+	if randomizer:
 		$ClawRicochet.pitch_scale = _get_random_pitch()
 		$ClawRicochet.volume_db = _get_random_volume()
 	$ClawRicochet.play()
 
 # podem usar isto para quando o player levar damage
-func play_squeak(randomize: bool = true) -> void:
+func play_squeak(randomizer: bool = true) -> void:
 	var squeak = _squeaks.pick_random()
-	if randomize:
+	if randomizer:
 		squeak.pitch_scale = _get_random_pitch()
 		squeak.volume_db = _get_random_volume()
 	squeak.play()
