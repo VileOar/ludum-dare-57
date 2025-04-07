@@ -21,11 +21,6 @@ const TOP_STONE_Y = -40
 ## The lower-most y value, at which terrain generation should no longer be modified to include stone.
 const BOTTOM_STONE_Y = -25
 
-## The hue to be used for the danger indication
-const BASE_DANGER_HUE := 0.74
-## The minimum colour brightness, relative to danger tiles
-const MIN_COLOR_BRI := 0.2
-
 @onready var _egg_spawner: Node2D = %EggSpawner
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_levels: TileMapLayer = $DangerLevels
