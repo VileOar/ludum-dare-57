@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://p50gwaoxao35"]
+[gd_scene load_steps=5 format=3 uid="uid://p50gwaoxao35"]
 
 [ext_resource type="Script" uid="uid://cfxaxlb32m4kv" path="res://src/gui/hud.gd" id="1_kqywo"]
 [ext_resource type="Texture2D" uid="uid://cicti4owmu2uw" path="res://assets/gui/health_icon.png" id="1_qdyls"]
 [ext_resource type="Texture2D" uid="uid://d1ka4cl637tvh" path="res://assets/gui/stamina_icon.png" id="2_kqywo"]
+[ext_resource type="Texture2D" uid="uid://oprwo8d3n6p2" path="res://assets/gui/currency.png" id="4_err5h"]
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -15,29 +16,51 @@ script = ExtResource("1_kqywo")
 
 [node name="HealthIcon" type="TextureRect" parent="."]
 layout_mode = 2
-offset_right = 64.0
-offset_bottom = 64.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 80.0
+offset_bottom = 80.0
 texture = ExtResource("1_qdyls")
 expand_mode = 1
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 2
-offset_left = 64.0
-offset_top = 16.0
-offset_right = 576.0
-offset_bottom = 48.0
+offset_left = 80.0
+offset_top = 32.0
+offset_right = 592.0
+offset_bottom = 64.0
 
 [node name="StaminaIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_top = 64.0
-offset_right = 64.0
-offset_bottom = 128.0
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 80.0
+offset_bottom = 144.0
 texture = ExtResource("2_kqywo")
 expand_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 88.0
-offset_right = 576.0
-offset_bottom = 120.0
+offset_left = 80.0
+offset_top = 104.0
+offset_right = 592.0
+offset_bottom = 136.0
+
+[node name="CurrencyIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 144.0
+offset_right = 80.0
+offset_bottom = 208.0
+texture = ExtResource("4_err5h")
+expand_mode = 1
+
+[node name="CurrencyLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 144.0
+offset_right = 208.0
+offset_bottom = 208.0
+theme_override_font_sizes/font_size = 44
+text = "XXX"
+vertical_alignment = 1

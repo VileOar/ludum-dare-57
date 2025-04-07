@@ -12,7 +12,7 @@ var _pulse_size: int = Global.CELL_SIZE
 
 func _ready() -> void:
 	color_rect.material.set_shader_parameter("tile_size", Global.CELL_SIZE)
-	_set_level(1)
+	set_level(1)
 
 func _process(delta: float) -> void:
 	if _is_active:
@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 			_active_time = 0
 			_is_active = false
 
-func _set_level(level) -> void:
+func set_level(level) -> void:
 	_level = level
 	_pulse_size = (4 + (2 * _level)) * Global.CELL_SIZE
 	color_rect.material.set_shader_parameter("pulse_size", _pulse_size)
@@ -36,7 +36,7 @@ func _set_level(level) -> void:
 	color_rect.position = Vector2(pos, pos)
 
 func increase_level() -> void:
-	_set_level(_level + 1)
+	set_level(_level + 1)
 
 func activate() -> bool:
 	var success:bool = false

@@ -31,7 +31,7 @@ var _health: int
 # The player's current fuel (initialized on _ready)
 var _fuel: int
 # The player's current mining strength
-var _mining_strength: int = 5
+var _mining_strength: int = 0
 
 # Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
 var _time_trying_to_mine: float = 0
@@ -212,17 +212,38 @@ func lose_health() -> void:
 		queue_free()
 	
 
-
 func set_health(delta:int):
 	_health = max(_health + delta, 0)
 	Signals.health_changed.emit(_health)
 	#TODO: signal emit game over
+	# Update health bar
+	if Global.hud_ref:
+		Global.hud_ref.update_health_bar(_health)
 
+func set_health_to_max():
+	_health = Global.max_health
+	# Update health bar
+	if Global.hud_ref:
+		Global.hud_ref.update_health_bar(_health)
 
 func set_fuel(delta:int):
 	_fuel = max(_fuel + delta, 0)
 	Signals.fuel_changed.emit(_fuel)
+	# Update stamina bar
+	if Global.hud_ref:
+		Global.hud_ref.update_stamina_bar(_fuel)
 
+func set_fuel_to_max():
+	_fuel = Global.max_fuel
+	# Update stamina bar
+	if Global.hud_ref:
+		Global.hud_ref.update_stamina_bar(_fuel)
+
+func set_mining_strength(new_strength: int):
+	_mining_strength = new_strength
+
+func set_radar_level(new_level: int):
+	_radar_pulse.set_level(new_level)
 
 ## Returns current health (x) and fuel (y)
 func get_stats() -> Vector2:
