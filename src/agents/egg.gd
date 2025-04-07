@@ -20,10 +20,9 @@ func _on_time_to_hatch_timeout() -> void:
 	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX)
 	for n in enemies_to_spawn:
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
-		_instantiate_enemy(egg.position)
+		_instantiate_enemy()
 
 
-func _instantiate_enemy(pos: Vector2) -> void:
+func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
-	instance.position = Vector2.ZERO
 	egg.add_child.call_deferred(instance)
