@@ -18,7 +18,7 @@ const _TIME_TO_MINE: float = 0.5
 
 # Movement
 # Stores current input direction
-var _current_input: Vector2 = Vector2.ZERO
+var _current_move_input: Vector2 = Vector2.ZERO
 # Stores a priority value for each input (lower = higher priority)
 var _input_order: Dictionary = {
 "MoveLeft" = 0, 
@@ -33,7 +33,7 @@ var _fuel: int
 # The player's current mining strength
 var _mining_strength: int = 5
 
-# Stores how long the player has been trying to mine a tile
+# Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
 var _time_trying_to_mine: float = 0
 # Stores the direction the player is currently trying to mine in
 var _current_mining_direction: Vector2 = Vector2.ZERO
@@ -43,6 +43,7 @@ var current_interactable = null
 
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
+@onready var _radar_pulse: RadarPulse = $RadarPulse
 
 var can_play = false
 
@@ -69,12 +70,13 @@ func _input(event):
 		current_interactable.interact()
 
 func _unhandled_input(_event: InputEvent) -> void:
-	_current_input = _get_input()
+	_current_move_input = _get_movement_input()
+	_check_radar_input()
 
 func _physics_process(delta: float) -> void:
 	if can_play:
-		_move(_current_input, delta)
-		_try_to_mine(_current_input, delta)
+		_move(_current_move_input, delta)
+		_try_to_mine(_current_move_input, delta)
 
 func _process(_delta: float) -> void:
 	# If multiple interactables are available to the player then
@@ -93,12 +95,7 @@ func _process(_delta: float) -> void:
 			current_interactable = closest_interactable
 
 	if can_play:
-		_update_sprite(_current_input)
-	#elif Global.world_map_tiles: 
-		#if Global.world_map_tiles.are_tiles_generated and !can_play:
-			#can_play = true
-			## Mine the tile at the player's starting location
-			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+		_update_sprite(_current_move_input)
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:
@@ -113,17 +110,21 @@ func _move(input_dir: Vector2, delta: float) -> void:
 func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 	_mining_check_ray.target_position = input_dir * _MINING_RANGE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
+		# Reset time trying to mine if direction changed
 		if input_dir != _current_mining_direction:
 			_current_mining_direction = input_dir
 			_time_trying_to_mine = 0
 		# Update time trying to mine
 		_time_trying_to_mine += delta
-		
+		# Mine block if time trying to mine exceeds mining time
 		if _time_trying_to_mine >= _TIME_TO_MINE:
-			Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 
-			_mining_strength)
+			Global.world_map_tiles.try_dig_tile(
+				to_global(_mining_check_ray.target_position), 
+				_mining_strength)
+			# Reset time trying to mine
 			_time_trying_to_mine = 0
 	else:
+		# Reset time trying to mine
 		_time_trying_to_mine = 0
 
 # Updates sprite flip and rotation based on input vector
@@ -151,7 +152,7 @@ func _update_sprite(input_dir: Vector2) -> void:
 
 # Updates input vector based on pressed input direction
 # (prioritizes most recently pressed direction)
-func _get_input() -> Vector2:
+func _get_movement_input() -> Vector2:
 	var new_input = Vector2.ZERO
 	for possible_input in _POSSIBLE_INPUT_DIRS:
 		if Input.is_action_pressed(possible_input): 
@@ -189,12 +190,23 @@ func _get_input() -> Vector2:
 			new_input.y = 1
 	
 	return new_input
-	
-	
+
+func _check_radar_input():
+	if Input.is_action_just_pressed("RadarPulse") and _fuel > 0:
+		var radar_activated = _radar_pulse.activate()
+		if radar_activated:
+			_fuel -= 1
+			Global.hud_ref.update_stamina_bar(_fuel)
+
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
 	if _health >= Global.ENEMY_DAMAGE_DONE:
 		_health = _health - Global.ENEMY_DAMAGE_DONE
+		
+		# Update health bar
+		if Global.hud_ref:
+			Global.hud_ref.update_health_bar(_health)
+
 	else:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()

@@ -1,4 +1,5 @@
 extends Node2D
+class_name RadarPulse
 
 var _level: int = 1
 var _is_active: bool = false
@@ -13,9 +14,6 @@ func _ready() -> void:
 	_set_level(1)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("RadarPulse"):
-		activate()
-	
 	if _is_active:
 		_active_time = _active_time + delta
 		
@@ -37,7 +35,10 @@ func _set_level(level) -> void:
 func increase_level() -> void:
 	_set_level(_level + 1)
 
-func activate() -> void:
+func activate() -> bool:
+	var success:bool = false
 	if not _is_active:
 		_is_active = true
 		AudioController.play_radar_pulse()
+		success = true
+	return success

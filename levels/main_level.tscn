@@ -6,10 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://c41k20yhtuteq" path="res://src/characters/player/player.tscn" id="2_0vhbo"]
 [ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/enemy.tscn" id="2_wg11f"]
 [ext_resource type="PackedScene" uid="uid://cs44endvqv7tw" path="res://src/gui/shop.tscn" id="3_ldao0"]
-[ext_resource type="Script" uid="uid://ccaft6o1ot13l" path="res://src/agents/egg_spawner.gd" id="4_43k3a"]
+[ext_resource type="Script" path="res://src/agents/egg_spawner.gd" id="4_43k3a"]
 [ext_resource type="PackedScene" uid="uid://kmdgdqrhrsw5" path="res://src/agents/egg.tscn" id="5_ttu8v"]
 [ext_resource type="PackedScene" uid="uid://d3r0by2c0a703" path="res://src/characters/shopkeeper/shopkeeper.tscn" id="7_43k3a"]
 [ext_resource type="PackedScene" uid="uid://db4rtwtoigep7" path="res://src/gui/loading_screen.tscn" id="9_5br84"]
+[ext_resource type="PackedScene" uid="uid://p50gwaoxao35" path="res://src/gui/hud.tscn" id="10_5br84"]
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_55n5f")
@@ -38,7 +39,9 @@ position = Vector2(256, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="LoadingScreen" parent="CanvasLayer" instance=ExtResource("9_5br84")]
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("10_5br84")]
 
 [node name="Shop" parent="CanvasLayer" instance=ExtResource("3_ldao0")]
 visible = false
+
+[node name="LoadingScreen" parent="CanvasLayer" instance=ExtResource("9_5br84")]
