@@ -33,9 +33,9 @@ var _fuel: int
 # The player's current mining strength
 var _mining_strength: int = 0
 
-# Stores how long the player has been trying to mine a tile
+# Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
 var _time_trying_to_mine: float = 0
-# Stores the direction the player is currently trying to mine in
+# Stores the direction the player is currently trying to mine ins
 var _current_mining_direction: Vector2 = Vector2.ZERO
 
 var available_interactables: Array = []
@@ -102,17 +102,19 @@ func _move(input_dir: Vector2, delta: float) -> void:
 func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 	_mining_check_ray.target_position = input_dir * _MINING_RANGE
 	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
+		# Reset time trying to mine if direction changed
 		if input_dir != _current_mining_direction:
 			_current_mining_direction = input_dir
 			_time_trying_to_mine = 0
 		# Update time trying to mine
 		_time_trying_to_mine += delta
-		
+		# Mine block if time trying to mine exceeds mining time
 		if _time_trying_to_mine >= _TIME_TO_MINE:
 			Global.world_map_tiles.try_dig_tile(to_global(_mining_check_ray.target_position), 
 			_mining_strength)
 			_time_trying_to_mine = 0
 	else:
+		# Reset time trying to mine
 		_time_trying_to_mine = 0
 
 # Updates sprite flip and rotation based on input vector
@@ -184,6 +186,11 @@ func _get_input() -> Vector2:
 func lose_health() -> void:
 	if _health >= Global.ENEMY_DAMAGE_DONE:
 		_health = _health - Global.ENEMY_DAMAGE_DONE
+		
+		# Update health bar
+		if Global.hud_ref:
+			Global.hud_ref.update_health(_health)
+
 	else:
 		print("[END_GAME] Player is dead with ", _health, " health.")
 		queue_free()

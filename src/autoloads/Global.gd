@@ -64,7 +64,8 @@ var world_map_tiles: WorldMapTiles
 
 # Reference to the player scene
 var player_ref: Player
-
+# Reference to the HUD scene
+var hud_ref: Hud
 
 func _ready() -> void:
 	randomize()
