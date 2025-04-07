@@ -162,18 +162,17 @@ func _on_refuel_button_pressed():
 		
 	_upgrade_selected = false
 	_current_btn = null
-	_manage_button_selection(temp_cost, "refuel", true, false)
+	_manage_button_selection(temp_cost, "Restore stamina to full", true, false)
 	
 
 func _on_repair_button_pressed():
 	_viable_action = false
-
 	var dif = Global.max_health - Global.player_ref.get_stats().x
 	var temp_cost : int = dif * REPAIR_MULTIPLIER
-
+	
 	if (dif > 0) and (Global.get_currency() >= temp_cost):
 		_viable_action = true
-
+	
 	_upgrade_selected = false
-	_current_btn = null	
-	_manage_button_selection(temp_cost, "repair", false, true)
+	_current_btn = null
+	_manage_button_selection(temp_cost, "Restore health to full", false, true)

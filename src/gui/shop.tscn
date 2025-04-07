@@ -1,9 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://cs44endvqv7tw"]
+[gd_scene load_steps=17 format=3 uid="uid://cs44endvqv7tw"]
 
 [ext_resource type="Script" uid="uid://s3ouk3248eaw" path="res://src/gui/shop.gd" id="1_bs6l6"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_kmbby"]
 [ext_resource type="PackedScene" uid="uid://dclmc4j02l3sc" path="res://src/gui/UpgradeButton.tscn" id="1_seu2g"]
 [ext_resource type="Texture2D" uid="uid://cb18oyfhvlb1m" path="res://assets/gui/shop_banner.png" id="2_seu2g"]
+[ext_resource type="Texture2D" uid="uid://bt0ds7snodwce" path="res://assets/gui/upgrades/claws-up-1.png" id="4_lpuwk"]
+[ext_resource type="Texture2D" uid="uid://c74dqlaqsjbcq" path="res://assets/gui/upgrades/claws-up-2.png" id="5_ooxj2"]
+[ext_resource type="Texture2D" uid="uid://b7j5o4nf1ksln" path="res://assets/gui/upgrades/claws-up-3.png" id="6_f44um"]
+[ext_resource type="Texture2D" uid="uid://bj3ux2jrdfpu0" path="res://assets/gui/upgrades/radar-up-1.png" id="7_nk1ea"]
+[ext_resource type="Texture2D" uid="uid://g4tjy6qhlhj7" path="res://assets/gui/upgrades/radar-up-2.png" id="8_bvso1"]
+[ext_resource type="Texture2D" uid="uid://sia2y7r8p5gt" path="res://assets/gui/upgrades/radar-up-3.png" id="9_2bowq"]
+[ext_resource type="Texture2D" uid="uid://cp3racsseug75" path="res://assets/gui/upgrades/health-up-1.png" id="10_bts76"]
+[ext_resource type="Texture2D" uid="uid://bw5ypoxiu28ey" path="res://assets/gui/upgrades/health-up-2.png" id="11_ttclu"]
+[ext_resource type="Texture2D" uid="uid://c5efalqsk33u7" path="res://assets/gui/upgrades/health-up-3.png" id="12_6xmt7"]
+[ext_resource type="Texture2D" uid="uid://sm263bksexki" path="res://assets/gui/upgrades/stamina-up-1.png" id="13_mp73b"]
+[ext_resource type="Texture2D" uid="uid://cu2u731me13c2" path="res://assets/gui/upgrades/stamina-up-2.png" id="14_yfeso"]
+[ext_resource type="Texture2D" uid="uid://ch2c2q2mv3kvi" path="res://assets/gui/upgrades/stamina-up-3.png" id="15_wa1mf"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -44,33 +56,38 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 
 [node name="Drill" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Drill Upgrades"
+text = "Claw 
+Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Scanner" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Scanner Upgrades"
+text = "Radar 
+Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Health" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Health Upgrades"
+text = "Health 
+Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Fuel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Fuel Upgrades"
+text = "Stamina
+Upgrades"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -84,18 +101,21 @@ layout_mode = 2
 
 [node name="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "Text 1"
+icon = ExtResource("4_lpuwk")
+description = "Iron Claws"
 type = 6
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "Text 2"
+icon = ExtResource("5_ooxj2")
+description = "Gold Claws"
 cost = 12
 type = 7
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "This one is very cool for sure."
+icon = ExtResource("6_f44um")
+description = "Diamond Claws"
 cost = 13
 type = 8
 
@@ -104,18 +124,21 @@ layout_mode = 2
 
 [node name="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("7_nk1ea")
 description = "Scanner 1"
 cost = 2
 type = 9
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("8_bvso1")
 description = "Scanner 2"
 cost = 2
 type = 10
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("9_2bowq")
 description = "Scanner 3"
 cost = 8
 type = 11
@@ -125,17 +148,20 @@ layout_mode = 2
 
 [node name="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("10_bts76")
 description = "Health 1"
 cost = 1
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("11_ttclu")
 description = "Health 2"
 cost = 4
 type = 1
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_seu2g")]
 layout_mode = 2
+icon = ExtResource("12_6xmt7")
 description = "Health 3"
 cost = 8
 type = 2
@@ -145,19 +171,22 @@ layout_mode = 2
 
 [node name="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "Fuel 1"
+icon = ExtResource("13_mp73b")
+description = "Stamina 1"
 cost = 2
 type = 3
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "Fuel 2"
+icon = ExtResource("14_yfeso")
+description = "Stamina 2"
 cost = 3
 type = 4
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("1_seu2g")]
 layout_mode = 2
-description = "Fuel 3"
+icon = ExtResource("15_wa1mf")
+description = "Stamina 3"
 cost = 6
 type = 5
 
@@ -201,12 +230,14 @@ text = "Sell"
 [node name="RepairButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Repair"
+text = "Restore
+Health"
 
 [node name="RefuelButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "Refuel
+text = "Restore
+Stamina
 "
 
 [node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
@@ -285,7 +316,7 @@ size_flags_horizontal = 3
 
 [node name="FuelLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer3"]
 layout_mode = 2
-text = "Fuel: "
+text = "Stamina: "
 
 [node name="FuelValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer3"]
 unique_name_in_owner = true

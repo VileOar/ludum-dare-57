@@ -24,7 +24,7 @@ const INTERACTABLE_GROUP: String = "Interactable"
 
 var rng: RandomNumberGenerator
 
-var _currency := 12
+var _currency := 120
 var _current_upgrades = {}
 
 enum Upgrades {
