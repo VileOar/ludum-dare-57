@@ -7,6 +7,7 @@ const BEDROCK_THICKNESS := 8
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -40, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
+const STARTING_AREA := Rect2i(-3, -2, 6, 4)
 
 ## The y value above which danger should effectively be 0.
 const MIN_DANGER_Y = -25
@@ -121,6 +122,11 @@ func _generate_tiles():
 			# this means that it is bedrock, so no generation will occur, but filled with bedrock
 			if !MAP_LIMITS.has_point(cell):
 				_set_cells([cell], 4)
+				continue
+			
+			# tiles in starting area are empty
+			if STARTING_AREA.has_point(cell):
+				_set_cells([cell], -1)
 				continue
 			
 			var noise = terrain_noise.get_noise_2dv(cell)

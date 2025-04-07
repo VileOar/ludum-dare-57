@@ -31,7 +31,7 @@ var _health: int
 # The player's current fuel (initialized on _ready)
 var _fuel: int
 # The player's current mining strength
-var _mining_strength: int = 0
+var _mining_strength: int = 5
 
 # Stores how long the player has been trying to mine a tile
 var _time_trying_to_mine: float = 0
@@ -52,6 +52,17 @@ func _ready() -> void:
 	# Initialize player variables
 	_health = Global.max_health
 	_fuel = Global.max_fuel
+	
+	# wait while the map has not yet loaded
+	var busy = true
+	while busy:
+		if Global.world_map_tiles and Global.world_map_tiles.is_stable():
+			busy = false
+			can_play = true
+			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+		else:
+			await Signals.map_stable
+
 
 func _input(event):
 	if event.is_action_pressed("Interact") && !available_interactables.is_empty():
@@ -83,11 +94,11 @@ func _process(_delta: float) -> void:
 
 	if can_play:
 		_update_sprite(_current_input)
-	elif Global.world_map_tiles: 
-		if Global.world_map_tiles.are_tiles_generated and !can_play:
-			can_play = true
-			# Mine the tile at the player's starting location
-			Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
+	#elif Global.world_map_tiles: 
+		#if Global.world_map_tiles.are_tiles_generated and !can_play:
+			#can_play = true
+			## Mine the tile at the player's starting location
+			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:
