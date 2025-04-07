@@ -49,7 +49,6 @@ func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
 	instance.position = position
 	Global.enemy_holder.add_child.call_deferred(instance)
-	egg.add_child.call_deferred(instance)
 
 func enter_interaction() -> void:
 	if _is_interactable:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://btoglak145h8n"]
+[gd_scene load_steps=14 format=3 uid="uid://btoglak145h8n"]
 
 [ext_resource type="PackedScene" uid="uid://dca88eh6c0qrc" path="res://src/worldmap/world_maptiles.tscn" id="1_0vhbo"]
 [ext_resource type="Script" uid="uid://b5gjwvuarb020" path="res://levels/main_level.gd" id="1_55n5f"]
@@ -59,6 +59,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="EndGameManager" type="Node" parent="."]
