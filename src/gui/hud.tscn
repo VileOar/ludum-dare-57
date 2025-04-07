@@ -1,9 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://p50gwaoxao35"]
+[gd_scene load_steps=9 format=3 uid="uid://p50gwaoxao35"]
 
 [ext_resource type="Script" uid="uid://cfxaxlb32m4kv" path="res://src/gui/hud.gd" id="1_kqywo"]
 [ext_resource type="Texture2D" uid="uid://cicti4owmu2uw" path="res://assets/gui/health_icon.png" id="1_qdyls"]
 [ext_resource type="Texture2D" uid="uid://d1ka4cl637tvh" path="res://assets/gui/stamina_icon.png" id="2_kqywo"]
 [ext_resource type="Texture2D" uid="uid://oprwo8d3n6p2" path="res://assets/gui/currency.png" id="4_err5h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r313a"]
+bg_color = Color(0.321115, 0.348363, 0.522424, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_err5h"]
+bg_color = Color(0.856467, 0.171921, 0.18995, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5yws"]
+bg_color = Color(0.321569, 0.34902, 0.521569, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13k4q"]
+bg_color = Color(0.331466, 0.669998, 0.349523, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -26,41 +54,49 @@ expand_mode = 1
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 2
 offset_left = 80.0
-offset_top = 32.0
-offset_right = 592.0
-offset_bottom = 64.0
+offset_top = 40.0
+offset_right = 528.0
+offset_bottom = 56.0
+theme_override_styles/background = SubResource("StyleBoxFlat_r313a")
+theme_override_styles/fill = SubResource("StyleBoxFlat_err5h")
+value = 41.24
+show_percentage = false
 
 [node name="StaminaIcon" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 80.0
+offset_top = 64.0
 offset_right = 80.0
-offset_bottom = 144.0
+offset_bottom = 128.0
 texture = ExtResource("2_kqywo")
 expand_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 layout_mode = 0
 offset_left = 80.0
-offset_top = 104.0
-offset_right = 592.0
-offset_bottom = 136.0
+offset_top = 96.0
+offset_right = 528.0
+offset_bottom = 112.0
+theme_override_styles/background = SubResource("StyleBoxFlat_k5yws")
+theme_override_styles/fill = SubResource("StyleBoxFlat_13k4q")
+value = 40.84
+show_percentage = false
 
 [node name="CurrencyIcon" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 144.0
+offset_top = 128.0
 offset_right = 80.0
-offset_bottom = 208.0
+offset_bottom = 192.0
 texture = ExtResource("4_err5h")
 expand_mode = 1
 
 [node name="CurrencyLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 80.0
-offset_top = 144.0
+offset_top = 128.0
 offset_right = 208.0
-offset_bottom = 208.0
+offset_bottom = 192.0
 theme_override_font_sizes/font_size = 44
 text = "XXX"
 vertical_alignment = 1
