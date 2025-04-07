@@ -204,12 +204,13 @@ func _check_radar_input():
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
 	set_health(- Global.ENEMY_DAMAGE_DONE)
-
+	
 
 func set_health(delta:int):
 	_health = max(_health + delta, 0)
 	Signals.health_changed.emit(_health)
-
+	AudioController.play_squeak()
+	
 	# Update health bar
 	if Global.hud_ref:
 		Global.hud_ref.update_health_bar(_health)

@@ -17,4 +17,4 @@ func interact() -> void:
 
 func exit_interaction() -> void:
 	_interact_ui.visible = false
-	_interact_ui.stop_animation()
+	_interact_ui.stop_animation()	

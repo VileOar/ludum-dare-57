@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://c41lpw0a2v2iq"]
+[gd_scene load_steps=15 format=3 uid="uid://c41lpw0a2v2iq"]
 
 [ext_resource type="AudioStream" uid="uid://4puijewqwfhb" path="res://assets/sounds/radar-pulse.wav" id="1_gnbjh"]
 [ext_resource type="Script" uid="uid://dgej0u7isxwm5" path="res://src/audio_controller/audio_controller.gd" id="1_hgdds"]
 [ext_resource type="AudioStream" uid="uid://bhdcm0spx5qys" path="res://assets/sounds/squeak1.wav" id="2_hgdds"]
 [ext_resource type="AudioStream" uid="uid://dfhevq67oefuj" path="res://assets/sounds/music-funk.mp3" id="2_wq8em"]
 [ext_resource type="AudioStream" uid="uid://ca01x11jmyujf" path="res://assets/sounds/squeak2.wav" id="3_dwq47"]
+[ext_resource type="AudioStream" uid="uid://bfuuxhck5s5sp" path="res://assets/sounds/ramadanshop_music.mp3" id="3_g4vyo"]
 [ext_resource type="AudioStream" uid="uid://lcjprsbba88k" path="res://assets/sounds/squeak3.wav" id="4_ffqbn"]
 [ext_resource type="AudioStream" uid="uid://ckf27lkxp430j" path="res://assets/sounds/claw-ricochet.wav" id="7_ffqbn"]
 [ext_resource type="AudioStream" uid="uid://citeafwq8u4cc" path="res://assets/sounds/dirt-dig-1.wav" id="7_mwwui"]
@@ -19,6 +20,10 @@ script = ExtResource("1_hgdds")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_wq8em")
+volume_db = -25.0
+
+[node name="ShopMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_g4vyo")
 volume_db = -25.0
 
 [node name="RadarPulse" type="AudioStreamPlayer" parent="."]
