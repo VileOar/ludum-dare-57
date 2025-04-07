@@ -37,6 +37,8 @@ const SCANNER_UPGRADE_1: int = 2
 const SCANNER_UPGRADE_2: int = 3
 const SCANNER_UPGRADE_3: int = 4
 
+const EGG_DESTROY_COST: int = 10
+
 const INTERACTABLE_GROUP: String = "Interactable"
 
 var rng: RandomNumberGenerator
