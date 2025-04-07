@@ -5,7 +5,7 @@ extends Area2D
 @onready var _particles: GPUParticles2D = $GPUParticles2D
 
 var _type_id := Global.TileType.NONE
-var _amount: int = 0
+var _rank: float = 0
 
 var _dying := false
 
@@ -20,8 +20,9 @@ var _particle_colours := {
 
 
 ## Setup this feature
-func setup_feature(cell_type: Global.TileType):
+func setup_feature(cell_type: Global.TileType, rank):
 	_type_id = cell_type
+	_rank = rank
 
 
 ## Called by the radar to ping the tile
@@ -57,6 +58,10 @@ func mine():
 		Global.TileType.MONEY, Global.TileType.HEALTH, Global.TileType.FUEL:
 			_particles.modulate = _particle_colours[_type_id]
 			_particles.emitting = true
+			
+			# the amount of resource to send will be the base amount plus an extra based on the tile's danger level
+			var base_resource_gain = Global.get_base_resource_gain(_type_id)
+			Signals.collect_items.emit(_type_id, int(_rank * base_resource_gain + base_resource_gain))
 
 
 func _die():

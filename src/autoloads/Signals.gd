@@ -23,3 +23,6 @@ signal fuel_changed(value:int)
 signal change_shop_visibility(visible:bool)
 
 signal end_condition(win:bool)
+
+# send enemies
+signal collect_items(item_type: int, amount: int)

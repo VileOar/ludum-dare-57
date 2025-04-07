@@ -65,6 +65,8 @@ func _ready() -> void:
 			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
 		else:
 			await Signals.map_stable
+	
+	Signals.collect_items.connect(_on_collect_items)
 
 
 func _input(event):
@@ -198,8 +200,7 @@ func _check_radar_input():
 	if Input.is_action_just_pressed("RadarPulse") and _fuel > 0:
 		var radar_activated = _radar_pulse.activate()
 		if radar_activated:
-			_fuel -= 1
-			Global.hud_ref.update_stamina_bar(_fuel)
+			set_fuel(-Global.SCAN_COST)
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
@@ -207,7 +208,7 @@ func lose_health() -> void:
 
 
 func set_health(delta:int):
-	_health = max(_health + delta, 0)
+	_health = clamp(_health + delta, 0, Global.max_health)
 	Signals.health_changed.emit(_health)
 
 	# Update health bar
@@ -228,7 +229,7 @@ func set_health_to_max():
 		Global.hud_ref.update_health_bar(_health)
 
 func set_fuel(delta:int):
-	_fuel = max(_fuel + delta, 0)
+	_fuel = clamp(_fuel + delta, 0, Global.max_fuel)
 	Signals.fuel_changed.emit(_fuel)
 	# Update stamina bar
 	if Global.hud_ref:
@@ -258,3 +259,13 @@ func set_current_interactable(new_interactable: Node2D) -> void:
 
 func add_interactable(interactable_to_add: Node2D) -> void:
 	available_interactables.append(interactable_to_add)
+
+
+func _on_collect_items(itype: int, amount: int):
+	match itype:
+		Global.TileType.HEALTH:
+			set_health(amount)
+		Global.TileType.FUEL:
+			set_fuel(amount)
+		Global.TileType.MONEY:
+			Global.set_currency(amount)

@@ -8,6 +8,17 @@ extends Node
 
 var max_health := 100
 var max_fuel := 10
+var max_currency := 500
+## get the base amount of resource to gain when digging resources
+func get_base_resource_gain(resource_id: int) -> float:
+	match resource_id:
+		TileType.HEALTH:
+			return ENEMY_DAMAGE_DONE * 2
+		TileType.FUEL:
+			return float(SCAN_COST) / 2.0
+		TileType.MONEY:
+			return randf_range(max_currency * 0.05, max_currency * 0.1)
+	return 0
 
 
 # used
@@ -37,6 +48,19 @@ const SCANNER_UPGRADE_1: int = 2
 const SCANNER_UPGRADE_2: int = 3
 const SCANNER_UPGRADE_3: int = 4
 
+func get_cost_from_tier(tier) -> int:
+	var cost = 500
+	match tier:
+		1:
+			cost = 20
+		2:
+			cost = 200
+		3:
+			cost = 500
+	return cost
+
+const SCAN_COST = 2
+
 const SCANS_BEFORE_SWARM: int = 4
 
 const EGG_DESTROY_COST: int = 10
@@ -45,7 +69,7 @@ const INTERACTABLE_GROUP: String = "Interactable"
 
 var rng: RandomNumberGenerator
 
-var _currency := 120
+var _currency := 0
 var _current_upgrades = {}
 
 enum Upgrades {
@@ -102,7 +126,7 @@ func _ready() -> void:
 
 
 func set_currency(delta: int):
-	_currency = max(_currency + delta, 0)
+	_currency = clamp(_currency + delta, 0, max_currency)
 	Signals.currency_changed.emit(_currency)
 	hud_ref.update_currency_label(_currency)
 

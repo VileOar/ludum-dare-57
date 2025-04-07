@@ -109,14 +109,14 @@ type = 6
 layout_mode = 2
 icon = ExtResource("5_ooxj2")
 description = "Gold Claws"
-cost = 12
+cost = 2
 type = 7
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("6_f44um")
 description = "Diamond Claws"
-cost = 13
+cost = 3
 type = 8
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -126,7 +126,6 @@ layout_mode = 2
 layout_mode = 2
 icon = ExtResource("7_nk1ea")
 description = "Scanner 1"
-cost = 2
 type = 9
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("1_seu2g")]
@@ -140,7 +139,7 @@ type = 10
 layout_mode = 2
 icon = ExtResource("9_2bowq")
 description = "Scanner 3"
-cost = 8
+cost = 3
 type = 11
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -150,20 +149,19 @@ layout_mode = 2
 layout_mode = 2
 icon = ExtResource("10_bts76")
 description = "Health 1"
-cost = 1
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("11_ttclu")
 description = "Health 2"
-cost = 4
+cost = 2
 type = 1
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer3" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("12_6xmt7")
 description = "Health 3"
-cost = 8
+cost = 3
 type = 2
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -173,21 +171,20 @@ layout_mode = 2
 layout_mode = 2
 icon = ExtResource("13_mp73b")
 description = "Stamina 1"
-cost = 2
 type = 3
 
 [node name="Button2" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("14_yfeso")
 description = "Stamina 2"
-cost = 3
+cost = 2
 type = 4
 
 [node name="Button3" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer4" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("15_wa1mf")
 description = "Stamina 3"
-cost = 6
+cost = 3
 type = 5
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]

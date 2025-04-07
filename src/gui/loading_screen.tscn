@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://db4rtwtoigep7"]
+[gd_scene load_steps=3 format=3 uid="uid://db4rtwtoigep7"]
 
 [ext_resource type="Script" uid="uid://b0a02qqirpxmh" path="res://src/gui/loading_screen.gd" id="1_e3ad3"]
+[ext_resource type="Texture2D" uid="uid://h422cc4lspil" path="res://assets/tileset_atlas/background.png" id="2_rcbrl"]
 
 [node name="LoadingScreen" type="Control"]
 layout_mode = 3
@@ -11,14 +12,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_e3ad3")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.129412, 0.14902, 0.180392, 1)
+texture = ExtResource("2_rcbrl")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

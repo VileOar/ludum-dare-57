@@ -10,10 +10,10 @@ var _cell_features: Dictionary[Vector2i, Detectable]
 
 
 ## Register a feature in the dictionary to be retrieved later.
-func save_feature(cell_pos: Vector2i, cell_type: int):
+func save_feature(cell_pos: Vector2i, cell_type: int, rank: float):
 	var feature = feature_scene.instantiate() as Detectable
 	feature.position = map_to_local(cell_pos)
-	feature.setup_feature(cell_type)
+	feature.setup_feature(cell_type, rank)
 	feature_holder.add_child.call_deferred(feature)
 	_cell_features[cell_pos] = feature
 
@@ -29,19 +29,6 @@ func try_dig_feature(cell_pos: Vector2i) -> bool:
 	_cell_features.erase(cell_pos)
 	# NOTE: feature nodes are responsible for destroying themselves
 	return true
-
-
-# TODO: remove
-# Store cells which have a feature in them (those that don't, will not show up here)
-var _cell_data: Dictionary
-
-
-func save_cell_data(cell_pos: Vector2i, cell_data: int):
-	_cell_data[cell_pos] = cell_data
-
-
-func get_cell_data(cell_pos: Vector2i) -> int:
-	return _cell_data.get(cell_pos, Global.TileType.NONE)
 
 # adapted from https://www.reddit.com/r/godot/comments/sdypwa/how_to_modulate_specific_tiles_in_a_tilemap/
 
