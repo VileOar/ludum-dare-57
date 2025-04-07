@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ckf27lkxp430j"
-path="res://.godot/imported/dig-stone-fail.wav-e4f6f824576c3bee34125d0e68319549.sample"
+path="res://.godot/imported/claw-ricochet.wav-ea17aa4e1502175ca6075b48388c1fe8.sample"
 
 [deps]
 
-source_file="res://assets/sounds/dig-stone-fail.wav"
-dest_files=["res://.godot/imported/dig-stone-fail.wav-e4f6f824576c3bee34125d0e68319549.sample"]
+source_file="res://assets/sounds/claw-ricochet.wav"
+dest_files=["res://.godot/imported/claw-ricochet.wav-ea17aa4e1502175ca6075b48388c1fe8.sample"]
 
 [params]
 
