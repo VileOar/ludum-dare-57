@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d3r0by2c0a703" path="res://src/characters/shopkeeper/shopkeeper.tscn" id="7_43k3a"]
 [ext_resource type="PackedScene" uid="uid://db4rtwtoigep7" path="res://src/gui/loading_screen.tscn" id="9_5br84"]
 [ext_resource type="PackedScene" uid="uid://p50gwaoxao35" path="res://src/gui/hud.tscn" id="10_5br84"]
-[ext_resource type="Script" uid="uid://e7eh2l7fc0qe" path="res://src/end_game_manager.gd" id="12_t6wdf"]
+[ext_resource type="Script" path="res://src/end_game_manager.gd" id="12_t6wdf"]
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_55n5f")
