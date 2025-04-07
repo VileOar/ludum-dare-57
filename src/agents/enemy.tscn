@@ -1,7 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0ew4d6t5xafg"]
+[gd_scene load_steps=7 format=3 uid="uid://c0ew4d6t5xafg"]
 
 [ext_resource type="Script" uid="uid://23orrypofmld" path="res://src/agents/enemy.gd" id="1_oesbp"]
-[ext_resource type="Texture2D" uid="uid://dwgfppu5jg627" path="res://assets/characters/enemy/spider_1.png" id="2_oesbp"]
+[ext_resource type="Texture2D" uid="uid://b21mgf4q4vyn4" path="res://assets/characters/enemy/spider_spritesheet.png" id="2_od2ya"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gx7oy"]
+atlas = ExtResource("2_od2ya")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vng0"]
+atlas = ExtResource("2_od2ya")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w0mlm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gx7oy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vng0")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 2.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vbgr5"]
 size = Vector2(64, 64)
@@ -19,11 +41,16 @@ radius = 48.0
 max_speed = 1000.0
 debug_enabled = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -32)
-texture = ExtResource("2_oesbp")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+z_index = 3
+position = Vector2(-5.96046e-08, -4.76837e-07)
+sprite_frames = SubResource("SpriteFrames_w0mlm")
+animation = &"Move"
+autoplay = "Move"
+frame_progress = 0.9313
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 28)
 shape = SubResource("RectangleShape2D_vbgr5")
 
 [node name="UpdatePlayerLocation" type="Timer" parent="."]

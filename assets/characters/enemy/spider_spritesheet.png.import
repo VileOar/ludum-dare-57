@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsbifr73b6d16"
-path="res://.godot/imported/key.png-1e2db27efb9421bf61832c3c18f2dbaa.ctex"
+uid="uid://b21mgf4q4vyn4"
+path="res://.godot/imported/spider_spritesheet.png-1c5cc7029b81f0857aa14534c2a4462b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/key.png"
-dest_files=["res://.godot/imported/key.png-1e2db27efb9421bf61832c3c18f2dbaa.ctex"]
+source_file="res://assets/characters/enemy/spider_spritesheet.png"
+dest_files=["res://.godot/imported/spider_spritesheet.png-1c5cc7029b81f0857aa14534c2a4462b.ctex"]
 
 [params]
 

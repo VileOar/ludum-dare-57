@@ -39,6 +39,8 @@ const SCANNER_UPGRADE_3: int = 4
 
 const SCANS_BEFORE_SWARM: int = 4
 
+const EGG_DESTROY_COST: int = 10
+
 const INTERACTABLE_GROUP: String = "Interactable"
 
 var rng: RandomNumberGenerator
@@ -81,10 +83,15 @@ const TILE_SPAWN_RATIO = 0.4
 # Reference to the world map tiles scene
 var world_map_tiles: WorldMapTiles
 
+# Reference to Enemy Holder
+var enemy_holder: Node2D
+
 # Reference to the player scene
 var player_ref: Player
 # Reference to the HUD scene
 var hud_ref: Hud
+
+var end_state := false
 
 func _ready() -> void:
 	randomize()

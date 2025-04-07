@@ -1,7 +1,7 @@
 extends Control
 
 func play_animation() -> void:
-	$AnimationPlayer.play("Idle")
+	$AnimatedSprite2D.play("default")
 
 func stop_animation() -> void:
-	$AnimationPlayer.stop()
+	$AnimatedSprite2D.stop()
