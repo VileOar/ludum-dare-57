@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dveobu8ajwmmi"
-path="res://.godot/imported/danger_shades.png-81011fa528be7b61cba8784e9ef16a93.ctex"
+path="res://.godot/imported/danger_shades.png-b6696161154edc65d2d6fa3dfb971f74.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/tileset_atlas/danger_shades.png"
-dest_files=["res://.godot/imported/danger_shades.png-81011fa528be7b61cba8784e9ef16a93.ctex"]
+source_file="res://assets/tileset_atlas/danger_shades.png"
+dest_files=["res://.godot/imported/danger_shades.png-b6696161154edc65d2d6fa3dfb971f74.ctex"]
 
 [params]
 

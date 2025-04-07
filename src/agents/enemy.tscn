@@ -9,7 +9,7 @@ size = Vector2(64, 64)
 [node name="Enemy" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
-collision_mask = 5
+collision_mask = 21
 script = ExtResource("1_oesbp")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -20,6 +20,7 @@ max_speed = 1000.0
 debug_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
 texture = ExtResource("2_oesbp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

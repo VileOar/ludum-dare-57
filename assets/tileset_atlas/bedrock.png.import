@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crmjssjdpyiai"
-path="res://.godot/imported/stone3.png-753f3b017adab9aac3a9be3aa4133e5d.ctex"
+uid="uid://cxxr1gqqrb45m"
+path="res://.godot/imported/bedrock.png-18b5638e88436bf0f810e5a751aa1f6b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gfx/tileset_atlas/stone3.png"
-dest_files=["res://.godot/imported/stone3.png-753f3b017adab9aac3a9be3aa4133e5d.ctex"]
+source_file="res://assets/tileset_atlas/bedrock.png"
+dest_files=["res://.godot/imported/bedrock.png-18b5638e88436bf0f810e5a751aa1f6b.ctex"]
 
 [params]
 

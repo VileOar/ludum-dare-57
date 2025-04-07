@@ -19,10 +19,9 @@ func _on_time_to_hatch_timeout() -> void:
 #	Spawns enemies every x time 
 	for n in Global.ENEMIES_TO_SPAWN:
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
-		_instantiate_enemy(egg.position)
+		_instantiate_enemy()
 
 
-func _instantiate_enemy(pos: Vector2) -> void:
+func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
-	instance.position = Vector2.ZERO
 	egg.add_child.call_deferred(instance)

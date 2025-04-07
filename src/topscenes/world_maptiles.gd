@@ -1,8 +1,8 @@
 class_name WorldMapTiles
 extends Node2D
 
-# TODO: remove
-var strength = 0
+## How many tiles should the bedrock border be.
+const BEDROCK_THICKNESS := 8
 
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -40, 50, 100)
@@ -113,9 +113,15 @@ func _generate_tiles():
 	var tile_num: int = 0
 	
 	# set the terrains according to noise
-	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y):
-		for xx in range(MAP_LIMITS.position.x, MAP_LIMITS.end.x):
+	# also sets the bedrock tiles
+	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y + BEDROCK_THICKNESS):
+		for xx in range(MAP_LIMITS.position.x - BEDROCK_THICKNESS, MAP_LIMITS.end.x + BEDROCK_THICKNESS):
 			var cell = Vector2i(xx, yy)
+			
+			# this means that it is bedrock, so no generation will occur, but filled with bedrock
+			if !MAP_LIMITS.has_point(cell):
+				_set_cells([cell], 4)
+				continue
 			
 			var noise = terrain_noise.get_noise_2dv(cell)
 			# modify the noise value to account for forcing stone in the upper layers
