@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://btoglak145h8n"]
+[gd_scene load_steps=15 format=3 uid="uid://btoglak145h8n"]
 
 [ext_resource type="PackedScene" uid="uid://dca88eh6c0qrc" path="res://src/worldmap/world_maptiles.tscn" id="1_0vhbo"]
 [ext_resource type="Script" uid="uid://b5gjwvuarb020" path="res://levels/main_level.gd" id="1_55n5f"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c41k20yhtuteq" path="res://src/characters/player/player.tscn" id="2_0vhbo"]
 [ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/enemy.tscn" id="2_wg11f"]
 [ext_resource type="PackedScene" uid="uid://cs44endvqv7tw" path="res://src/gui/shop.tscn" id="3_ldao0"]
+[ext_resource type="Texture2D" uid="uid://h422cc4lspil" path="res://assets/tileset_atlas/background.png" id="3_v1ssk"]
 [ext_resource type="Script" uid="uid://ccaft6o1ot13l" path="res://src/agents/egg_spawner.gd" id="4_43k3a"]
 [ext_resource type="PackedScene" uid="uid://kmdgdqrhrsw5" path="res://src/agents/egg.tscn" id="5_ttu8v"]
 [ext_resource type="PackedScene" uid="uid://dpe70r3peuomp" path="res://src/agents/burrow_spawner.tscn" id="6_t6wdf"]
@@ -13,10 +14,26 @@
 [ext_resource type="PackedScene" uid="uid://db4rtwtoigep7" path="res://src/gui/loading_screen.tscn" id="9_5br84"]
 [ext_resource type="PackedScene" uid="uid://p50gwaoxao35" path="res://src/gui/hud.tscn" id="10_5br84"]
 [ext_resource type="Script" uid="uid://e7eh2l7fc0qe" path="res://src/end_game_manager.gd" id="12_t6wdf"]
+[ext_resource type="Texture2D" uid="uid://bnv8beymm7sid" path="res://assets/victory_light2.png" id="14_v1ssk"]
+
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_55n5f")
 enemy = ExtResource("2_wg11f")
+
+[node name="Parallax" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Parallax"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Parallax/ParallaxBackground"]
+motion_mirroring = Vector2(128, 128)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax/ParallaxBackground/ParallaxLayer"]
+texture_repeat = 2
+texture = ExtResource("3_v1ssk")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1920, 1080)
 
 [node name="NavGenerator" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -65,3 +82,9 @@ color = Color(0, 0, 0, 1)
 [node name="EndGameManager" type="Node" parent="."]
 process_mode = 3
 script = ExtResource("12_t6wdf")
+
+[node name="VictoryLight" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(-333, -3261)
+scale = Vector2(20.2656, 3.58566)
+texture = ExtResource("14_v1ssk")

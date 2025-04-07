@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Player
 
+# Position to be checked after which the the game is considered won
+const _VICTORY_POSITION := -2600
 # Maximum move speed of the player
 const _MAX_MOVE_SPEED: float = 4 * Global.CELL_SIZE
 # Player movement acceleration
@@ -81,6 +83,9 @@ func _physics_process(delta: float) -> void:
 	if can_play:
 		_move(_current_move_input, delta)
 		_try_to_mine(_current_move_input, delta)
+
+		if position.y < _VICTORY_POSITION:
+			Signals.end_condition.emit(true)
 
 func _process(_delta: float) -> void:
 	# If multiple interactables are available to the player then
