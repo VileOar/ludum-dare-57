@@ -9,11 +9,10 @@ extends Node
 var max_health := 100
 var max_fuel := 10
 
-# not yet used
-@export var ENEMIES_TO_SPAWN_MAX : int = 15
-@export var ENEMIES_TO_SPAWN_MIN : int = 6
 
 # used
+@export var ENEMIES_TO_SPAWN_MAX : int = 25
+@export var ENEMIES_TO_SPAWN_MIN : int = 15
 @export var ENEMIES_TO_SPAWN : int = 20
 @export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bp46gnpo0kxf"
-path="res://.godot/imported/dig-stone.wav-e98c27954eab4244a42585ef13519dbd.sample"
+path="res://.godot/imported/hard-stone-break.wav-47158a71d98cd5ba8480461b34051931.sample"
 
 [deps]
 
-source_file="res://assets/sounds/dig-stone.wav"
-dest_files=["res://.godot/imported/dig-stone.wav-e98c27954eab4244a42585ef13519dbd.sample"]
+source_file="res://assets/sounds/hard-stone-break.wav"
+dest_files=["res://.godot/imported/hard-stone-break.wav-47158a71d98cd5ba8480461b34051931.sample"]
 
 [params]
 

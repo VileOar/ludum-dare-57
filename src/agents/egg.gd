@@ -2,12 +2,25 @@ extends Node2D
 
 @onready var egg: Node2D = $"."
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var time_to_hatch: Timer = $TimeToHatch
+
 @export var enemy : PackedScene
+
+var egg_spawner : Node2D 
 
 
 func _ready() -> void:
 	animation_player.active = true
 	animation_player.play("Shake")
+	egg_spawner = get_parent()
+	#egg_spawner.connect(_egg_triggered_to_spawn_enemies)
+	
+
+# TODO test
+func _egg_triggered_to_spawn_enemies() -> void:
+	animation_player.active = true
+	animation_player.play("Shake")
+	time_to_hatch.start()
 	
 
 func _on_time_to_hatch_timeout() -> void:
@@ -17,7 +30,8 @@ func _on_time_to_hatch_timeout() -> void:
 		
 	animation_player.play("Explode")
 #	Spawns enemies every x time 
-	for n in Global.ENEMIES_TO_SPAWN:
+	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX)
+	for n in enemies_to_spawn:
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 		_instantiate_enemy()
 
