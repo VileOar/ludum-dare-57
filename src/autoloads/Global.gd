@@ -78,6 +78,7 @@ func _ready() -> void:
 func set_currency(delta: int):
 	_currency = max(_currency + delta, 0)
 	Signals.currency_changed.emit(_currency)
+	hud_ref.update_currency_label(_currency)
 
 
 func get_currency() -> int:
