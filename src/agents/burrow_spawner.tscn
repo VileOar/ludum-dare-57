@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpe70r3peuomp"]
+
+[ext_resource type="Script" uid="uid://bo4x56guyy748" path="res://src/agents/burrow_spawner.gd" id="1_ac6jm"]
+[ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/enemy.tscn" id="2_3p5av"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ac6jm"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 64.0
+direction = Vector3(0, 1, 0)
+spread = 170.0
+initial_velocity_min = 183.91
+initial_velocity_max = 333.34
+gravity = Vector3(0, 480, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+scale_min = 8.0
+scale_max = 12.0
+
+[node name="BurrowSpawner" type="Node2D"]
+script = ExtResource("1_ac6jm")
+enemy = ExtResource("2_3p5av")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.164706, 0.117647, 0.117647, 1)
+amount = 20
+lifetime = 0.5
+speed_scale = 2.0
+explosiveness = 0.2
+randomness = 0.4
+trail_enabled = true
+trail_lifetime = 0.1
+trail_sections = 2
+process_material = SubResource("ParticleProcessMaterial_ac6jm")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

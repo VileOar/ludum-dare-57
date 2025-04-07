@@ -8,6 +8,9 @@ signal map_stable
 ## Sent when an egg is uncovered (order to spawn and enemy egg)
 signal spawn_egg(pos)
 
+## Sent when an undug egg received one too many pings so calls a random swarm event
+signal spawn_burrow(pos)
+
 ## sent when a game stat is altered
 signal upgrade_selected(type, cost:int, text, button_ref)
 
