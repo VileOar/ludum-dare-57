@@ -1,0 +1,53 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://bomll6dbw0kl1"]
+
+[ext_resource type="Texture2D" uid="uid://f8rp5xyhq3k8" path="res://assets/ui_button_border.png" id="1_85h58"]
+[ext_resource type="Texture2D" uid="uid://c1fvpwup1qq74" path="res://assets/ui_border.png" id="1_jvko6"]
+[ext_resource type="StyleBox" uid="uid://cftvg0ftgvrk3" path="res://assets/button_style_box_texture.tres" id="2_lhurp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjcko"]
+texture = ExtResource("1_85h58")
+texture_margin_left = 17.3105
+texture_margin_top = 16.9342
+texture_margin_right = 21.45
+texture_margin_bottom = 16.9342
+region_rect = Rect2(0, 0.590487, 128, 127.41)
+modulate_color = Color(0.533037, 0.533037, 0.533037, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_85h58"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bx4g4"]
+texture = ExtResource("1_85h58")
+texture_margin_left = 17.3105
+texture_margin_top = 16.9342
+texture_margin_right = 21.45
+texture_margin_bottom = 16.9342
+region_rect = Rect2(0, 0.590487, 128, 127.41)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x2hgr"]
+texture = ExtResource("1_85h58")
+texture_margin_left = 17.3105
+texture_margin_top = 16.9342
+texture_margin_right = 21.45
+texture_margin_bottom = 16.9342
+region_rect = Rect2(0, 0.590487, 128, 127.41)
+modulate_color = Color(0.745581, 0.74558, 0.74558, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7n61c"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+texture = ExtResource("1_jvko6")
+texture_margin_left = 15.2684
+texture_margin_top = 17.6982
+texture_margin_right = 18.107
+texture_margin_bottom = 17.9886
+region_rect = Rect2(-0.676285, -0.292099, 128.676, 128.292)
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxTexture_tjcko")
+Button/styles/focus = SubResource("StyleBoxEmpty_85h58")
+Button/styles/hover = SubResource("StyleBoxTexture_bx4g4")
+Button/styles/normal = ExtResource("2_lhurp")
+Button/styles/pressed = SubResource("StyleBoxTexture_x2hgr")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_7n61c")

@@ -181,11 +181,13 @@ func lose_health() -> void:
 
 func set_health(delta:int):
 	_health = max(_health + delta, 0)
+	Signals.health_changed.emit(_health)
 	#TODO: signal emit game over
 
 
 func set_fuel(delta:int):
 	_fuel = max(_fuel + delta, 0)
+	Signals.fuel_changed.emit(_fuel)
 
 
 ## Returns current health (x) and fuel (y)
