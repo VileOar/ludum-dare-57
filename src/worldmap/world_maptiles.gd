@@ -152,6 +152,11 @@ func _generate_tiles():
 				_spawn_tile_data(cell)
 	#_tiles.force_update_tiles()
 	are_tiles_generated = true
+	Signals.map_stable.emit.call_deferred()
+
+
+func is_stable() -> bool:
+	return are_tiles_generated
 
 
 func _spawn_tile_data(cell_pos: Vector2i):
