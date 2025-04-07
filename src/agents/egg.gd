@@ -17,7 +17,8 @@ func _on_time_to_hatch_timeout() -> void:
 		
 	animation_player.play("Explode")
 #	Spawns enemies every x time 
-	for n in Global.ENEMIES_TO_SPAWN:
+	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX)
+	for n in enemies_to_spawn:
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 		_instantiate_enemy(egg.position)
 
