@@ -80,8 +80,8 @@ func _dig_tiles(cells: Array[Vector2i]):
 				AudioController.play_dirt_dig()
 			else:
 				AudioController.play_stone_dig()
-#			TODO tmp
-			_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * (Global.CELL_SIZE / 2))
+			if _tiles.get_cell_data(cell) == Global.TileType.EGG:
+				_egg_spawner.instantiate_egg(cell * Global.CELL_SIZE + Vector2i.ONE * (Global.CELL_SIZE / 2))
 	_set_cells(cells, -1)
 
 	#_tiles.force_update_tiles()
@@ -138,7 +138,7 @@ func _generate_tiles():
 
 func _spawn_tile_data(cell_pos: Vector2i):
 	var types = Global.tile_type_weights.keys()
-	var selected = Global.rng.rand_weighted(Global.tile_type_weights.values())
+	var selected = types[Global.rng.rand_weighted(Global.tile_type_weights.values())] 
 	_tiles.save_cell_data(cell_pos, selected)
 
 

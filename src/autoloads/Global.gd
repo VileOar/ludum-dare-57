@@ -1,8 +1,8 @@
 extends Node
 
 @export var PLAYER_SPEED = 3000
-#@export var ENEMY_SPEED = 6000
-@export var ENEMY_SPEED = 20000
+@export var ENEMY_SPEED = 300
+#@export var ENEMY_SPEED = 20000
 
 @export var ENEMY_DAMAGE_DONE = 10
 
@@ -14,8 +14,8 @@ var max_fuel := 10
 @export var ENEMIES_TO_SPAWN_MIN : int = 6
 
 # used
-@export var ENEMIES_TO_SPAWN : int = 10
-@export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.02
+@export var ENEMIES_TO_SPAWN : int = 20
+@export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 
 const CELL_SIZE = 128
 const  MAX_MINING_STRENGTH: int = 4

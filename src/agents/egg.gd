@@ -5,20 +5,24 @@ extends Node2D
 @export var enemy : PackedScene
 
 
+func _ready() -> void:
+	animation_player.active = true
+	animation_player.play("Shake")
+	
+
 func _on_time_to_hatch_timeout() -> void:
 	if !enemy:
 		print("[Error] No packed scene set on Enemy")
 		return
 		
-	print("Play animation")
 	animation_player.play("Explode")
 #	Spawns enemies every x time 
 	for n in Global.ENEMIES_TO_SPAWN:
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
-		_instantiate_enemy(egg.global_position)
+		_instantiate_enemy(egg.position)
 
 
 func _instantiate_enemy(pos: Vector2) -> void:
 	var instance = enemy.instantiate()
-	instance.position = pos
+	instance.position = Vector2.ZERO
 	egg.add_child.call_deferred(instance)

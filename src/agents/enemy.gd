@@ -11,13 +11,13 @@ var origin_point : Vector2
 
 
 func _ready():
-	origin_point = agent.global_position
+	origin_point = agent.position
 	nav_agent.navigation_finished.connect(_on_nav_finished)
 	nav_agent.velocity_computed.connect(_on_navigation_agent_2d_velocity_computed)
+	set_player_to_chase()
 	make_path(_get_player_location())
 #	Sets target position as origin when starting
 	nav_agent.target_position = origin_point
-	set_player_to_chase()
 
 
 
@@ -31,9 +31,10 @@ func _physics_process(delta: float) -> void:
 		
 	var next_path_pos = nav_agent.get_next_path_position()
 	var direction = global_position.direction_to(next_path_pos)
-	var new_velocity = direction * Global.ENEMY_SPEED * delta 
+	var new_velocity = direction * Global.ENEMY_SPEED 
 	
 	nav_agent.velocity = new_velocity
+	velocity = new_velocity
 	
 	
 # When it reachs the target location, gets new one
