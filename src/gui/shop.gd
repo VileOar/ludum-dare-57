@@ -35,6 +35,7 @@ func _ready():
 func _toggle_visibility(value:bool):
 	visible = value
 	if value:
+		AudioController.play_shop_music()
 		_set_money_label(Global.get_currency())
 		_set_health_label(int(Global.player_ref.get_stats().x))
 		_set_fuel_label(int(Global.player_ref.get_stats().y))
@@ -48,7 +49,9 @@ func _toggle_visibility(value:bool):
 
 		refresh_sell_button()
 		_refresh_buy_button_state()
-
+	else:
+		AudioController.play_music()
+		
 
 func _reset_cost_and_description():
 	_description_label.text = "Welcome to the shop!"
@@ -143,6 +146,9 @@ func _on_buy_button_pressed():
 	_refresh_buy_button_state()
 	_reset_cost_and_description()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("CloseShop"):
+		_on_exit_button_pressed() 
 
 func _on_exit_button_pressed():
 	_toggle_visibility(false)
