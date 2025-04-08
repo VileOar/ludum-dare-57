@@ -51,22 +51,18 @@ layout_mode = 2
 [node name="Play" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
 icon = ExtResource("3_wft6l")
-flat = true
 
 [node name="HowTo" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
 icon = ExtResource("4_nqbv2")
-flat = true
 
 [node name="Credits" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
 icon = ExtResource("4_p1ij0")
-flat = true
 
 [node name="Quit" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
 layout_mode = 2
 icon = ExtResource("5_nqbv2")
-flat = true
 
 [node name="Credits" type="Control" parent="."]
 visible = false
@@ -125,6 +121,7 @@ theme_override_font_sizes/font_size = 30
 text = "Francisco Esteves
 Francisco Pinto
 Luís Chaves
+Miguel Monteiro
 Pedro Valério
 "
 horizontal_alignment = 1
@@ -146,7 +143,6 @@ horizontal_alignment = 1
 [node name="Back" type="Button" parent="Credits/VBoxContainer"]
 layout_mode = 2
 icon = ExtResource("6_p1ij0")
-flat = true
 
 [node name="HowTo" type="Control" parent="."]
 visible = false
@@ -165,7 +161,6 @@ offset_top = 908.0
 offset_right = 1868.0
 offset_bottom = 1036.0
 icon = ExtResource("6_p1ij0")
-flat = true
 
 [connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
