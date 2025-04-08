@@ -1,5 +1,6 @@
 extends Control
 # Very bad code, caution and sorry
+# This is indeed very shitty code -PivZ
 
 @onready var _description_label: Label = %Description
 @onready var _cost_label: Label = %CostValue
@@ -115,7 +116,13 @@ func _on_buy_button_pressed():
 	if _upgrade_selected:
 		Global.add_upgrade(_current_upgrade_selected)
 		if _current_btn != null:
-			_current_btn.disabled = true;
+			_current_btn.disabled = true
+			
+			var curr_index = _current_btn.get_index()
+			var par = _current_btn.get_parent()
+			if curr_index + 1 < par.get_child_count():
+				par.get_child(curr_index + 1).disabled = false
+			
 			_current_btn = null
 
 	_viable_action = false
