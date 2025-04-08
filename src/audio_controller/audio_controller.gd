@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var music_transition: AnimationPlayer = $MusicTransition
 
 var _squeaks: Array[AudioStreamPlayer] = []
 var _dirt_digs: Array[AudioStreamPlayer] = []
@@ -18,10 +19,12 @@ func _get_random_volume() -> float:
 	return randf_range(-1, 0)
 
 func play_music() -> void:
+	music_transition.play("ChangeToMainMusic")
 	$Music.play()
 
 func play_shop_music() -> void:
-	$ShopMusic.play()
+	music_transition.play("ChangeToShopMusic")
+	#$ShopMusic.play()
 
 func play_dirt_dig(randomizer: bool = true) -> void:
 	var dirt_dig: AudioStreamPlayer = _dirt_digs.pick_random()

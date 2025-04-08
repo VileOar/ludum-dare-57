@@ -141,6 +141,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_exit_button_pressed() 
 
 func _on_exit_button_pressed():
+	AudioController.play_music()
 	_toggle_visibility(false)
 
 
