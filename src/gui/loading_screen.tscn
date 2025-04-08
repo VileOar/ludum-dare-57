@@ -1,7 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://db4rtwtoigep7"]
+[gd_scene load_steps=4 format=3 uid="uid://db4rtwtoigep7"]
 
 [ext_resource type="Script" uid="uid://b0a02qqirpxmh" path="res://src/gui/loading_screen.gd" id="1_e3ad3"]
 [ext_resource type="Texture2D" uid="uid://h422cc4lspil" path="res://assets/tileset_atlas/background.png" id="2_rcbrl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3ad3"]
+bg_color = Color(0.321569, 0.34902, 0.521569, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcbrl"]
+bg_color = Color(0.603922, 0.635294, 0.780392, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="LoadingScreen" type="Control"]
 layout_mode = 3
@@ -46,3 +60,5 @@ vertical_alignment = 1
 [node name="LoadingBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_e3ad3")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rcbrl")
