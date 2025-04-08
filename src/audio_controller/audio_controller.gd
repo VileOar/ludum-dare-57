@@ -10,7 +10,8 @@ func _ready() -> void:
 	_squeaks = [$Squeak1, $Squeak2, $Squeak3]
 	_dirt_digs = [$DirtDig1, $DirtDig2, $DirtDig3]
 	_stone_breaks = [$StoneBreak1, $StoneBreak2]
-	play_music()
+	#play_music()
+	start_musics()
 
 func _get_random_pitch() -> float:
 	return randf_range(0.9, 1.2)
@@ -18,13 +19,17 @@ func _get_random_pitch() -> float:
 func _get_random_volume() -> float:
 	return randf_range(-1, 0)
 
+func start_musics() -> void:
+	$Music.play()
+	$ShopMusic.play()
+	$ShopMusic.volume_db = -80
+	music_transition.play("ChangeToMainMusic")
+
 func play_music() -> void:
 	music_transition.play("ChangeToMainMusic")
-	$Music.play()
 
 func play_shop_music() -> void:
 	music_transition.play("ChangeToShopMusic")
-	#$ShopMusic.play()
 
 func play_dirt_dig(randomizer: bool = true) -> void:
 	var dirt_dig: AudioStreamPlayer = _dirt_digs.pick_random()
