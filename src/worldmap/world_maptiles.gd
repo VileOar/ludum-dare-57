@@ -24,8 +24,20 @@ const TOP_STONE_Y = -20
 const BOTTOM_STONE_Y = -5
 
 @onready var _tiles: MapTiles = $MapTiles
-@onready var _danger_levels: TileMapLayer = $DangerLevels
+@onready var _danger_level1: TileMapLayer = $DangerLevel1
+@onready var _danger_level2: TileMapLayer = $DangerLevel2
+@onready var _danger_level3: TileMapLayer = $DangerLevel3
+@onready var _danger_level4: TileMapLayer = $DangerLevel4
+@onready var _danger_level5: TileMapLayer = $DangerLevel5
 @onready var _nav_layer: TileMapLayer = $NavLayer
+
+@onready var _danger_levels: Dictionary[int, TileMapLayer] = {
+	1: _danger_level1,
+	2: _danger_level2,
+	3: _danger_level3,
+	4: _danger_level4,
+	5: _danger_level5,
+}
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
@@ -83,7 +95,10 @@ func _can_dig(cell_pos: Vector2i, dig_strength: int) -> bool:
 # Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
 func _dig_tiles(cells: Array[Vector2i]):
 	for cell in cells:
-		_danger_levels.set_cell(cell, 0, Vector2i(-1, -1))
+		# erase danger cells
+		for i in _danger_levels:
+			_danger_levels[i].set_cells_terrain_connect([cell], 0, -1)
+
 		var cell_data = _tiles.get_cell_tile_data(cell)
 		if cell_data != null:
 			var hardness = cell_data.get_custom_data("hardness")
@@ -148,12 +163,15 @@ func _generate_tiles():
 			_set_cells([cell], terrain)
 			
 			# determine the danger level of each tile
-			var danger_level = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
+			var danger_value = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
 			# adapt it to be above the minimum brightness value and calculate saturation
-			danger_level = clamp(_get_danger_level(danger_level, yy), 0.0, 1.0)
+			danger_value = clamp(_get_danger_value(danger_value, yy), 0.0, 1.0)
 			
-			var shade_tile := _get_danger_tile(danger_level)
-			_danger_levels.set_cell(cell, 0, shade_tile)
+			var danger_level := _get_danger_level(danger_value)
+			if danger_level > 0:
+				for i in range(danger_level):
+					var danger_tilemap: TileMapLayer = _danger_levels[i + 1]
+					danger_tilemap.set_cells_terrain_connect([cell], 0, 0)
 			
 			tile_num += 1
 			load_percent = floor(float(tile_num)/float(TOTAL_TILE_AMOUNT) * 100)
@@ -161,9 +179,9 @@ func _generate_tiles():
 			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
 			
 			# the chance to spawn something on a tile will be higher with higher danger levels
-			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_level
+			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_value
 			if Global.rng.randf() < spawn_chance: # this tile will spawn something
-				_spawn_tile_data(cell, danger_level)
+				_spawn_tile_data(cell, danger_value)
 	#_tiles.force_update_tiles()
 	are_tiles_generated = true
 	Signals.map_stable.emit.call_deferred()
@@ -191,7 +209,7 @@ func _get_noise_map(noise_seed: float, frequency: float, fractal_octaves: int, f
 # || --- Conversions --- ||
 
 # Get the appropriate terrain id based on the given noise value.[br]
-# Returns the first terrain, where the asrgument is lower than the respective key
+# Returns the first terrain, where the argument is lower than the respective key
 func _noise_to_terrain(noise_value: float) -> int:
 	var fallback = -1
 	for key in _terrain_noise_thresholds:
@@ -200,16 +218,16 @@ func _noise_to_terrain(noise_value: float) -> int:
 			return fallback
 	return fallback
 
-
-func _get_danger_tile(danger_ratio: float) -> Vector2i:
+# Returns a danger level (0 - 5)
+func _get_danger_level(danger_ratio: float) -> int:
 	var danger_step = 0.2
 	danger_ratio = snapped(danger_ratio, danger_step)
-	return Vector2i(int(danger_ratio / danger_step), 0)
+	return int(danger_ratio / danger_step)
 
 
 # Calculate a danger value from the descending danger rule and a noise value (0 - 1)[br]
 # Also depends on the cell y coordinate
-func _get_danger_level(noise_value: float, cy: int) -> float:
+func _get_danger_value(noise_value: float, cy: int) -> float:
 	if cy <= MIN_DANGER_Y:
 		return 0.0
 	elif cy >= MAX_DANGER_Y:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dveobu8ajwmmi"
-path="res://.godot/imported/danger_shades.png-b6696161154edc65d2d6fa3dfb971f74.ctex"
+uid="uid://ckayn7jqy2n77"
+path="res://.godot/imported/danger_shade.png-d6ec3c87cd04e9d2bafb3fd5880c904a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tileset_atlas/danger_shades.png"
-dest_files=["res://.godot/imported/danger_shades.png-b6696161154edc65d2d6fa3dfb971f74.ctex"]
+source_file="res://assets/tileset_atlas/danger_shade.png"
+dest_files=["res://.godot/imported/danger_shade.png-d6ec3c87cd04e9d2bafb3fd5880c904a.ctex"]
 
 [params]
 
