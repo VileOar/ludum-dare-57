@@ -11,6 +11,11 @@ const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 const STARTING_AREA := Rect2i(-3, -2, 6, 4)
 
+const X_START: int = MAP_LIMITS.position.x - BEDROCK_THICKNESS
+const X_END: int = MAP_LIMITS.end.x + BEDROCK_THICKNESS
+const Y_START: int = MAP_LIMITS.position.y
+const Y_END: int = MAP_LIMITS.end.y + BEDROCK_THICKNESS
+
 ## The y value above which danger should effectively be 0.
 const MIN_DANGER_Y = -5
 ## The y value below which danger should effectively be 1.
@@ -48,14 +53,11 @@ var _terrain_noise_thresholds := {
 }
 
 var load_percent: int = 0
-var thread: Thread
 var are_tiles_generated: bool = false
 
 func _ready() -> void:
-	thread = Thread.new()
-	thread.start(_generate_tiles, Thread.PRIORITY_HIGH)
+	_generate_tiles()
 	Global.world_map_tiles = self
-
 
 ## Attempt to dig a tile at a position.
 func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
@@ -97,7 +99,8 @@ func _dig_tiles(cells: Array[Vector2i]):
 	for cell in cells:
 		# erase danger cells
 		for i in _danger_levels:
-			_danger_levels[i].set_cells_terrain_connect([cell], 0, -1)
+			BetterTerrain.set_cell(_danger_levels[i], cell, -1)
+			BetterTerrain.update_terrain_cell(_danger_levels[i], cell)
 
 		var cell_data = _tiles.get_cell_tile_data(cell)
 		if cell_data != null:
@@ -110,19 +113,18 @@ func _dig_tiles(cells: Array[Vector2i]):
 			_tiles.try_dig_feature(cell)
 	_set_cells(cells, -1)
 
-	#_tiles.force_update_tiles()
-
-
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain):
-	_tiles.set_cells_terrain_connect(cells, 0, terrain)
+	BetterTerrain.set_cells(_tiles, cells, terrain)
+	# if cell is deleted update nearby cells
+	if terrain == -1:
+		BetterTerrain.update_terrain_cells(_tiles, cells)
 	
 	for cell in cells:
 		if terrain == -1 and cell.y >= MAX_NAVIGATION_Y:
-			_nav_layer.set_cells_terrain_connect([cell], 0, 0)
+			_nav_layer.set_cell(cell, 0, Vector2i.ZERO)
 		else:
-			_nav_layer.set_cells_terrain_connect([cell], 0, -1)
-
+			_nav_layer.set_cell(cell)
 
 func _generate_tiles():
 	var map_seed = randi() # the main seed used to generate everything else
@@ -138,8 +140,8 @@ func _generate_tiles():
 	
 	# set the terrains according to noise
 	# also sets the bedrock tiles
-	for yy in range(MAP_LIMITS.position.y, MAP_LIMITS.end.y + BEDROCK_THICKNESS):
-		for xx in range(MAP_LIMITS.position.x - BEDROCK_THICKNESS, MAP_LIMITS.end.x + BEDROCK_THICKNESS):
+	for yy in range(Y_START, Y_END):
+		for xx in range(X_START, X_END):
 			var cell = Vector2i(xx, yy)
 			
 			# this means that it is bedrock, so no generation will occur, but filled with bedrock
@@ -160,6 +162,8 @@ func _generate_tiles():
 				noise = clamp(noise + mod, -1.0, 1.0)
 			# generate the terrain tiles, deciding between the different dirt/stone tiles
 			var terrain = _noise_to_terrain(noise)
+			if terrain > 4 or terrain < 0:
+				print("Terrain: %s" % terrain)
 			_set_cells([cell], terrain)
 			
 			# determine the danger level of each tile
@@ -171,20 +175,24 @@ func _generate_tiles():
 			if danger_level > 0:
 				for i in range(danger_level):
 					var danger_tilemap: TileMapLayer = _danger_levels[i + 1]
-					danger_tilemap.set_cells_terrain_connect([cell], 0, 0)
+					BetterTerrain.set_cell(danger_tilemap, cell, 0)
 			
 			tile_num += 1
 			load_percent = floor(float(tile_num)/float(TOTAL_TILE_AMOUNT) * 100)
-			
-			#_tiles.update_tile(cell, func(tile_data: TileData): tile_data.modulate = col)
 			
 			# the chance to spawn something on a tile will be higher with higher danger levels
 			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_value
 			if Global.rng.randf() < spawn_chance: # this tile will spawn something
 				_spawn_tile_data(cell, danger_value)
-	#_tiles.force_update_tiles()
+	
 	are_tiles_generated = true
 	Signals.map_stable.emit.call_deferred()
+	
+	# update terrains once generation ends
+	var game_area: Rect2i = Rect2i(X_START, Y_START, X_END - X_START, Y_END - Y_START)
+	BetterTerrain.update_terrain_area(_tiles, game_area)
+	for i in _danger_levels:
+		BetterTerrain.update_terrain_area(_danger_levels[i], game_area)
 
 
 func _spawn_tile_data(cell_pos: Vector2i, amount: float):
@@ -238,3 +246,4 @@ func _get_danger_value(noise_value: float, cy: int) -> float:
 	var modifier = lerp(MAX_DANGER_MODIFIER, -MAX_DANGER_MODIFIER, y_percent)
 	
 	return noise_value - modifier
+	
