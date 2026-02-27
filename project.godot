@@ -21,12 +21,17 @@ config/icon="uid://v7m4wb3tou2j"
 AudioController="*res://src/audio_controller/audio_controller.tscn"
 Global="*res://src/autoloads/Global.gd"
 Signals="*res://src/autoloads/Signals.gd"
+BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/better-terrain/plugin.cfg")
 
 [gui]
 
