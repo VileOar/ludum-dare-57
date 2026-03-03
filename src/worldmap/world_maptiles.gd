@@ -56,7 +56,6 @@ var load_percent: int = 0
 var are_tiles_generated: bool = false
 
 func _ready() -> void:
-	_generate_tiles()
 	Global.world_map_tiles = self
 
 ## Attempt to dig a tile at a position.
