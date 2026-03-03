@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=10 format=3 uid="uid://b67yrqq2iad43"]
 
 [ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
-[ext_resource type="PackedScene" uid="uid://btoglak145h8n" path="res://levels/main_level.tscn" id="2_u17xg"]
 [ext_resource type="Texture2D" uid="uid://cte3jwivd3o3m" path="res://assets/gui/Background.png" id="3_7seqg"]
 [ext_resource type="Texture2D" uid="uid://lim4y64f8x1f" path="res://assets/gui/start.png" id="3_wft6l"]
 [ext_resource type="Texture2D" uid="uid://ovnwr771jxh2" path="res://assets/gui/how_to.png" id="4_nqbv2"]
@@ -19,7 +18,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pfhkm")
-_play_scene = ExtResource("2_u17xg")
 
 [node name="Menu" type="Control" parent="."]
 anchors_preset = 0

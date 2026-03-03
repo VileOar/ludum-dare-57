@@ -23,4 +23,4 @@ func _end_game(state):
 	#AudioManager.stop_audio("Music1")
 	await get_tree().create_timer(END_LAG).timeout
 	#get_tree().paused = false
-	get_tree().change_scene_to_file("res://src/gui/EndMenu.tscn")
+	Global.deferred_change_scene(Global.end_menu_scene)

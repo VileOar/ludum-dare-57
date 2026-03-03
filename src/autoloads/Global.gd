@@ -117,6 +117,11 @@ var hud_ref: Hud
 
 var end_state := false
 
+# Game scenes
+var main_menu_scene: PackedScene = load("uid://b67yrqq2iad43")
+var end_menu_scene: PackedScene = load("uid://babguvhbhaser")
+var level_scene: PackedScene = load("uid://btoglak145h8n")
+
 func _ready() -> void:
 	randomize()
 	rng = RandomNumberGenerator.new()
@@ -180,3 +185,5 @@ func add_upgrade(upgrade_type: Upgrades):
 		Upgrades.SCANNER_3:
 			player_ref.set_radar_level(SCANNER_UPGRADE_3)
 		
+func deferred_change_scene(scene: PackedScene) -> void:
+	get_tree().change_scene_to_packed.call_deferred(scene)
