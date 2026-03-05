@@ -14,6 +14,7 @@ func enter_interaction() -> void:
 
 func interact() -> void:
 	Signals.change_shop_visibility.emit(true)
+	Signals.shop_open.emit()
 	AudioController.play_shop_music()
 
 

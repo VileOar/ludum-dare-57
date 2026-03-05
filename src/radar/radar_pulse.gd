@@ -6,6 +6,10 @@ var _is_active: bool = false
 var _active_time: float = 0.0
 var _pulse_size: int = Global.CELL_SIZE
 
+var _call_ping: bool = false
+var _ping_frame_delay: int = 2
+var _frame_delay: int = 0
+
 @onready var color_rect: ColorRect = $ColorRect
 @onready var detector: Area2D = $Detector
 @onready var detector_shape: CollisionShape2D = $Detector/CollisionShape2D
@@ -22,7 +26,15 @@ func _process(delta: float) -> void:
 			color_rect.material.set_shader_parameter("time", _active_time)
 		else:
 			_active_time = 0
+			color_rect.material.set_shader_parameter("time", _active_time)
 			_is_active = false
+	
+	if _call_ping:
+		if _frame_delay >= _ping_frame_delay:
+			_call_ping = false
+			_frame_delay = 0
+			ping_detectables()
+		_frame_delay += 1
 
 func set_level(level) -> void:
 	_level = level
@@ -38,15 +50,15 @@ func set_level(level) -> void:
 func increase_level() -> void:
 	set_level(_level + 1)
 
-func activate() -> bool:
+func activate(pos: Vector2) -> bool:
+	position = pos
 	var success:bool = false
 	if not _is_active:
 		_is_active = true
 		AudioController.play_radar_pulse()
-		ping_detectables()
+		_call_ping = true
 		success = true
 	return success
-
 
 func ping_detectables():
 	for other in detector.get_overlapping_areas():

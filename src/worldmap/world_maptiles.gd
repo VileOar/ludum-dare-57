@@ -135,7 +135,7 @@ func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
 		else:
 			_nav_layer.set_cell(cell)
 
-func _generate_tiles():
+func generate_tiles():
 	var map_seed = randi() # the main seed used to generate everything else
 	Global.rng.seed = map_seed
 	var danger_seed = Global.rng.randi() # get a different seed for a different noise map

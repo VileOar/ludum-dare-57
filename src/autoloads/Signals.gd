@@ -26,3 +26,9 @@ signal end_condition(win:bool)
 
 # send enemies
 signal collect_items(item_type: int, amount: int)
+
+## Sent when the shop is opened
+signal shop_open
+
+## Sent when the shop is closed
+signal shop_close

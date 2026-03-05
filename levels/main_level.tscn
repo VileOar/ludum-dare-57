@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://btoglak145h8n"]
+[gd_scene load_steps=16 format=3 uid="uid://btoglak145h8n"]
 
 [ext_resource type="PackedScene" uid="uid://dca88eh6c0qrc" path="res://src/worldmap/world_maptiles.tscn" id="1_0vhbo"]
 [ext_resource type="Script" uid="uid://b5gjwvuarb020" path="res://levels/main_level.gd" id="1_55n5f"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dpe70r3peuomp" path="res://src/agents/burrow_spawner.tscn" id="6_t6wdf"]
 [ext_resource type="PackedScene" uid="uid://d3r0by2c0a703" path="res://src/characters/shopkeeper/shopkeeper.tscn" id="7_43k3a"]
 [ext_resource type="PackedScene" uid="uid://p50gwaoxao35" path="res://src/gui/hud.tscn" id="10_5br84"]
+[ext_resource type="PackedScene" uid="uid://dva47lw34td0t" path="res://src/radar/radar_pulse.tscn" id="10_ol4gt"]
 [ext_resource type="Script" uid="uid://e7eh2l7fc0qe" path="res://src/end_game_manager.gd" id="12_t6wdf"]
 [ext_resource type="Texture2D" uid="uid://bnv8beymm7sid" path="res://assets/victory_light2.png" id="14_v1ssk"]
 
@@ -51,6 +52,8 @@ burrow = ExtResource("6_t6wdf")
 
 [node name="Player" parent="NavGenerator" instance=ExtResource("2_0vhbo")]
 unique_name_in_owner = true
+
+[node name="RadarPulse" parent="." instance=ExtResource("10_ol4gt")]
 
 [node name="ShopInteractable" parent="." instance=ExtResource("7_43k3a")]
 position = Vector2(256, 0)

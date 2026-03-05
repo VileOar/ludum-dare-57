@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=13 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://b84dcw5smdx6j" path="res://assets/characters/player/player.png" id="2_03ylq"]
 [ext_resource type="Script" uid="uid://c3s1fv0ne5jxk" path="res://src/characters/player/player_area.gd" id="3_03ylq"]
-[ext_resource type="PackedScene" uid="uid://dva47lw34td0t" path="res://src/radar/radar_pulse.tscn" id="3_5c1al"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhnms"]
 atlas = ExtResource("2_03ylq")
@@ -116,8 +115,6 @@ script = ExtResource("3_03ylq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 shape = SubResource("RectangleShape2D_03ylq")
-
-[node name="RadarPulse" parent="." instance=ExtResource("3_5c1al")]
 
 [connection signal="body_entered" from="PlayerArea" to="PlayerArea" method="_on_body_entered"]
 [connection signal="body_exited" from="PlayerArea" to="PlayerArea" method="_on_body_exited"]
