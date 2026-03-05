@@ -13,21 +13,18 @@ var region_rid: RID
 
 func _ready() -> void:
 	navigation_mesh = NavigationPolygon.new()
-	navigation_mesh.agent_radius = 64.0
+	navigation_mesh.agent_radius = 16.0
 	navigation_mesh.border_size = 64.0
 	source_geometry = NavigationMeshSourceGeometryData2D.new()
 	callback_parsing = on_parsing_done
 	callback_baking = on_baking_done
 	region_rid = NavigationServer2D.region_create()
-
 	# Enable the region and set it to the default navigation map.
 	NavigationServer2D.region_set_enabled(region_rid, true)
 	NavigationServer2D.region_set_map(region_rid, get_world_2d().get_navigation_map())
 	
-	# Some mega-nodes like TileMap are often not ready on the first frame.
-	# Also the parsing needs to happen on the main-thread.
-	# So do a deferred call to avoid common parsing issues.
-	parse_source_geometry.call_deferred()
+	# Only bake after map has generated
+	Signals.map_stable.connect(parse_source_geometry)
 
 
 func parse_source_geometry() -> void:
@@ -47,11 +44,17 @@ func on_parsing_done() -> void:
 	# If we did not parse a TileMap with navigation mesh cells we may now only
 	# have obstruction outlines so add at least one traversable outline
 	# so the obstructions outlines have something to "cut" into.
+	var used_rect = Global.world_map_tiles.get_tiles().get_used_rect()
+	var tile_size = Global.world_map_tiles.get_tiles().tile_set.tile_size
+
+	var min_pos: Vector2 = used_rect.position * tile_size
+	var size: Vector2 = used_rect.size * tile_size
+	var buffer: int = tile_size.x * 4
 	source_geometry.add_traversable_outline(PackedVector2Array([
-		Vector2(0.0, 0.0),
-		Vector2(1920.0, 0.0),
-		Vector2(1920.0, 1080.0),
-		Vector2(0.0, 1080.0)
+		min_pos - Vector2(buffer, buffer),
+		min_pos + Vector2(size.x, 0) + Vector2(buffer, -buffer),
+		min_pos + size + Vector2(buffer, buffer),
+		min_pos + Vector2(0, size.y) + Vector2(-buffer, buffer)
 	]))
 
 	# Bake the navigation mesh on a thread with the source geometry data.

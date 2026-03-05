@@ -9,7 +9,10 @@ const MAX_NAVIGATION_Y := -5
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
-const STARTING_AREA := Rect2i(-3, -2, 6, 4)
+## The dimensions a safe zone (widht,height) in tiles
+const SAFE_ZONE_DIMS := Vector2i(9,7)
+## Rect representing the starting area (in tiles)
+const STARTING_AREA := Rect2i(Vector2i(-4,-3), SAFE_ZONE_DIMS)
 
 const X_START: int = MAP_LIMITS.position.x - BEDROCK_THICKNESS
 const X_END: int = MAP_LIMITS.end.x + BEDROCK_THICKNESS
@@ -43,6 +46,8 @@ const BOTTOM_STONE_Y = -5
 	4: _danger_level4,
 	5: _danger_level5,
 }
+
+var _starting_area_cells: Array[Vector2i] = []
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
@@ -83,6 +88,9 @@ func get_random_spawn_position() -> Vector2:
 	var cell = valid_cells[Global.rng.randi() % valid_cells.size()]
 	return _nav_layer.map_to_local(cell)
 
+func get_tiles() -> MapTiles:
+	return _tiles
+
 
 # Whether the cell at the given position can be dug with given strentgh
 func _can_dig(cell_pos: Vector2i, dig_strength: int) -> bool:
@@ -113,15 +121,17 @@ func _dig_tiles(cells: Array[Vector2i]):
 	_set_cells(cells, -1)
 
 # Internal method to set cells to the terrain tilemap layer
-func _set_cells(cells: Array[Vector2i], terrain):
+func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
 	BetterTerrain.set_cells(_tiles, cells, terrain)
 	# if cell is deleted update nearby cells
 	if terrain == -1:
 		BetterTerrain.update_terrain_cells(_tiles, cells)
 	
 	for cell in cells:
-		if terrain == -1 and cell.y >= MAX_NAVIGATION_Y:
-			_nav_layer.set_cell(cell, 0, Vector2i.ZERO)
+		if is_safe:
+			_nav_layer.set_cell(cell)
+		elif terrain == -1:
+			_nav_layer.set_cell(cell, 0, Vector2i(9,2))
 		else:
 			_nav_layer.set_cell(cell)
 
@@ -150,7 +160,7 @@ func _generate_tiles():
 			
 			# tiles in starting area are empty
 			if STARTING_AREA.has_point(cell):
-				_set_cells([cell], -1)
+				_starting_area_cells.append(cell)
 				continue
 			
 			var noise = terrain_noise.get_noise_2dv(cell)
@@ -183,16 +193,88 @@ func _generate_tiles():
 			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_value
 			if Global.rng.randf() < spawn_chance: # this tile will spawn something
 				_spawn_tile_data(cell, danger_value)
-	
-	are_tiles_generated = true
-	Signals.map_stable.emit.call_deferred()
+		
+	_create_safe_zone(_starting_area_cells)
 	
 	# update terrains once generation ends
 	var game_area: Rect2i = Rect2i(X_START, Y_START, X_END - X_START, Y_END - Y_START)
 	BetterTerrain.update_terrain_area(_tiles, game_area)
 	for i in _danger_levels:
 		BetterTerrain.update_terrain_area(_danger_levels[i], game_area)
+	
+	are_tiles_generated = true
+	Signals.map_stable.emit.call_deferred()
 
+# creates a safe zone based on an ordered array of cells
+# must follow left to right then top to bot, ex. below
+#  1, 2, 3
+#  4, 5, 6
+#  7, 8, 9
+
+func _create_safe_zone(cells: Array[Vector2i]):
+	# sizes in cells
+	const size_x: int = SAFE_ZONE_DIMS.x
+	const size_y: int = SAFE_ZONE_DIMS.y
+	# create a navigation obstacle at safe zone
+	var obstacle := NavigationObstacle2D.new()
+	obstacle.carve_navigation_mesh = true
+	obstacle.avoidance_enabled = false
+	# buffer shrinks the nav obstacle by a px amount in every direction
+	@warning_ignore("integer_division")
+	const buffer: int = Global.CELL_SIZE / 2
+	# sizes in pixels
+	const px_size_x: float = size_x * Global.CELL_SIZE - buffer * 2
+	const px_size_y: float = size_y * Global.CELL_SIZE - buffer * 2
+	# calculate the nav obstacle's shape
+	@warning_ignore("integer_division")
+	var start_cell_pos := Vector2i(
+		cells[0].x * Global.CELL_SIZE + buffer,
+		cells[0].y * Global.CELL_SIZE + buffer,
+	)
+	var safe_zone_polygon := PackedVector2Array([
+		Vector2(
+			start_cell_pos.x, 
+			start_cell_pos.y),
+		Vector2( 
+			start_cell_pos.x + px_size_x, 
+			start_cell_pos.y),
+		Vector2(
+			start_cell_pos.x + px_size_x,  
+			start_cell_pos.y + px_size_y),
+		Vector2(
+			start_cell_pos.x,  
+			start_cell_pos.y + px_size_y)
+	])
+	obstacle.vertices = safe_zone_polygon
+	# add the nav obstacle to the scene
+	add_child(obstacle)
+	
+	# calculate indices in the middle of the 4 sides of the border
+	@warning_ignore("integer_division")
+	const entrance_idx: Array[int] = [
+		size_x/2 + 1,
+		size_x * (size_y/2) + 1,
+		size_x * (size_y/2 + 1),
+		(size_x * size_y) - size_x/2
+	]
+	# calculate indices on the border
+	var border_idx: Array[int] = []
+	for i: int in range(1, size_x * size_y + 1):
+		if i <= size_x or i > size_x * (size_y - 1):
+			border_idx.append(i)
+	for i: int in range(1, size_y - 1):
+		border_idx.append(size_x * i + 1)
+		border_idx.append(size_x * (i + 1))
+	# set cells based on index
+	var idx = 1
+	for cell: Vector2i in cells:
+		if idx in entrance_idx:
+			_set_cells([cell], -1)
+		elif idx in border_idx:
+			_set_cells([cell], 4, true)
+		else:
+			_set_cells([cell], -1, true)
+		idx += 1
 
 func _spawn_tile_data(cell_pos: Vector2i, amount: float):
 	var types = Global.tile_type_weights.keys()

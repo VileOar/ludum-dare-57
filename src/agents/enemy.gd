@@ -20,31 +20,28 @@ func _ready():
 
 
 func _physics_process(_delta: float) -> void:
-	# validate 
-	if nav_agent && !player_to_chase:
+	if not player_to_chase:
 		return
-	# If agent is on player, doesn't jitter
-	if position == player_to_chase.position:
+
+	if nav_agent.is_navigation_finished():
 		return
-		
-	var next_path_pos = nav_agent.get_next_path_position()
-	var direction = position.direction_to(next_path_pos)
-	var new_velocity = direction * Global.ENEMY_SPEED 
-	
-	nav_agent.velocity = new_velocity
-	velocity = new_velocity
+
+	var next_path_position = nav_agent.get_next_path_position()
+	var direction = position.direction_to(next_path_position)
+
+	nav_agent.velocity = direction * Global.ENEMY_SPEED
 	
 	
 # When it reachs the target location, gets new one
 func _on_nav_finished():
 #	When it reachs spawn point, dissapears
 	if is_give_up_time:
-		if position.distance_to(origin_point) < 7:
+		if position.distance_to(origin_point) < Global.CELL_SIZE/4.0:
 			queue_free()
 	
 	
-func _on_navigation_agent_2d_velocity_computed(safe_velocity) -> void:
-	velocity = velocity.move_toward(safe_velocity, 100)
+func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
 	move_and_slide()
 
 
@@ -73,8 +70,14 @@ func enemy_collided_with_player() -> void:
 	
 	
 func make_path(pos: Vector2) -> void:
-	nav_agent.target_position = pos
+	var target = _get_target(pos)
+	nav_agent.target_position = target
 		
 		
 func set_player_to_chase():
-	player_to_chase	= Global.player_ref
+	player_to_chase = Global.player_ref
+
+func _get_target(target_pos: Vector2)-> Vector2:
+	var nav_map := nav_agent.get_navigation_map()
+	var closest_point := NavigationServer2D.map_get_closest_point(nav_map, target_pos)
+	return closest_point
