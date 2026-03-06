@@ -43,13 +43,22 @@ var _current_mining_direction: Vector2 = Vector2.ZERO
 var available_interactables: Array = []
 var current_interactable = null 
 
+## Reference to the radar pulse object in the level
+var _radar_pulse: RadarPulse
+
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
-@onready var _radar_pulse: RadarPulse = $RadarPulse
 @onready var _dig_particles: GPUParticles2D = $Sprite/GPUParticles2D
 
-
 var can_play = false
+
+func set_can_play(value: bool) -> void:
+	can_play = value
+	if !can_play:
+		velocity = Vector2.ZERO
+
+func set_radar_pulse(ref: RadarPulse) -> void:
+	_radar_pulse = ref
 
 func _ready() -> void:
 	Global.player_ref = self
@@ -77,7 +86,8 @@ func _input(event):
 
 func _unhandled_input(_event: InputEvent) -> void:
 	_current_move_input = _get_movement_input()
-	_check_radar_input()
+	if can_play:
+		_check_radar_input()
 
 func _physics_process(delta: float) -> void:
 	if can_play:
@@ -203,13 +213,14 @@ func _get_movement_input() -> Vector2:
 
 func _check_radar_input():
 	if Input.is_action_just_pressed("RadarPulse") and _fuel > 0:
-		var radar_activated = _radar_pulse.activate()
+		var radar_activated = _radar_pulse.activate(position)
 		if radar_activated:
 			set_fuel(-Global.SCAN_COST)
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
-	set_health(- Global.ENEMY_DAMAGE_DONE)
+	return
+	#set_health(- Global.ENEMY_DAMAGE_DONE)
 	
 
 func set_health(delta:int):

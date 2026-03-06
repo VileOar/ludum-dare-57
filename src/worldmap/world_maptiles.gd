@@ -3,33 +3,48 @@ extends Node2D
 
 ## How many tiles should the bedrock border be.
 const BEDROCK_THICKNESS := 8
-
-const MAX_NAVIGATION_Y := -5
-
 ## The rectangle encompassing the full traverseable map.
 const MAP_LIMITS := Rect2i(-25, -20, 50, 100)
+## The rectangle encompassing the full map (including bedrock).
+const FULL_MAP := Rect2i(
+	MAP_LIMITS.position.x - BEDROCK_THICKNESS, 
+	MAP_LIMITS.position.y,
+	MAP_LIMITS.size.x + BEDROCK_THICKNESS * 2,
+	MAP_LIMITS.size.y + BEDROCK_THICKNESS
+)
+## Total amount of tiles inside playable area
 const TOTAL_TILE_AMOUNT: int = MAP_LIMITS.size.x * MAP_LIMITS.size.y
 ## The dimensions a safe zone (widht,height) in tiles
 const SAFE_ZONE_DIMS := Vector2i(9,7)
 ## Rect representing the starting area (in tiles)
 const STARTING_AREA := Rect2i(Vector2i(-4,-3), SAFE_ZONE_DIMS)
+## How many safe zones to generate on the map
+const SAFE_ZONE_AMOUNT: int = 3
 
-const X_START: int = MAP_LIMITS.position.x - BEDROCK_THICKNESS
-const X_END: int = MAP_LIMITS.end.x + BEDROCK_THICKNESS
-const Y_START: int = MAP_LIMITS.position.y
-const Y_END: int = MAP_LIMITS.end.y + BEDROCK_THICKNESS
-
+# MAP GENERATION CONSTANTS
 ## The y value above which danger should effectively be 0.
 const MIN_DANGER_Y = -5
 ## The y value below which danger should effectively be 1.
 const MAX_DANGER_Y = 95
 ## the max value to add/subtract to the danger value, depending on y coordinate.
 const MAX_DANGER_MODIFIER = 0.5
-
 ## The upper-most y value, at which all blocks should effectively be the strongest stone.
 const TOP_STONE_Y = -20
 ## The lower-most y value, at which terrain generation should no longer be modified to include stone.
 const BOTTOM_STONE_Y = -5
+
+var _safe_zones: Dictionary[Rect2i, Array]
+
+# Dictionary holding the thresholds under which different terrains should spawn.[br]
+var _terrain_noise_thresholds := {
+	0.3: 0,
+	0.6: 1,
+	0.8: 2,
+	1.0: 3
+}
+
+var load_percent: int = 0
+var are_tiles_generated: bool = false
 
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _danger_level1: TileMapLayer = $DangerLevel1
@@ -46,19 +61,6 @@ const BOTTOM_STONE_Y = -5
 	4: _danger_level4,
 	5: _danger_level5,
 }
-
-var _starting_area_cells: Array[Vector2i] = []
-
-# Dictionary holding the thresholds under which different terrains should spawn.[br]
-var _terrain_noise_thresholds := {
-	0.3: 0,
-	0.6: 1,
-	0.8: 2,
-	1.0: 3
-}
-
-var load_percent: int = 0
-var are_tiles_generated: bool = false
 
 func _ready() -> void:
 	Global.world_map_tiles = self
@@ -146,11 +148,12 @@ func generate_tiles():
 	var danger_noise = _get_noise_map(danger_seed, 0.01, 4, 0.0)
 	
 	var tile_num: int = 0
-	
+	# define where the safe zones are going to be
+	_generate_safe_zones()
 	# set the terrains according to noise
 	# also sets the bedrock tiles
-	for yy in range(Y_START, Y_END):
-		for xx in range(X_START, X_END):
+	for yy in range(FULL_MAP.position.y, FULL_MAP.end.y):
+		for xx in range(FULL_MAP.position.x, FULL_MAP.end.x):
 			var cell = Vector2i(xx, yy)
 			
 			# this means that it is bedrock, so no generation will occur, but filled with bedrock
@@ -158,9 +161,10 @@ func generate_tiles():
 				_set_cells([cell], 4)
 				continue
 			
-			# tiles in starting area are empty
-			if STARTING_AREA.has_point(cell):
-				_starting_area_cells.append(cell)
+			# if cell is part of a safe zone, add it to the dict
+			var safe_zone = _is_cell_in_safe_zone(cell)
+			if safe_zone != Rect2i(0,0,0,0):
+				_safe_zones[safe_zone].append(cell)
 				continue
 			
 			var noise = terrain_noise.get_noise_2dv(cell)
@@ -193,25 +197,56 @@ func generate_tiles():
 			var spawn_chance = Global.TILE_SPAWN_RATIO * danger_value
 			if Global.rng.randf() < spawn_chance: # this tile will spawn something
 				_spawn_tile_data(cell, danger_value)
-		
-	_create_safe_zone(_starting_area_cells)
-	
+	# update map with the safe zones
+	_spawn_safe_zones()
 	# update terrains once generation ends
-	var game_area: Rect2i = Rect2i(X_START, Y_START, X_END - X_START, Y_END - Y_START)
-	BetterTerrain.update_terrain_area(_tiles, game_area)
+	BetterTerrain.update_terrain_area(_tiles, FULL_MAP)
 	for i in _danger_levels:
-		BetterTerrain.update_terrain_area(_danger_levels[i], game_area)
+		BetterTerrain.update_terrain_area(_danger_levels[i], FULL_MAP)
 	
 	are_tiles_generated = true
 	Signals.map_stable.emit.call_deferred()
+
+func _is_cell_in_safe_zone(cell) -> Rect2i:
+	for safe_zone in _safe_zones.keys():
+		if safe_zone.has_point(cell):
+			return safe_zone
+	return Rect2i(0,0,0,0)
+
+func _generate_safe_zones() -> void:
+	_safe_zones[STARTING_AREA] = []
+	# how far left and right on the x axis a safe zone rect can generate
+	const x_range := Vector2i (
+		MAP_LIMITS.position.x + SAFE_ZONE_DIMS.x * 0.5,
+		MAP_LIMITS.end.x - SAFE_ZONE_DIMS.x * 1.5
+	) 
+	# how far up and down the y axis a safe zone rect can generate
+	const y_range := Vector2i (
+		STARTING_AREA.position.y + SAFE_ZONE_DIMS.y * 2,
+		MAP_LIMITS.end.y - SAFE_ZONE_DIMS.y * 1.5
+	)
+	#print(y_range.y - y_range.x - SAFE_ZONE_DIMS.y * 4 * (SAFE_ZONE_AMOUNT - 1))
+	var y_values: Array[int] = []
+	for i in range(y_range.x, y_range.y):
+		y_values.append(i)
+	for i in range(SAFE_ZONE_AMOUNT):
+		var x = randi_range(x_range.x, x_range.y)
+		var y = y_values[randi_range(0, y_values.size())]
+		var buffer := Vector2i (
+			y - SAFE_ZONE_DIMS.y * 2, 
+			y + SAFE_ZONE_DIMS.y * 2
+		)
+		for j in range(buffer.x, buffer.y):
+			y_values.erase(j)
+		var safe_zone := Rect2i(Vector2i(x,y), SAFE_ZONE_DIMS)
+		_safe_zones[safe_zone] = []
 
 # creates a safe zone based on an ordered array of cells
 # must follow left to right then top to bot, ex. below
 #  1, 2, 3
 #  4, 5, 6
 #  7, 8, 9
-
-func _create_safe_zone(cells: Array[Vector2i]):
+func _create_safe_zone(cells: Array):
 	# sizes in cells
 	const size_x: int = SAFE_ZONE_DIMS.x
 	const size_y: int = SAFE_ZONE_DIMS.y
@@ -275,6 +310,10 @@ func _create_safe_zone(cells: Array[Vector2i]):
 		else:
 			_set_cells([cell], -1, true)
 		idx += 1
+
+func _spawn_safe_zones() -> void:
+	for safe_zone in _safe_zones:
+		_create_safe_zone(_safe_zones[safe_zone])
 
 func _spawn_tile_data(cell_pos: Vector2i, amount: float):
 	var types = Global.tile_type_weights.keys()
