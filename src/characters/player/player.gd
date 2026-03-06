@@ -219,8 +219,7 @@ func _check_radar_input():
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
-	return
-	#set_health(- Global.ENEMY_DAMAGE_DONE)
+	set_health(- Global.ENEMY_DAMAGE_DONE)
 	
 
 func set_health(delta:int):
