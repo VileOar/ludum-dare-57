@@ -68,3 +68,7 @@ func on_parsing_done() -> void:
 func on_baking_done() -> void:
 	# Update the region with the updated navigation mesh.
 	NavigationServer2D.region_set_navigation_polygon(region_rid, navigation_mesh)
+
+func _exit_tree() -> void:
+	if region_rid.is_valid():
+		NavigationServer2D.free_rid(region_rid)

@@ -231,7 +231,7 @@ func _generate_safe_zones() -> void:
 		y_values.append(i)
 	for i in range(SAFE_ZONE_AMOUNT):
 		var x = randi_range(x_range.x, x_range.y)
-		var y = y_values[randi_range(0, y_values.size())]
+		var y = y_values[randi_range(0, y_values.size() - 1)]
 		var buffer := Vector2i (
 			y - SAFE_ZONE_DIMS.y * 2, 
 			y + SAFE_ZONE_DIMS.y * 2

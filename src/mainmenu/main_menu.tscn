@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dfl1igxlaepr" path="res://assets/gui/credits.png" id="4_p1ij0"]
 [ext_resource type="Texture2D" uid="uid://c2e6os8knplit" path="res://assets/gui/exit.png" id="5_nqbv2"]
 [ext_resource type="Texture2D" uid="uid://bey886i11yg42" path="res://assets/gui/back.png" id="6_p1ij0"]
-[ext_resource type="Texture2D" uid="uid://dvn1xemx234jg" path="res://assets/gui/Background2.png" id="8_r1pra"]
+[ext_resource type="Texture2D" uid="uid://1swtvy70227l" path="res://assets/gui/empty_bg.png" id="7_r1pra"]
 [ext_resource type="Texture2D" uid="uid://cfyrhrsfoxw43" path="res://assets/gui/howtoall.png" id="10_fbsfs"]
 
 [node name="MainMenu" type="Control"]
@@ -75,10 +75,14 @@ offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="Sprite2D" parent="Credits"]
-position = Vector2(961.75, 540.75)
-scale = Vector2(15.0195, 8.44141)
-texture = ExtResource("8_r1pra")
+[node name="TextureRect" type="TextureRect" parent="Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_r1pra")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
 layout_mode = 1

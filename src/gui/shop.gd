@@ -151,8 +151,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_exit_button_pressed() 
 
 func _on_exit_button_pressed():
-	_toggle_visibility(false)
-	Signals.shop_close.emit()
+	if visible:
+		_toggle_visibility(false)
+		Signals.shop_close.emit()
 
 
 func _on_sell_button_pressed():
