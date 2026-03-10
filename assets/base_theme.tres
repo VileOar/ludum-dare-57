@@ -1,8 +1,12 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://bomll6dbw0kl1"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://bomll6dbw0kl1"]
 
 [ext_resource type="Texture2D" uid="uid://f8rp5xyhq3k8" path="res://assets/ui_button_border.png" id="1_85h58"]
 [ext_resource type="Texture2D" uid="uid://c1fvpwup1qq74" path="res://assets/ui_border.png" id="1_jvko6"]
 [ext_resource type="StyleBox" uid="uid://cftvg0ftgvrk3" path="res://assets/button_style_box_texture.tres" id="2_lhurp"]
+[ext_resource type="FontFile" uid="uid://bucmetqm3fa44" path="res://assets/gui/font/Sarpanch-SemiBold.ttf" id="3_tjcko"]
+[ext_resource type="StyleBox" uid="uid://8vji441ncvqe" path="res://assets/ui_menu_button_normal.tres" id="4_tjcko"]
+[ext_resource type="StyleBox" uid="uid://tskjjpv1xdn0" path="res://assets/ui_menu_button_hover.tres" id="4_x2hgr"]
+[ext_resource type="StyleBox" uid="uid://bkhyj26mta533" path="res://assets/ui_menu_button_pressed.tres" id="6_xouc1"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjcko"]
 texture = ExtResource("1_85h58")
@@ -50,4 +54,13 @@ Button/styles/focus = SubResource("StyleBoxEmpty_85h58")
 Button/styles/hover = SubResource("StyleBoxTexture_bx4g4")
 Button/styles/normal = ExtResource("2_lhurp")
 Button/styles/pressed = SubResource("StyleBoxTexture_x2hgr")
+FlatButton/colors/font_color = Color(0.719333, 0.712, 0.8, 1)
+FlatButton/colors/font_focus_color = Color(0.719333, 0.712, 0.8, 1)
+FlatButton/colors/font_hover_color = Color(0.807843, 0.8, 0.901961, 1)
+FlatButton/colors/font_pressed_color = Color(0.629417, 0.623, 0.7, 1)
+FlatButton/font_sizes/font_size = 63
+FlatButton/fonts/font = ExtResource("3_tjcko")
+FlatButton/styles/hover = ExtResource("4_x2hgr")
+FlatButton/styles/normal = ExtResource("4_tjcko")
+FlatButton/styles/pressed = ExtResource("6_xouc1")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_7n61c")

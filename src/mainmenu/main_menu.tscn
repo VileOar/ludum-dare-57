@@ -1,13 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=7 format=3 uid="uid://b67yrqq2iad43"]
 
 [ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
-[ext_resource type="Texture2D" uid="uid://cte3jwivd3o3m" path="res://assets/gui/Background.png" id="3_7seqg"]
-[ext_resource type="Texture2D" uid="uid://lim4y64f8x1f" path="res://assets/gui/start.png" id="3_wft6l"]
-[ext_resource type="Texture2D" uid="uid://ovnwr771jxh2" path="res://assets/gui/how_to.png" id="4_nqbv2"]
-[ext_resource type="Texture2D" uid="uid://dfl1igxlaepr" path="res://assets/gui/credits.png" id="4_p1ij0"]
-[ext_resource type="Texture2D" uid="uid://c2e6os8knplit" path="res://assets/gui/exit.png" id="5_nqbv2"]
+[ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_qagte"]
+[ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="2_fbsfs"]
+[ext_resource type="Texture2D" uid="uid://i21tbcx3ublj" path="res://assets/gui/logo.png" id="4_qagte"]
 [ext_resource type="Texture2D" uid="uid://bey886i11yg42" path="res://assets/gui/back.png" id="6_p1ij0"]
-[ext_resource type="Texture2D" uid="uid://1swtvy70227l" path="res://assets/gui/empty_bg.png" id="7_r1pra"]
 [ext_resource type="Texture2D" uid="uid://cfyrhrsfoxw43" path="res://assets/gui/howtoall.png" id="10_fbsfs"]
 
 [node name="MainMenu" type="Control"]
@@ -17,50 +14,86 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_qagte")
 script = ExtResource("1_pfhkm")
 
-[node name="Menu" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Background" type="Sprite2D" parent="Menu"]
-position = Vector2(960, 540)
-texture = ExtResource("3_7seqg")
-
-[node name="MenuMarginContainer" type="MarginContainer" parent="Menu"]
-unique_name_in_owner = true
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 1321.8
-offset_top = 246.5
-offset_right = 1635.8
-offset_bottom = 768.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fbsfs")
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MenuMarginContainer"]
-layout_mode = 2
+[node name="Title" type="TextureRect" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 180.0
+offset_top = 347.0
+offset_right = -600.0
+offset_bottom = -541.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_qagte")
 
-[node name="Play" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
-layout_mode = 2
-icon = ExtResource("3_wft6l")
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.329
+anchor_right = 1.0
+anchor_bottom = 0.825
+offset_left = -565.0
+offset_top = -0.320038
+offset_right = -240.0
+offset_bottom = -6.10352e-05
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 20
 
-[node name="HowTo" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
-icon = ExtResource("4_nqbv2")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_qagte")
+theme_type_variation = &"FlatButton"
+text = "PLAY"
 
-[node name="Credits" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
+[node name="HowTo" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
-icon = ExtResource("4_p1ij0")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"FlatButton"
+text = "HOW TO"
 
-[node name="Quit" type="Button" parent="Menu/MenuMarginContainer/VBoxContainer"]
+[node name="Credits" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
-icon = ExtResource("5_nqbv2")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"FlatButton"
+text = "CREDITS"
+
+[node name="Quit" type="Button" parent="MainMenu/VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"FlatButton"
+text = "QUIT"
 
 [node name="Credits" type="Control" parent="."]
 visible = false
@@ -74,15 +107,6 @@ offset_right = -1.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="Credits"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("7_r1pra")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
 layout_mode = 1
@@ -153,7 +177,8 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Background" type="Sprite2D" parent="HowTo"]
-position = Vector2(960, 540)
+position = Vector2(984, 541)
+scale = Vector2(0.995, 0.995)
 texture = ExtResource("10_fbsfs")
 
 [node name="Back" type="Button" parent="HowTo"]
@@ -164,9 +189,9 @@ offset_right = 1868.0
 offset_bottom = 1036.0
 icon = ExtResource("6_p1ij0")
 
-[connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
-[connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="Menu/MenuMarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Credits/VBoxContainer/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="HowTo/Back" to="." method="_on_back_how_to_pressed"]

@@ -1,5 +1,7 @@
 extends Control
 
+@onready var _main_menu = $MainMenu
+
 func _on_play_pressed() -> void:
 	Global.deferred_change_scene(Global.level_scene)
 
@@ -9,20 +11,20 @@ func _on_quit_pressed() -> void:
 
 
 func _on_credits_pressed() -> void:
-	$Menu.visible = false
+	_main_menu.hide()
 	$Credits.visible = true
 
 
 func _on_back_pressed() -> void:
 	$Credits.visible = false
-	$Menu.visible = true
+	_main_menu.show()
 
 
 func _on_how_to_pressed() -> void:
-	$Menu.visible = false
+	_main_menu.hide()
 	$HowTo.visible = true
 
 
 func _on_back_how_to_pressed() -> void:
 	$HowTo.visible = false
-	$Menu.visible = true
+	_main_menu.show()
