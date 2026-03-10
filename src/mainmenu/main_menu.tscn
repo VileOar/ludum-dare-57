@@ -1,11 +1,80 @@
-[gd_scene load_steps=7 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=26 format=3 uid="uid://b67yrqq2iad43"]
 
 [ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_qagte"]
 [ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="2_fbsfs"]
 [ext_resource type="Texture2D" uid="uid://i21tbcx3ublj" path="res://assets/gui/logo.png" id="4_qagte"]
-[ext_resource type="Texture2D" uid="uid://bey886i11yg42" path="res://assets/gui/back.png" id="6_p1ij0"]
-[ext_resource type="Texture2D" uid="uid://cfyrhrsfoxw43" path="res://assets/gui/howtoall.png" id="10_fbsfs"]
+[ext_resource type="Texture2D" uid="uid://jw1nnssu70pi" path="res://assets/gui/keys/keyboard_arrow_up_outline.png" id="6_p1ij0"]
+[ext_resource type="Texture2D" uid="uid://nii1keapl2qo" path="res://assets/gui/keys/keyboard_arrow_down_outline.png" id="7_r1pra"]
+[ext_resource type="Texture2D" uid="uid://ysdbfhhjqx55" path="res://assets/gui/keys/keyboard_arrow_left_outline.png" id="8_fbsfs"]
+[ext_resource type="Texture2D" uid="uid://bn07yw1g02ywe" path="res://assets/gui/keys/keyboard_arrow_right_outline.png" id="9_qagte"]
+[ext_resource type="Texture2D" uid="uid://cslpi1hkxllsk" path="res://assets/gui/keys/keyboard_w_outline.png" id="10_sp7mk"]
+[ext_resource type="Texture2D" uid="uid://dw8jw3uiydr4m" path="res://assets/gui/keys/keyboard_a_outline.png" id="11_2wif8"]
+[ext_resource type="Texture2D" uid="uid://uunttflfx3in" path="res://assets/gui/keys/keyboard_s_outline.png" id="12_wtin0"]
+[ext_resource type="Texture2D" uid="uid://djqpr7atvw2jc" path="res://assets/gui/keys/keyboard_e_outline.png" id="13_sp7mk"]
+[ext_resource type="Texture2D" uid="uid://ktew6hbhy560" path="res://assets/gui/keys/keyboard_d_outline.png" id="13_ul6nv"]
+[ext_resource type="Texture2D" uid="uid://c1a6h1bbj6fa2" path="res://assets/gui/keys/keyboard_space_outline.png" id="14_wtin0"]
+[ext_resource type="Texture2D" uid="uid://cafr78jafep5r" path="res://assets/gui/keys/keyboard_escape_outline.png" id="15_ul6nv"]
+[ext_resource type="Texture2D" uid="uid://bpnp2yn3ep8cr" path="res://assets/characters/shopkeeper/shopkeeper.png" id="16_ul6nv"]
+[ext_resource type="Texture2D" uid="uid://b21mgf4q4vyn4" path="res://assets/characters/enemy/spider_spritesheet.png" id="17_osm17"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ul6nv"]
+atlas = ExtResource("16_ul6nv")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osm17"]
+atlas = ExtResource("16_ul6nv")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnlak"]
+atlas = ExtResource("16_ul6nv")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwgq0"]
+atlas = ExtResource("16_ul6nv")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wtin0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ul6nv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osm17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fnlak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwgq0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22pmr"]
+atlas = ExtResource("17_osm17")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3e4y8"]
+atlas = ExtResource("17_osm17")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_si1r0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22pmr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3e4y8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -16,6 +85,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_qagte")
 script = ExtResource("1_pfhkm")
+metadata/_edit_vertical_guides_ = [186.0]
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -26,7 +96,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_fbsfs")
 
-[node name="MainMenu" type="Control" parent="."]
+[node name="TitleMenu" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +104,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="TextureRect" parent="MainMenu"]
+[node name="Title" type="TextureRect" parent="TitleMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,7 +117,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_qagte")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -62,7 +132,7 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Play" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Play" type="Button" parent="TitleMenu/VBoxContainer"]
 custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -71,7 +141,7 @@ theme = ExtResource("1_qagte")
 theme_type_variation = &"FlatButton"
 text = "PLAY"
 
-[node name="HowTo" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="HowTo" type="Button" parent="TitleMenu/VBoxContainer"]
 custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -79,7 +149,7 @@ size_flags_vertical = 4
 theme_type_variation = &"FlatButton"
 text = "HOW TO"
 
-[node name="Credits" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Credits" type="Button" parent="TitleMenu/VBoxContainer"]
 custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -87,7 +157,7 @@ size_flags_vertical = 4
 theme_type_variation = &"FlatButton"
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Quit" type="Button" parent="TitleMenu/VBoxContainer"]
 custom_minimum_size = Vector2(325, 119)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -108,90 +178,346 @@ offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Credits"]
+[node name="CreditsTitle" type="Label" parent="Credits"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -769.0
+offset_top = 171.0
+offset_right = -287.0
+offset_bottom = 326.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderLarge"
+text = "CREDITS"
+
+[node name="CreditsHBox" type="HBoxContainer" parent="Credits"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -103.0
-offset_top = -29.0
-offset_right = 103.0
-offset_bottom = 29.0
+offset_left = -724.0
+offset_top = -175.0
+offset_right = 776.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 120
 
-[node name="UI Title" type="Label" parent="Credits/VBoxContainer"]
+[node name="ArtVBox" type="VBoxContainer" parent="Credits/CreditsHBox"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
+
+[node name="UI Title" type="Label" parent="Credits/CreditsHBox/ArtVBox"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
 text = "Art & UI Design"
-horizontal_alignment = 1
 
-[node name="Ui Body" type="Label" parent="Credits/VBoxContainer"]
+[node name="Ui Body" type="Label" parent="Credits/CreditsHBox/ArtVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Inês Pinto
-"
-horizontal_alignment = 1
+text = "Inês Pinto"
 
-[node name="Developers Title" type="Label" parent="Credits/VBoxContainer"]
+[node name="SoundVBox" type="VBoxContainer" parent="Credits/CreditsHBox"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
+
+[node name="Sound Title" type="Label" parent="Credits/CreditsHBox/SoundVBox"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Sound Design"
+
+[node name="Sound Body" type="Label" parent="Credits/CreditsHBox/SoundVBox"]
+layout_mode = 2
+text = "Francisco Esteves"
+
+[node name="DevVBox" type="VBoxContainer" parent="Credits/CreditsHBox"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+
+[node name="Developers Title" type="Label" parent="Credits/CreditsHBox/DevVBox"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
 text = "Developers"
-horizontal_alignment = 1
 
-[node name="Developers Body" type="Label" parent="Credits/VBoxContainer"]
+[node name="Developers Body" type="Label" parent="Credits/CreditsHBox/DevVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
 text = "Francisco Esteves
 Francisco Pinto
 Luís Chaves
 Miguel Monteiro
-Pedro Valério
-"
-horizontal_alignment = 1
+Pedro Valério"
 
-[node name="Sound Title" type="Label" parent="Credits/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 35
-text = "Sound Design"
-horizontal_alignment = 1
-
-[node name="Sound Body" type="Label" parent="Credits/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Francisco Esteves
-
-"
-horizontal_alignment = 1
-
-[node name="Back" type="Button" parent="Credits/VBoxContainer"]
-layout_mode = 2
-icon = ExtResource("6_p1ij0")
+[node name="CreditsBack" type="Button" parent="Credits"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -312.0
+offset_right = 163.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"FlatButton"
+text = "BACK"
 
 [node name="HowTo" type="Control" parent="."]
 visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Background" type="Sprite2D" parent="HowTo"]
-position = Vector2(984, 541)
-scale = Vector2(0.995, 0.995)
-texture = ExtResource("10_fbsfs")
+[node name="HowToTitle" type="Label" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -769.0
+offset_top = 171.0
+offset_right = -287.0
+offset_bottom = 326.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderLarge"
+text = "HOW TO"
 
-[node name="Back" type="Button" parent="HowTo"]
-layout_mode = 0
-offset_left = 1554.0
-offset_top = 908.0
-offset_right = 1868.0
-offset_bottom = 1036.0
-icon = ExtResource("6_p1ij0")
+[node name="Controls" type="RichTextLabel" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 184.0
+offset_top = 351.0
+offset_right = -1217.0
+offset_bottom = -671.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Use WASD/Arrows to move"
 
-[connection signal="pressed" from="MainMenu/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
-[connection signal="pressed" from="Credits/VBoxContainer/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="HowTo/Back" to="." method="_on_back_how_to_pressed"]
+[node name="Arrows" type="VBoxContainer" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 437.0
+offset_top = 409.0
+offset_right = -1311.0
+offset_bottom = -553.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -10
+
+[node name="TextureRect" type="TextureRect" parent="HowTo/Arrows"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_p1ij0")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HowTo/Arrows"]
+layout_mode = 2
+theme_override_constants/separation = -10
+
+[node name="TextureRect4" type="TextureRect" parent="HowTo/Arrows/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("8_fbsfs")
+
+[node name="TextureRect2" type="TextureRect" parent="HowTo/Arrows/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_r1pra")
+
+[node name="TextureRect3" type="TextureRect" parent="HowTo/Arrows/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("9_qagte")
+
+[node name="WASD" type="VBoxContainer" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 266.0
+offset_top = 410.0
+offset_right = -1482.0
+offset_bottom = -552.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -10
+
+[node name="TextureRect" type="TextureRect" parent="HowTo/WASD"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_sp7mk")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HowTo/WASD"]
+layout_mode = 2
+theme_override_constants/separation = -10
+
+[node name="TextureRect4" type="TextureRect" parent="HowTo/WASD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("11_2wif8")
+
+[node name="TextureRect2" type="TextureRect" parent="HowTo/WASD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("12_wtin0")
+
+[node name="TextureRect3" type="TextureRect" parent="HowTo/WASD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_ul6nv")
+
+[node name="Controls2" type="RichTextLabel" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 184.0
+offset_top = 746.0
+offset_right = -1235.0
+offset_bottom = -154.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_separation = 6
+text = "Press          to scan
+Press        to interact
+Press        to close menus"
+
+[node name="Instructions" type="RichTextLabel" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 941.0
+offset_top = 224.0
+offset_right = -467.0
+offset_bottom = -489.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "The goal is to dig upwards in order to escape.
+Move against walls to destroy them.
+Buy upgrades to get better equipment."
+
+[node name="Instructions2" type="RichTextLabel" parent="HowTo"]
+layout_mode = 2
+offset_left = 1253.0
+offset_top = 666.0
+offset_right = 1682.0
+offset_bottom = 772.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Beware of the spiders!"
+
+[node name="TextureRect" type="TextureRect" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 298.0
+offset_top = 798.0
+offset_right = -1558.0
+offset_bottom = -218.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_sp7mk")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 287.0
+offset_top = 723.0
+offset_right = -553.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_wtin0")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="HowTo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 298.0
+offset_top = 854.0
+offset_right = -1558.0
+offset_bottom = -162.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_ul6nv")
+
+[node name="Shopkeeper" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1543, 443)
+sprite_frames = SubResource("SpriteFrames_wtin0")
+autoplay = "default"
+
+[node name="HowToBack" type="Button" parent="HowTo"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -312.0
+offset_right = 163.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"FlatButton"
+text = "BACK"
+
+[node name="Spider" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1578, 800)
+sprite_frames = SubResource("SpriteFrames_si1r0")
+autoplay = "default"
+frame = 1
+
+[node name="Spider2" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1352, 770)
+sprite_frames = SubResource("SpriteFrames_si1r0")
+autoplay = "default"
+
+[node name="Spider4" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1538, 880)
+sprite_frames = SubResource("SpriteFrames_si1r0")
+autoplay = "default"
+
+[node name="Spider5" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1477, 745)
+sprite_frames = SubResource("SpriteFrames_si1r0")
+autoplay = "default"
+
+[node name="Spider6" type="AnimatedSprite2D" parent="HowTo"]
+position = Vector2(1419, 850)
+sprite_frames = SubResource("SpriteFrames_si1r0")
+autoplay = "default"
+frame = 1
+
+[connection signal="pressed" from="TitleMenu/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="TitleMenu/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
+[connection signal="pressed" from="TitleMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="TitleMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Credits/CreditsBack" to="." method="_on_credits_back_pressed"]
+[connection signal="pressed" from="HowTo/HowToBack" to="." method="_on_how_to_back_pressed"]

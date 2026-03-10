@@ -62,6 +62,7 @@ layout_mode = 2
 [node name="Drill" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"TooltipLabel"
 text = "Claw 
 Upgrades"
 horizontal_alignment = 1
@@ -70,6 +71,7 @@ vertical_alignment = 1
 [node name="Scanner" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"TooltipLabel"
 text = "Radar 
 Upgrades"
 horizontal_alignment = 1
@@ -78,6 +80,7 @@ vertical_alignment = 1
 [node name="Health" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"TooltipLabel"
 text = "Health 
 Upgrades"
 horizontal_alignment = 1
@@ -86,6 +89,7 @@ vertical_alignment = 1
 [node name="Fuel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_type_variation = &"TooltipLabel"
 text = "Stamina
 Upgrades"
 horizontal_alignment = 1
@@ -265,6 +269,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 150)
 layout_mode = 2
 size_flags_vertical = 1
+theme_type_variation = &"TooltipLabel"
 text = "This item is very cool. You should think of buying it right now!"
 autowrap_mode = 2
 
@@ -275,12 +280,14 @@ size_flags_stretch_ratio = 2.59
 
 [node name="CostLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 text = "Cost: "
 
 [node name="CostValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_type_variation = &"TooltipLabel"
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
@@ -297,11 +304,13 @@ size_flags_horizontal = 3
 
 [node name="MoneyLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 text = "Money: "
 
 [node name="MoneyValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2"]
 layout_mode = 2
@@ -309,11 +318,13 @@ size_flags_horizontal = 3
 
 [node name="HealthLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer2"]
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 text = "Health: "
 
 [node name="HealthValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2"]
 layout_mode = 2
@@ -321,11 +332,13 @@ size_flags_horizontal = 3
 
 [node name="FuelLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer3"]
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 text = "Stamina: "
 
 [node name="FuelValue" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer2/PanelContainer2/HBoxContainer2/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"TooltipLabel"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer5/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer5/BuyButton" to="." method="_on_buy_button_pressed"]

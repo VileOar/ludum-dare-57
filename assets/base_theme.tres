@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://bomll6dbw0kl1"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://bomll6dbw0kl1"]
 
 [ext_resource type="Texture2D" uid="uid://f8rp5xyhq3k8" path="res://assets/ui_button_border.png" id="1_85h58"]
 [ext_resource type="Texture2D" uid="uid://c1fvpwup1qq74" path="res://assets/ui_border.png" id="1_jvko6"]
@@ -7,6 +7,9 @@
 [ext_resource type="StyleBox" uid="uid://8vji441ncvqe" path="res://assets/ui_menu_button_normal.tres" id="4_tjcko"]
 [ext_resource type="StyleBox" uid="uid://tskjjpv1xdn0" path="res://assets/ui_menu_button_hover.tres" id="4_x2hgr"]
 [ext_resource type="StyleBox" uid="uid://bkhyj26mta533" path="res://assets/ui_menu_button_pressed.tres" id="6_xouc1"]
+[ext_resource type="FontFile" uid="uid://buu20ke3b6uk0" path="res://assets/gui/font/Sarpanch-ExtraBold.ttf" id="7_xouc1"]
+[ext_resource type="FontFile" uid="uid://dmf6oc75svlnv" path="res://assets/gui/font/Sarpanch-Bold.ttf" id="8_y61c2"]
+[ext_resource type="FontFile" uid="uid://dtc80tshboy1d" path="res://assets/gui/font/Sarpanch-Regular.ttf" id="10_0rl20"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjcko"]
 texture = ExtResource("1_85h58")
@@ -49,6 +52,8 @@ texture_margin_bottom = 17.9886
 region_rect = Rect2(-0.676285, -0.292099, 128.676, 128.292)
 
 [resource]
+default_font = ExtResource("10_0rl20")
+default_font_size = 20
 Button/styles/disabled = SubResource("StyleBoxTexture_tjcko")
 Button/styles/focus = SubResource("StyleBoxEmpty_85h58")
 Button/styles/hover = SubResource("StyleBoxTexture_bx4g4")
@@ -63,4 +68,16 @@ FlatButton/fonts/font = ExtResource("3_tjcko")
 FlatButton/styles/hover = ExtResource("4_x2hgr")
 FlatButton/styles/normal = ExtResource("4_tjcko")
 FlatButton/styles/pressed = ExtResource("6_xouc1")
+HeaderLarge/colors/font_color = Color(0.286275, 0.317647, 0.423529, 1)
+HeaderLarge/font_sizes/font_size = 110
+HeaderLarge/fonts/font = ExtResource("7_xouc1")
+HeaderMedium/colors/font_color = Color(0.807843, 0.8, 0.901961, 1)
+HeaderMedium/font_sizes/font_size = 52
+HeaderMedium/fonts/font = ExtResource("8_y61c2")
+Label/colors/font_color = Color(0.719333, 0.712, 0.8, 1)
+Label/font_sizes/font_size = 36
+Label/fonts/font = ExtResource("3_tjcko")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_7n61c")
+RichTextLabel/colors/default_color = Color(0.807843, 0.8, 0.901961, 1)
+RichTextLabel/font_sizes/normal_font_size = 36
+RichTextLabel/fonts/normal_font = ExtResource("3_tjcko")
