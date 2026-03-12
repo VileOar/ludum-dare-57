@@ -1,0 +1,123 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmxjyhjhd604t"]
+
+[ext_resource type="Script" uid="uid://ckdpw7su25ov7" path="res://src/gui/options_menu.gd" id="1_n0ebh"]
+[ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_xeuch"]
+[ext_resource type="Script" uid="uid://cv0indxpsxpxt" path="res://src/gui/volume_slider.gd" id="4_dusqc"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xeuch")
+script = ExtResource("1_n0ebh")
+metadata/_edit_vertical_guides_ = [866.0]
+
+[node name="OptionsTitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -769.0
+offset_top = 171.0
+offset_right = -287.0
+offset_bottom = 326.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderLarge"
+text = "OPTIONS"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 484.0
+offset_top = 364.0
+offset_right = -500.0
+offset_bottom = -555.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MasterHBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MasterVol" type="Label" parent="VBoxContainer/MasterHBox"]
+layout_mode = 2
+text = "Master volume"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MasterHBox"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="MasterSlider" type="HSlider" parent="VBoxContainer/MasterHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+script = ExtResource("4_dusqc")
+bus_name = "Master"
+
+[node name="MusicHBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicVol" type="Label" parent="VBoxContainer/MusicHBox"]
+layout_mode = 2
+text = "Music volume"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MusicHBox"]
+layout_mode = 2
+theme_override_constants/separation = 118
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/MusicHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+script = ExtResource("4_dusqc")
+bus_name = "Music"
+
+[node name="SFXHBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SFXVol" type="Label" parent="VBoxContainer/SFXHBox"]
+layout_mode = 2
+text = "SFX volume"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/SFXHBox"]
+layout_mode = 2
+theme_override_constants/separation = 158
+
+[node name="SFXSlider" type="HSlider" parent="VBoxContainer/SFXHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+script = ExtResource("4_dusqc")
+bus_name = "SFX"
+
+[node name="OptionsBack" type="Button" parent="."]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -312.0
+offset_right = 163.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"FlatButton"
+text = "BACK"
+
+[connection signal="pressed" from="OptionsBack" to="." method="_on_options_back_pressed"]

@@ -32,3 +32,6 @@ signal shop_open
 
 ## Sent when the shop is closed
 signal shop_close
+
+## Sent when the options menu is closed
+signal options_close

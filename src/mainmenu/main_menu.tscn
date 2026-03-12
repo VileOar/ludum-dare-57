@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=27 format=3 uid="uid://b67yrqq2iad43"]
 
 [ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_qagte"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cafr78jafep5r" path="res://assets/gui/keys/keyboard_escape_outline.png" id="15_ul6nv"]
 [ext_resource type="Texture2D" uid="uid://bpnp2yn3ep8cr" path="res://assets/characters/shopkeeper/shopkeeper.png" id="16_ul6nv"]
 [ext_resource type="Texture2D" uid="uid://b21mgf4q4vyn4" path="res://assets/characters/enemy/spider_spritesheet.png" id="17_osm17"]
+[ext_resource type="PackedScene" uid="uid://bmxjyhjhd604t" path="res://src/gui/OptionsMenu.tscn" id="18_fnlak"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ul6nv"]
 atlas = ExtResource("16_ul6nv")
@@ -121,13 +122,13 @@ texture = ExtResource("4_qagte")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
-anchor_top = 0.329
+anchor_top = 0.306
 anchor_right = 1.0
-anchor_bottom = 0.825
+anchor_bottom = 0.931
 offset_left = -565.0
-offset_top = -0.320038
+offset_top = -0.480011
 offset_right = -240.0
-offset_bottom = -6.10352e-05
+offset_bottom = -0.480042
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 20
@@ -148,6 +149,14 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_type_variation = &"FlatButton"
 text = "HOW TO"
+
+[node name="Options" type="Button" parent="TitleMenu/VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"FlatButton"
+text = "OPTIONS"
 
 [node name="Credits" type="Button" parent="TitleMenu/VBoxContainer"]
 custom_minimum_size = Vector2(325, 119)
@@ -515,8 +524,13 @@ sprite_frames = SubResource("SpriteFrames_si1r0")
 autoplay = "default"
 frame = 1
 
+[node name="OptionsMenu" parent="." instance=ExtResource("18_fnlak")]
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="TitleMenu/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="TitleMenu/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
+[connection signal="pressed" from="TitleMenu/VBoxContainer/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="TitleMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="TitleMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Credits/CreditsBack" to="." method="_on_credits_back_pressed"]
