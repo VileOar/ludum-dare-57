@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://btoglak145h8n"]
+[gd_scene load_steps=18 format=3 uid="uid://btoglak145h8n"]
 
 [ext_resource type="PackedScene" uid="uid://dca88eh6c0qrc" path="res://src/worldmap/world_maptiles.tscn" id="1_0vhbo"]
 [ext_resource type="Script" uid="uid://b5gjwvuarb020" path="res://levels/main_level.gd" id="1_55n5f"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://e7eh2l7fc0qe" path="res://src/end_game_manager.gd" id="12_t6wdf"]
 [ext_resource type="Texture2D" uid="uid://1swtvy70227l" path="res://assets/gui/empty_bg.png" id="14_bv0m5"]
 [ext_resource type="Texture2D" uid="uid://bnv8beymm7sid" path="res://assets/victory_light2.png" id="14_v1ssk"]
+[ext_resource type="PackedScene" uid="uid://dc5hagtska66f" path="res://src/gui/PauseMenu.tscn" id="15_vy62f"]
 
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_55n5f")
@@ -112,6 +113,10 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 100
 text = "Loading..."
 horizontal_alignment = 1
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("15_vy62f")]
+unique_name_in_owner = true
+visible = false
 
 [node name="EndGameManager" type="Node" parent="."]
 process_mode = 3

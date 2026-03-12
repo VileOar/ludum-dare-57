@@ -35,3 +35,6 @@ signal shop_close
 
 ## Sent when the options menu is closed
 signal options_close
+
+## Sent when the pause menu is closed
+signal pause_close

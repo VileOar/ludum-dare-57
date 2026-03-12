@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc5hagtska66f"]
+
+[ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_5go61"]
+[ext_resource type="Script" uid="uid://betprva3qeko2" path="res://src/gui/pause_menu.gd" id="2_8vmyf"]
+[ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="3_4wkfw"]
+[ext_resource type="PackedScene" uid="uid://bmxjyhjhd604t" path="res://src/gui/OptionsMenu.tscn" id="3_eesyj"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5go61")
+script = ExtResource("2_8vmyf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2046, 0.227437, 0.31, 0.509804)
+
+[node name="PauseTitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -247.0
+offset_top = 224.0
+offset_right = 247.0
+offset_bottom = 379.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderLarge"
+theme_override_colors/font_color = Color(0.807843, 0.8, 0.901961, 1)
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -128.0
+offset_right = 163.0
+offset_bottom = 269.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Resume" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 2
+theme_type_variation = &"FlatButton"
+text = "RESUME"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 2
+theme_type_variation = &"FlatButton"
+text = "OPTIONS"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(325, 119)
+layout_mode = 2
+theme_type_variation = &"FlatButton"
+text = "QUIT"
+
+[node name="Options" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4wkfw")
+
+[node name="OptionsMenu" parent="Options" instance=ExtResource("3_eesyj")]
+layout_mode = 1
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

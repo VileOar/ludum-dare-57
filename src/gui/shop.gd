@@ -147,7 +147,7 @@ func _on_buy_button_pressed():
 	_reset_cost_and_description()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("CloseShop"):
+	if event.is_action_pressed("CloseMenu"):
 		_on_exit_button_pressed() 
 
 func _on_exit_button_pressed():
