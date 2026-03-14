@@ -70,9 +70,7 @@ func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
 	var cell_pos = _tiles.local_to_map(pos)
 	if _tiles.get_cell_tile_data(cell_pos) == null:
 		return false
-	
 	var can_dig = _can_dig(cell_pos, dig_strength)
-	
 	if can_dig:
 		_dig_tiles([cell_pos])
 	else:
@@ -175,8 +173,6 @@ func generate_tiles():
 				noise = clamp(noise + mod, -1.0, 1.0)
 			# generate the terrain tiles, deciding between the different dirt/stone tiles
 			var terrain = _noise_to_terrain(noise)
-			if terrain > 4 or terrain < 0:
-				print("Terrain: %s" % terrain)
 			_set_cells([cell], terrain)
 			
 			# determine the danger level of each tile

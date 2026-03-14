@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://b67yrqq2iad43"]
+[gd_scene load_steps=28 format=3 uid="uid://b67yrqq2iad43"]
 
 [ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_qagte"]
 [ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="2_fbsfs"]
 [ext_resource type="Texture2D" uid="uid://i21tbcx3ublj" path="res://assets/gui/logo.png" id="4_qagte"]
+[ext_resource type="PackedScene" uid="uid://bvyupwjb7sopg" path="res://src/gui/ui_button.tscn" id="5_iwgq0"]
 [ext_resource type="Texture2D" uid="uid://jw1nnssu70pi" path="res://assets/gui/keys/keyboard_arrow_up_outline.png" id="6_p1ij0"]
 [ext_resource type="Texture2D" uid="uid://nii1keapl2qo" path="res://assets/gui/keys/keyboard_arrow_down_outline.png" id="7_r1pra"]
 [ext_resource type="Texture2D" uid="uid://ysdbfhhjqx55" path="res://assets/gui/keys/keyboard_arrow_left_outline.png" id="8_fbsfs"]
@@ -133,45 +134,24 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Play" type="Button" parent="TitleMenu/VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Play" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource("1_qagte")
-theme_type_variation = &"FlatButton"
 text = "PLAY"
 
-[node name="HowTo" type="Button" parent="TitleMenu/VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="HowTo" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"FlatButton"
-text = "HOW TO"
+text = "HOWTO"
 
-[node name="Options" type="Button" parent="TitleMenu/VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Options" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"FlatButton"
 text = "OPTIONS"
 
-[node name="Credits" type="Button" parent="TitleMenu/VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Credits" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"FlatButton"
 text = "CREDITS"
 
-[node name="Quit" type="Button" parent="TitleMenu/VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Quit" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_type_variation = &"FlatButton"
 text = "QUIT"
 
 [node name="Credits" type="Control" parent="."]
@@ -258,8 +238,7 @@ Luís Chaves
 Miguel Monteiro
 Pedro Valério"
 
-[node name="CreditsBack" type="Button" parent="Credits"]
-custom_minimum_size = Vector2(325, 119)
+[node name="CreditsBack" parent="Credits" instance=ExtResource("5_iwgq0")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -272,7 +251,6 @@ offset_right = 163.0
 offset_bottom = -193.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_type_variation = &"FlatButton"
 text = "BACK"
 
 [node name="HowTo" type="Control" parent="."]
@@ -480,23 +458,6 @@ position = Vector2(1543, 443)
 sprite_frames = SubResource("SpriteFrames_wtin0")
 autoplay = "default"
 
-[node name="HowToBack" type="Button" parent="HowTo"]
-custom_minimum_size = Vector2(325, 119)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -162.0
-offset_top = -312.0
-offset_right = 163.0
-offset_bottom = -193.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_type_variation = &"FlatButton"
-text = "BACK"
-
 [node name="Spider" type="AnimatedSprite2D" parent="HowTo"]
 position = Vector2(1578, 800)
 sprite_frames = SubResource("SpriteFrames_si1r0")
@@ -523,6 +484,21 @@ position = Vector2(1419, 850)
 sprite_frames = SubResource("SpriteFrames_si1r0")
 autoplay = "default"
 frame = 1
+
+[node name="HowToBack" parent="HowTo" instance=ExtResource("5_iwgq0")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -312.0
+offset_right = 163.0
+offset_bottom = -193.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "BACK"
 
 [node name="OptionsMenu" parent="." instance=ExtResource("18_fnlak")]
 visible = false

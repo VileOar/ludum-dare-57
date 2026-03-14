@@ -1,64 +1,66 @@
 extends Node2D
 
-@onready var music_transition: AnimationPlayer = $MusicTransition
-
-var _squeaks: Array[AudioStreamPlayer] = []
-var _dirt_digs: Array[AudioStreamPlayer] = []
-var _stone_breaks: Array[AudioStreamPlayer] = []
+@onready var _music_transition: AnimationPlayer = $MusicTransition
+# Music
+@onready var _main_music: AudioStreamPlayer = $Music
+@onready var _shop_music: AudioStreamPlayer = $ShopMusic
+# SFX
+@onready var _radar_pulse: AudioStreamPlayer = $RadarPulse
+@onready var _claw_ricochet: AudioStreamPlayer = $ClawRicochet
+@onready var _dirt_digs: Array[AudioStreamPlayer] = [$DirtDig1, $DirtDig2, $DirtDig3]
+@onready var _squeaks: Array[AudioStreamPlayer] = [$Squeak1, $Squeak2, $Squeak3]
+@onready var _stone_breaks: Array[AudioStreamPlayer] = [$StoneBreak1, $StoneBreak2]
+# UI
+@onready var _click: AudioStreamPlayer = $Click
+@onready var _hover: AudioStreamPlayer = $Hover
 
 func _ready() -> void:
-	_squeaks = [$Squeak1, $Squeak2, $Squeak3]
-	_dirt_digs = [$DirtDig1, $DirtDig2, $DirtDig3]
-	_stone_breaks = [$StoneBreak1, $StoneBreak2]
-	#play_music()
-	start_musics()
+	_start_music()
 
 func _get_random_pitch() -> float:
 	return randf_range(0.9, 1.2)
-	
-func _get_random_volume() -> float:
-	return randf_range(-1, 0)
 
-func start_musics() -> void:
-	$Music.play()
-	$ShopMusic.play()
-	$ShopMusic.volume_db = -80
-	music_transition.play("ChangeToMainMusic")
+func _start_music() -> void:
+	_main_music.play()
+	_shop_music.play()
+	_shop_music.volume_db = -80
 
 func play_music() -> void:
-	music_transition.play("ChangeToMainMusic")
+	_music_transition.play("ChangeToMainMusic")
 
 func play_shop_music() -> void:
-	music_transition.play("ChangeToShopMusic")
+	_music_transition.play("ChangeToShopMusic")
 
 func play_dirt_dig(randomizer: bool = true) -> void:
 	var dirt_dig: AudioStreamPlayer = _dirt_digs.pick_random()
 	if randomizer:
 		dirt_dig.pitch_scale = _get_random_pitch()
-		dirt_dig.volume_db = _get_random_volume()
 	dirt_dig.play()
 	
 func play_stone_dig(randomizer: bool = true) -> void:
 	var stone_break = _stone_breaks.pick_random()
 	if randomizer:
 		stone_break.pitch_scale = _get_random_pitch()
-		stone_break.volume_db = _get_random_volume()
 	stone_break.play()
 
 func play_stone_dig_fail(randomizer: bool = true) -> void:
 	if randomizer:
-		$ClawRicochet.pitch_scale = _get_random_pitch()
-		$ClawRicochet.volume_db = _get_random_volume()
-	$ClawRicochet.play()
+		_claw_ricochet.pitch_scale = _get_random_pitch()
+	_claw_ricochet.play()
 
 # podem usar isto para quando o player levar damage
 func play_squeak(randomizer: bool = true) -> void:
 	var squeak = _squeaks.pick_random()
 	if randomizer:
 		squeak.pitch_scale = _get_random_pitch()
-		squeak.volume_db = _get_random_volume()
 	squeak.play()
 
 func play_radar_pulse() -> void:
-	$RadarPulse.play()
+	_radar_pulse.play()
 	play_squeak()
+
+func play_click() -> void:
+	_click.play()
+
+func play_hover() -> void:
+	_hover.play()

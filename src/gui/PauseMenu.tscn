@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dc5hagtska66f"]
+[gd_scene load_steps=6 format=3 uid="uid://dc5hagtska66f"]
 
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_5go61"]
 [ext_resource type="Script" uid="uid://betprva3qeko2" path="res://src/gui/pause_menu.gd" id="2_8vmyf"]
 [ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="3_4wkfw"]
 [ext_resource type="PackedScene" uid="uid://bmxjyhjhd604t" path="res://src/gui/OptionsMenu.tscn" id="3_eesyj"]
+[ext_resource type="PackedScene" uid="uid://bvyupwjb7sopg" path="res://src/gui/ui_button.tscn" id="3_xhqqg"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -54,22 +55,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Resume" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Resume" parent="VBoxContainer" instance=ExtResource("3_xhqqg")]
 layout_mode = 2
-theme_type_variation = &"FlatButton"
 text = "RESUME"
 
-[node name="Options" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Options" parent="VBoxContainer" instance=ExtResource("3_xhqqg")]
 layout_mode = 2
-theme_type_variation = &"FlatButton"
 text = "OPTIONS"
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
-custom_minimum_size = Vector2(325, 119)
+[node name="Quit" parent="VBoxContainer" instance=ExtResource("3_xhqqg")]
 layout_mode = 2
-theme_type_variation = &"FlatButton"
 text = "QUIT"
 
 [node name="Options" type="TextureRect" parent="."]

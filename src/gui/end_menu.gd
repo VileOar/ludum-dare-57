@@ -8,6 +8,5 @@ func _ready():
 	else:
 		status_label.text = "You didn't make it..."
 
-
-func _on_button_pressed():
+func _on_back_pressed() -> void:
 	Global.deferred_change_scene(Global.main_menu_scene)

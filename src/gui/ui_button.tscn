@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvyupwjb7sopg"]
+
+[ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_5ge4j"]
+[ext_resource type="Script" uid="uid://c2aojgjf7m2af" path="res://src/gui/ui_button.gd" id="2_2mdq7"]
+
+[node name="UIButton" type="Button"]
+custom_minimum_size = Vector2(325, 119)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_5ge4j")
+theme_type_variation = &"FlatButton"
+text = "TEXT"
+script = ExtResource("2_2mdq7")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

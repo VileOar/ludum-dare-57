@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmxjyhjhd604t"]
+[gd_scene load_steps=5 format=3 uid="uid://bmxjyhjhd604t"]
 
 [ext_resource type="Script" uid="uid://ckdpw7su25ov7" path="res://src/gui/options_menu.gd" id="1_n0ebh"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_xeuch"]
 [ext_resource type="Script" uid="uid://cv0indxpsxpxt" path="res://src/gui/volume_slider.gd" id="4_dusqc"]
+[ext_resource type="PackedScene" uid="uid://bvyupwjb7sopg" path="res://src/gui/ui_button.tscn" id="4_hrj14"]
 
 [node name="OptionsMenu" type="Control"]
 layout_mode = 3
@@ -103,8 +104,7 @@ value = 1.0
 script = ExtResource("4_dusqc")
 bus_name = "SFX"
 
-[node name="OptionsBack" type="Button" parent="."]
-custom_minimum_size = Vector2(325, 119)
+[node name="OptionsBack" parent="." instance=ExtResource("4_hrj14")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -117,7 +117,6 @@ offset_right = 163.0
 offset_bottom = -193.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_type_variation = &"FlatButton"
 text = "BACK"
 
 [connection signal="pressed" from="OptionsBack" to="." method="_on_options_back_pressed"]
