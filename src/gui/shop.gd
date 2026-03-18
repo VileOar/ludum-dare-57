@@ -5,14 +5,10 @@ extends Control
 @onready var _description_label: Label = %Description
 @onready var _cost_label: Label = %CostValue
 @onready var _buy_button: Button = %BuyButton
-@onready var _money_label: Label = %MoneyValue
-@onready var _health_label: Label = %HealthValue
-@onready var _fuel_label: Label = %FuelValue
-@onready var _sell_button: Button = %SellButton
 
 const REFUEL_MULTIPLIER := 2
 const REPAIR_MULTIPLIER := 2
-const ZERO_STRING := "--"
+const ZERO_STRING := ""
 
 var _current_cost := 0
 var _current_upgrade_selected : Global.Upgrades
@@ -23,52 +19,29 @@ var _viable_action := false
 var _refuel := false
 var _repair := false
 
-
 func _ready():
 	Signals.change_shop_visibility.connect(_toggle_visibility)
 	Signals.upgrade_selected.connect(_on_upgrade_selected)
-	Signals.currency_changed.connect(_set_money_label)
-	Signals.health_changed.connect(_set_health_label)
-	Signals.fuel_changed.connect(_set_fuel_label)
-	
 
 func _toggle_visibility(value:bool):
 	visible = value
 	if value:
 		AudioController.play_shop_music()
-		_set_money_label(Global.get_currency())
-		_set_health_label(int(Global.player_ref.get_stats().x))
-		_set_fuel_label(int(Global.player_ref.get_stats().y))
-
+		
 		_current_cost = 0
 		_current_btn = null
 		_upgrade_selected = false
 		_viable_action = false
-
+		
 		_reset_cost_and_description()
-
-		refresh_sell_button()
+		
 		_refresh_buy_button_state()
 	else:
 		AudioController.play_music()
-		
 
 func _reset_cost_and_description():
-	_description_label.text = "Welcome to the shop!"
+	_description_label.text = "Welcome to my shop!"
 	_cost_label.text = ZERO_STRING
-
-
-func _set_money_label(new_value: int):
-	_money_label.text = str(new_value)
-
-
-func _set_health_label(new_value: int):
-	_health_label.text = str(new_value)
-
-
-func _set_fuel_label(new_value: int):
-	_fuel_label.text = str(new_value)
-
 
 func _refresh_buy_button_state():
 	if _viable_action:
@@ -79,14 +52,6 @@ func _refresh_buy_button_state():
 			return
 		else:
 			_buy_button.disabled = !(Global.get_currency() >= _current_cost)
-
-
-func refresh_sell_button():
-	#TODO:
-	#_sell_button.true = Global.player_ref.has_loot
-
-	_sell_button.disabled = true
-
 
 func _manage_button_selection(cost, description, refuel, repair):
 	_description_label.text = description
@@ -155,17 +120,6 @@ func _on_exit_button_pressed():
 		_toggle_visibility(false)
 		Signals.shop_close.emit()
 
-
-func _on_sell_button_pressed():
-	_upgrade_selected = false
-	_viable_action = false
-	_current_btn = null
-
-	# TODO: Global.player_ref.get_loot actually sell
-	_refresh_buy_button_state()
-	refresh_sell_button()
-
-
 func _on_refuel_button_pressed():
 	_viable_action = false
 
@@ -177,7 +131,7 @@ func _on_refuel_button_pressed():
 		
 	_upgrade_selected = false
 	_current_btn = null
-	_manage_button_selection(temp_cost, "Restore stamina to full", true, false)
+	_manage_button_selection(temp_cost, "Restore your stamina.", true, false)
 	
 
 func _on_repair_button_pressed():
@@ -190,4 +144,4 @@ func _on_repair_button_pressed():
 	
 	_upgrade_selected = false
 	_current_btn = null
-	_manage_button_selection(temp_cost, "Restore health to full", false, true)
+	_manage_button_selection(temp_cost, "Restore your health.", false, true)

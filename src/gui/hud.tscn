@@ -49,13 +49,12 @@ offset_top = 16.0
 offset_right = 80.0
 offset_bottom = 80.0
 texture = ExtResource("1_qdyls")
-expand_mode = 1
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 2
-offset_left = 80.0
+offset_left = 89.0
 offset_top = 40.0
-offset_right = 528.0
+offset_right = 537.0
 offset_bottom = 56.0
 theme_override_styles/background = SubResource("StyleBoxFlat_r313a")
 theme_override_styles/fill = SubResource("StyleBoxFlat_err5h")
@@ -65,18 +64,18 @@ show_percentage = false
 [node name="StaminaIcon" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 64.0
+offset_top = 81.0
 offset_right = 80.0
-offset_bottom = 128.0
+offset_bottom = 145.0
 texture = ExtResource("2_kqywo")
 expand_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 96.0
-offset_right = 528.0
-offset_bottom = 112.0
+offset_left = 89.0
+offset_top = 103.0
+offset_right = 537.0
+offset_bottom = 119.0
 theme_override_styles/background = SubResource("StyleBoxFlat_k5yws")
 theme_override_styles/fill = SubResource("StyleBoxFlat_13k4q")
 value = 40.84
@@ -85,18 +84,18 @@ show_percentage = false
 [node name="CurrencyIcon" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 128.0
+offset_top = 142.0
 offset_right = 80.0
-offset_bottom = 192.0
+offset_bottom = 206.0
 texture = ExtResource("4_err5h")
 expand_mode = 1
 
 [node name="CurrencyLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 128.0
-offset_right = 208.0
-offset_bottom = 192.0
+offset_left = 87.0
+offset_top = 142.0
+offset_right = 215.0
+offset_bottom = 206.0
 theme_override_font_sizes/font_size = 44
 text = "XXX"
 vertical_alignment = 1

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=17 format=3 uid="uid://bomll6dbw0kl1"]
+[gd_resource type="Theme" load_steps=19 format=3 uid="uid://bomll6dbw0kl1"]
 
 [ext_resource type="Texture2D" uid="uid://f8rp5xyhq3k8" path="res://assets/ui_button_border.png" id="1_85h58"]
 [ext_resource type="Texture2D" uid="uid://c1fvpwup1qq74" path="res://assets/ui_border.png" id="1_jvko6"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://buu20ke3b6uk0" path="res://assets/gui/font/Sarpanch-ExtraBold.ttf" id="7_xouc1"]
 [ext_resource type="FontFile" uid="uid://dmf6oc75svlnv" path="res://assets/gui/font/Sarpanch-Bold.ttf" id="8_y61c2"]
 [ext_resource type="FontFile" uid="uid://dtc80tshboy1d" path="res://assets/gui/font/Sarpanch-Regular.ttf" id="10_0rl20"]
+[ext_resource type="StyleBox" uid="uid://by6a3c5mqjswf" path="res://assets/panel_blue_style.tres" id="10_2tfge"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjcko"]
 texture = ExtResource("1_85h58")
@@ -39,6 +40,8 @@ texture_margin_bottom = 16.9342
 region_rect = Rect2(0, 0.590487, 128, 127.41)
 modulate_color = Color(0.745581, 0.74558, 0.74558, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2tfge"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7n61c"]
 content_margin_left = 20.0
 content_margin_top = 20.0
@@ -56,6 +59,8 @@ region_rect = Rect2(-0.676285, -0.292099, 128.676, 128.292)
 [resource]
 default_font = ExtResource("10_0rl20")
 default_font_size = 20
+Button/font_sizes/font_size = 36
+Button/fonts/font = ExtResource("3_tjcko")
 Button/styles/disabled = SubResource("StyleBoxTexture_tjcko")
 Button/styles/focus = SubResource("StyleBoxEmpty_85h58")
 Button/styles/hover = SubResource("StyleBoxTexture_bx4g4")
@@ -70,6 +75,7 @@ FlatButton/fonts/font = ExtResource("3_tjcko")
 FlatButton/styles/hover = ExtResource("4_x2hgr")
 FlatButton/styles/normal = ExtResource("4_tjcko")
 FlatButton/styles/pressed = ExtResource("6_xouc1")
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_2tfge")
 HeaderLarge/colors/font_color = Color(0.286275, 0.317647, 0.423529, 1)
 HeaderLarge/font_sizes/font_size = 110
 HeaderLarge/fonts/font = ExtResource("7_xouc1")
@@ -80,7 +86,14 @@ Label/colors/font_color = Color(0.719333, 0.712, 0.8, 1)
 Label/font_sizes/font_size = 36
 Label/fonts/font = ExtResource("3_tjcko")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_7n61c")
+PanelContainerBlue/base_type = &"PanelContainer"
+PanelContainerBlue/styles/panel = ExtResource("10_2tfge")
 RichTextLabel/colors/default_color = Color(0.807843, 0.8, 0.901961, 1)
 RichTextLabel/font_sizes/normal_font_size = 36
 RichTextLabel/fonts/normal_font = ExtResource("3_tjcko")
+TooltipLabel/font_sizes/font_size = 24
+TooltipLabel/fonts/font = ExtResource("3_tjcko")
+TooltipTitle/base_type = &"Label"
+TooltipTitle/font_sizes/font_size = 24
+TooltipTitle/fonts/font = ExtResource("8_y61c2")
 VSeparator/styles/separator = SubResource("StyleBoxEmpty_0rl20")

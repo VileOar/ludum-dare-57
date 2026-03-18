@@ -117,11 +117,13 @@ libraries = {
 stream = ExtResource("2_wq8em")
 volume_db = -30.0
 bus = &"Music"
+parameters/looping = true
 
 [node name="ShopMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_g4vyo")
 volume_db = -25.0
 bus = &"Music"
+parameters/looping = true
 
 [node name="RadarPulse" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_gnbjh")
