@@ -2,13 +2,14 @@ extends Node
 
 @export var PLAYER_SPEED = 3000
 @export var ENEMY_SPEED = 450
-#@export var ENEMY_SPEED = 20000
-
 @export var ENEMY_DAMAGE_DONE = 10
 
 var max_health := 100
 var max_fuel := 10
-var max_currency := 500
+
+const MIN_MONEY_GAIN: int = 25
+const MAX_MONEY_GAIN: int = 50
+
 ## get the base amount of resource to gain when digging resources
 func get_base_resource_gain(resource_id: int) -> float:
 	match resource_id:
@@ -17,9 +18,8 @@ func get_base_resource_gain(resource_id: int) -> float:
 		TileType.FUEL:
 			return float(SCAN_COST) / 2.0
 		TileType.MONEY:
-			return randf_range(max_currency * 0.05, max_currency * 0.1)
+			return randf_range(MIN_MONEY_GAIN, MAX_MONEY_GAIN)
 	return 0
-
 
 # used
 @export var ENEMIES_TO_SPAWN_MAX : int = 25
@@ -131,7 +131,7 @@ func _ready() -> void:
 
 
 func set_currency(delta: int):
-	_currency = clamp(_currency + delta, 0, max_currency)
+	_currency = _currency + delta
 	Signals.currency_changed.emit(_currency)
 	hud_ref.update_currency_label(_currency)
 
@@ -142,6 +142,7 @@ func get_currency() -> int:
 
 func add_upgrade(upgrade_type: Upgrades):
 	_current_upgrades[upgrade_type] = 1;
+	hud_ref.add_upgrade(upgrade_type)
 	match  upgrade_type:
 		Upgrades.HEALTH_1:
 			max_health = HEALTH_UPGRADE_1

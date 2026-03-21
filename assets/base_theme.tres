@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=19 format=3 uid="uid://bomll6dbw0kl1"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://bomll6dbw0kl1"]
 
 [ext_resource type="Texture2D" uid="uid://f8rp5xyhq3k8" path="res://assets/ui_button_border.png" id="1_85h58"]
 [ext_resource type="Texture2D" uid="uid://c1fvpwup1qq74" path="res://assets/ui_border.png" id="1_jvko6"]
@@ -11,6 +11,7 @@
 [ext_resource type="FontFile" uid="uid://dmf6oc75svlnv" path="res://assets/gui/font/Sarpanch-Bold.ttf" id="8_y61c2"]
 [ext_resource type="FontFile" uid="uid://dtc80tshboy1d" path="res://assets/gui/font/Sarpanch-Regular.ttf" id="10_0rl20"]
 [ext_resource type="StyleBox" uid="uid://by6a3c5mqjswf" path="res://assets/panel_blue_style.tres" id="10_2tfge"]
+[ext_resource type="StyleBox" uid="uid://bi6h0r24fcnlk" path="res://assets/progress_bar_bg.tres" id="11_svd2s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tjcko"]
 texture = ExtResource("1_85h58")
@@ -88,6 +89,7 @@ Label/fonts/font = ExtResource("3_tjcko")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_7n61c")
 PanelContainerBlue/base_type = &"PanelContainer"
 PanelContainerBlue/styles/panel = ExtResource("10_2tfge")
+ProgressBar/styles/background = ExtResource("11_svd2s")
 RichTextLabel/colors/default_color = Color(0.807843, 0.8, 0.901961, 1)
 RichTextLabel/font_sizes/normal_font_size = 36
 RichTextLabel/fonts/normal_font = ExtResource("3_tjcko")
