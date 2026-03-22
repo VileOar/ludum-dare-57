@@ -4,11 +4,13 @@ class_name Player
 # Position to be checked after which the the game is considered won
 const _VICTORY_POSITION := -2600
 # Maximum move speed of the player
-const _MAX_MOVE_SPEED: float = 4 * Global.CELL_SIZE
+const _MAX_MOVE_SPEED: float = 5 * Global.CELL_SIZE
 # Player movement acceleration
 const _ACCELERATION: float = 20 * Global.CELL_SIZE
-# Player movement friction
+# Player movement friction (controls how long the player takes to stop moving)
 const _FRICTION: float = 40 * Global.CELL_SIZE
+# The amount of the previous velocity to keep when changing direction (percentage)
+const _CHANGE_DIR_VEL_MULTIPLIER: float = 0.2
 # List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 
@@ -17,10 +19,16 @@ const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 const _MINING_RANGE = int(float(Global.CELL_SIZE)/2.0)
 # How long it takes to mine a tile (in seconds)
 const _TIME_TO_MINE: float = 0.5
+# The color of the particles emmited when digging dirt
+const _DIRT_COLOR: Color = Color("#2a1e1e")
+# The color of the particles emmited when digging stone
+const _STONE_COLOR: Color = Color("#3f5c64")
 
 # Movement
 # Stores current input direction
-var _current_move_input: Vector2 = Vector2.ZERO
+var _curr_move_input: Vector2 = Vector2.ZERO
+# Stores previous input direction
+var _prev_input_dir: Vector2 = Vector2(-1,-1)
 # Stores a priority value for each input (lower = higher priority)
 var _input_order: Dictionary = {
 "MoveLeft" = 0, 
@@ -73,7 +81,6 @@ func _ready() -> void:
 		if Global.world_map_tiles and Global.world_map_tiles.is_stable():
 			busy = false
 			can_play = true
-			#Global.world_map_tiles.try_dig_tile(position, Global.MAX_MINING_STRENGTH)
 		else:
 			await Signals.map_stable
 	
@@ -85,14 +92,14 @@ func _input(event):
 		current_interactable.interact()
 
 func _unhandled_input(_event: InputEvent) -> void:
-	_current_move_input = _get_movement_input()
+	_curr_move_input = _get_movement_input()
 	if can_play:
 		_check_radar_input()
 
 func _physics_process(delta: float) -> void:
 	if can_play:
-		_move(_current_move_input, delta)
-		_try_to_mine(_current_move_input, delta)
+		_move(_curr_move_input, delta)
+		_try_to_mine(_curr_move_input, delta)
 
 		if position.y < _VICTORY_POSITION:
 			Signals.end_condition.emit(true)
@@ -114,15 +121,17 @@ func _process(_delta: float) -> void:
 			current_interactable = closest_interactable
 	
 	if can_play:
-		_dig_particles.emitting = _time_trying_to_mine > 0
-		_update_sprite(_current_move_input)
+		_update_sprite(_curr_move_input)
 
 # Updates player velocity based on the input direction
 func _move(input_dir: Vector2, delta: float) -> void:
 	if input_dir: 
+		if input_dir != _prev_input_dir:
+			velocity *= _CHANGE_DIR_VEL_MULTIPLIER
 		velocity = velocity.move_toward(input_dir * _MAX_MOVE_SPEED , delta * _ACCELERATION)
 	else: 
 		velocity = velocity.move_toward(Vector2(0,0), delta * _FRICTION)
+	_prev_input_dir = input_dir
 	
 	move_and_slide();
 
@@ -134,18 +143,36 @@ func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 		if input_dir != _current_mining_direction:
 			_current_mining_direction = input_dir
 			_time_trying_to_mine = 0
+		
 		# Update time trying to mine
 		_time_trying_to_mine += delta
-		# Mine block if time trying to mine exceeds mining time
-		if _time_trying_to_mine >= _TIME_TO_MINE:
-			Global.world_map_tiles.try_dig_tile(
-				to_global(_mining_check_ray.target_position), 
-				_mining_strength)
-			# Reset time trying to mine
-			_time_trying_to_mine = 0
-	else:
-		# Reset time trying to mine
-		_time_trying_to_mine = 0
+		var hardness = Global.world_map_tiles.can_dig_tile(
+			to_global(_mining_check_ray.target_position), 
+			_mining_strength)
+		var can_dig = hardness >= 0
+		if can_dig:
+			_dig_particles.emitting = true
+			if hardness == 0:
+				AudioController.play_dirt_dig()
+				_dig_particles.modulate = _DIRT_COLOR
+			else:
+				AudioController.play_stone_dig()
+				_dig_particles.modulate = _STONE_COLOR
+			# Mine block if time trying to mine exceeds mining time
+			if _time_trying_to_mine >= _TIME_TO_MINE:
+				Global.world_map_tiles.try_dig_tile(
+					to_global(_mining_check_ray.target_position), 
+					_mining_strength)
+			else:
+				return
+		else:
+			_dig_particles.emitting = false
+			if _time_trying_to_mine >= _TIME_TO_MINE:
+				AudioController.play_stone_dig_fail()
+			else:
+				return
+	# Reset time trying to mine
+	_time_trying_to_mine = 0
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:

@@ -32,18 +32,26 @@ func play_shop_music() -> void:
 	_music_transition.play("ChangeToShopMusic")
 
 func play_dirt_dig(randomizer: bool = true) -> void:
+	for sfx in _dirt_digs:
+		if sfx.playing:
+			return
 	var dirt_dig: AudioStreamPlayer = _dirt_digs.pick_random()
 	if randomizer:
 		dirt_dig.pitch_scale = _get_random_pitch()
 	dirt_dig.play()
-	
+
 func play_stone_dig(randomizer: bool = true) -> void:
+	for sfx in _stone_breaks:
+		if sfx.playing:
+			return
 	var stone_break = _stone_breaks.pick_random()
 	if randomizer:
 		stone_break.pitch_scale = _get_random_pitch()
 	stone_break.play()
 
 func play_stone_dig_fail(randomizer: bool = true) -> void:
+	if _claw_ricochet.playing:
+		return
 	if randomizer:
 		_claw_ricochet.pitch_scale = _get_random_pitch()
 	_claw_ricochet.play()

@@ -70,13 +70,10 @@ func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
 	var cell_pos = _tiles.local_to_map(pos)
 	if _tiles.get_cell_tile_data(cell_pos) == null:
 		return false
-	var can_dig = _can_dig(cell_pos, dig_strength)
-	if can_dig:
+	var can_dig = can_dig_tile(pos, dig_strength)
+	if can_dig >= 0:
 		_dig_tiles([cell_pos])
-	else:
-		AudioController.play_stone_dig_fail()
-	
-	return can_dig
+	return can_dig >= 0
 
 
 func is_stable() -> bool:
@@ -93,12 +90,17 @@ func get_tiles() -> MapTiles:
 
 
 # Whether the cell at the given position can be dug with given strentgh
-func _can_dig(cell_pos: Vector2i, dig_strength: int) -> bool:
+func can_dig_tile(pos: Vector2i, dig_strength: int) -> int:
+	var cell_pos = _tiles.local_to_map(pos)
+	if _tiles.get_cell_tile_data(cell_pos) == null:
+		return -1
 	var tile_data = _tiles.get_cell_tile_data(cell_pos)
 	if tile_data == null:
-		return false
+		return -1
 	var hardness = tile_data.get_custom_data("hardness")
-	return dig_strength >= hardness
+	if dig_strength >= hardness:
+		return hardness
+	return -1
 
 
 # Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
@@ -111,11 +113,6 @@ func _dig_tiles(cells: Array[Vector2i]):
 
 		var cell_data = _tiles.get_cell_tile_data(cell)
 		if cell_data != null:
-			var hardness = cell_data.get_custom_data("hardness")
-			if hardness == 0:
-				AudioController.play_dirt_dig()
-			else:
-				AudioController.play_stone_dig()
 			# try to dig a feature tile on position
 			_tiles.try_dig_feature(cell)
 	_set_cells(cells, -1)
