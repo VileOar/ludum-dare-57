@@ -252,7 +252,9 @@ func lose_health() -> void:
 func set_health(delta:int):
 	_health = clamp(_health + delta, 0, Global.max_health)
 	Signals.health_changed.emit(_health)
-	AudioController.play_squeak()
+	# Play squeak sfx when taking damage
+	if delta < 0:
+		AudioController.play_squeak()
 	
 	# Update health bar
 	if Global.hud_ref:
@@ -305,6 +307,7 @@ func add_interactable(interactable_to_add: Node2D) -> void:
 
 
 func _on_collect_items(itype: int, amount: int):
+	AudioController.play_collect_item()
 	match itype:
 		Global.TileType.HEALTH:
 			set_health(amount)

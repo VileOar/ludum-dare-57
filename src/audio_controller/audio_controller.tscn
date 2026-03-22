@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c41lpw0a2v2iq"]
+[gd_scene load_steps=22 format=3 uid="uid://c41lpw0a2v2iq"]
 
 [ext_resource type="AudioStream" uid="uid://4puijewqwfhb" path="res://assets/sounds/radar-pulse.wav" id="1_gnbjh"]
 [ext_resource type="Script" uid="uid://dgej0u7isxwm5" path="res://src/audio_controller/audio_controller.gd" id="1_hgdds"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://bp46gnpo0kxf" path="res://assets/sounds/hard-stone-break.wav" id="11_k1nwg"]
 [ext_resource type="AudioStream" uid="uid://dgupqasxd7xda" path="res://assets/sounds/ui-button-press.mp3" id="15_k1nwg"]
 [ext_resource type="AudioStream" uid="uid://bj3k1dyvlurv7" path="res://assets/sounds/ui-button-hover.wav" id="16_u0s8o"]
+[ext_resource type="AudioStream" uid="uid://0w7wi2wu68hc" path="res://assets/sounds/collect_item.mp3" id="17_u0s8o"]
 
 [sub_resource type="Animation" id="Animation_k1nwg"]
 resource_name = "ChangeToMainMusic"
@@ -178,8 +179,15 @@ bus = &"SFX"
 stream = ExtResource("15_k1nwg")
 volume_db = -20.0
 pitch_scale = 1.15
+bus = &"SFX"
 
 [node name="Hover" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_u0s8o")
 volume_db = -10.0
 pitch_scale = 1.2
+bus = &"SFX"
+
+[node name="CollectItem" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_u0s8o")
+volume_db = -10.0
+bus = &"SFX"

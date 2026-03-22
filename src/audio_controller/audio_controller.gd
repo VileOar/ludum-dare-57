@@ -10,6 +10,7 @@ extends Node2D
 @onready var _dirt_digs: Array[AudioStreamPlayer] = [$DirtDig1, $DirtDig2, $DirtDig3]
 @onready var _squeaks: Array[AudioStreamPlayer] = [$Squeak1, $Squeak2, $Squeak3]
 @onready var _stone_breaks: Array[AudioStreamPlayer] = [$StoneBreak1, $StoneBreak2]
+@onready var _collect_item: AudioStreamPlayer = $CollectItem
 # UI
 @onready var _click: AudioStreamPlayer = $Click
 @onready var _hover: AudioStreamPlayer = $Hover
@@ -72,3 +73,6 @@ func play_click() -> void:
 
 func play_hover() -> void:
 	_hover.play()
+
+func play_collect_item() -> void:
+	_collect_item.play()
