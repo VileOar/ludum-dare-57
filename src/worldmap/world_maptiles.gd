@@ -19,7 +19,10 @@ const SAFE_ZONE_DIMS := Vector2i(9,7)
 ## Rect representing the starting area (in tiles)
 const STARTING_AREA := Rect2i(Vector2i(-4,-3), SAFE_ZONE_DIMS)
 ## How many safe zones to generate on the map
-const SAFE_ZONE_AMOUNT: int = 3
+const SAFE_ZONE_AMOUNT: int = 2
+## The minimum distance on the y axis between each safe zone
+@warning_ignore("narrowing_conversion")
+const SAFE_ZONE_MARGIN: int = SAFE_ZONE_DIMS.y * 2.5
 
 # MAP GENERATION CONSTANTS
 ## The y value above which danger should effectively be 0.
@@ -226,24 +229,24 @@ func _generate_safe_zones() -> void:
 		MAP_LIMITS.position.x + SAFE_ZONE_DIMS.x * 0.5,
 		MAP_LIMITS.end.x - SAFE_ZONE_DIMS.x * 1.5
 	) 
-	# how far up and down the y axis a safe zone rect can generate
+	# the full range on the y axis available for a safe zone rect to generate
 	const y_range := Vector2i (
-		STARTING_AREA.position.y + SAFE_ZONE_DIMS.y * 2,
-		MAP_LIMITS.end.y - SAFE_ZONE_DIMS.y * 1.5
+		STARTING_AREA.position.y + SAFE_ZONE_DIMS.y,
+		MAP_LIMITS.end.y - SAFE_ZONE_DIMS.y * 2
 	)
-	#print(y_range.y - y_range.x - SAFE_ZONE_DIMS.y * 4 * (SAFE_ZONE_AMOUNT - 1))
-	var y_values: Array[int] = []
-	for i in range(y_range.x, y_range.y):
-		y_values.append(i)
+	const y_total = y_range.y - y_range.x
+	# the height of each vertical "slice" for one safe zone 
+	@warning_ignore("integer_division")
+	var slice_height = y_total / SAFE_ZONE_AMOUNT
+	# generate the safe zones
 	for i in range(SAFE_ZONE_AMOUNT):
 		var x = randi_range(x_range.x, x_range.y)
-		var y = y_values[randi_range(0, y_values.size() - 1)]
-		var buffer := Vector2i (
-			y - SAFE_ZONE_DIMS.y * 2, 
-			y + SAFE_ZONE_DIMS.y * 2
-		)
-		for j in range(buffer.x, buffer.y):
-			y_values.erase(j)
+		# calculate the current slice start and end
+		var y_start = y_range.x + i * slice_height
+		var y_end = y_start + slice_height - SAFE_ZONE_DIMS.y
+		# apply margin to the top of the slice
+		y_start += SAFE_ZONE_MARGIN
+		var y = randi_range(y_start,y_end)
 		var safe_zone := Rect2i(Vector2i(x,y), SAFE_ZONE_DIMS)
 		_safe_zones[safe_zone] = []
 
