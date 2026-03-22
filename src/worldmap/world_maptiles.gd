@@ -32,13 +32,15 @@ const MAX_DANGER_MODIFIER = 0.5
 const TOP_STONE_Y = -20
 ## The lower-most y value, at which terrain generation should no longer be modified to include stone.
 const BOTTOM_STONE_Y = -5
+## How strongly terrain deviates from depth (0 = no variation, 1 = very chaotic)
+const TERRAIN_VAR_STRENGTH: float = 0.6
 
 var _safe_zones: Dictionary[Rect2i, Array]
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
 var _terrain_noise_thresholds := {
-	0.3: 0,
-	0.6: 1,
+	0.2: 0,
+	0.5: 1,
 	0.8: 2,
 	1.0: 3
 }
@@ -151,27 +153,38 @@ func generate_tiles():
 		for xx in range(FULL_MAP.position.x, FULL_MAP.end.x):
 			var cell = Vector2i(xx, yy)
 			
+			# 1. Bedrock check
 			# this means that it is bedrock, so no generation will occur, but filled with bedrock
 			if !MAP_LIMITS.has_point(cell):
 				_set_cells([cell], 4)
 				continue
 			
+			# 2. Safe zone check
 			# if cell is part of a safe zone, add it to the dict
 			var safe_zone = _is_cell_in_safe_zone(cell)
 			if safe_zone != Rect2i(0,0,0,0):
 				_safe_zones[safe_zone].append(cell)
 				continue
 			
-			var noise = terrain_noise.get_noise_2dv(cell)
-			# modify the noise value to account for forcing stone in the upper layers
+			# 3. Terrain
+			var noise = 0.0
 			if yy >= TOP_STONE_Y and yy < BOTTOM_STONE_Y:
+				# modify the noise value to force stone in the upper layers
+				noise = terrain_noise.get_noise_2dv(cell)
 				var y_weight: float = float(yy - TOP_STONE_Y) / float(BOTTOM_STONE_Y - TOP_STONE_Y)
 				var mod = lerp(2.0, 0.0, y_weight)
 				noise = clamp(noise + mod, -1.0, 1.0)
+			else:
+				# normal terrain generation
+				var depth = _get_depth_ratio(yy)
+				noise = (terrain_noise.get_noise_2dv(cell) + 1.0) / 2.0
+				noise = depth + (noise - 0.5) * TERRAIN_VAR_STRENGTH
+				noise = clamp(noise, 0.0, 1.0)
 			# generate the terrain tiles, deciding between the different dirt/stone tiles
 			var terrain = _noise_to_terrain(noise)
 			_set_cells([cell], terrain)
 			
+			# 4. Danger level
 			# determine the danger level of each tile
 			var danger_value = (danger_noise.get_noise_2dv(cell) + 1.0)/2.0
 			# adapt it to be above the minimum brightness value and calculate saturation
@@ -360,3 +373,10 @@ func _get_danger_value(noise_value: float, cy: int) -> float:
 	
 	return noise_value - modifier
 	
+
+func _get_depth_ratio(cy: int) -> float:
+	if cy <= MIN_DANGER_Y:
+		return 0.0
+	elif cy >= MAX_DANGER_Y:
+		return 1.0
+	return float(cy - MIN_DANGER_Y) / float(MAX_DANGER_Y - MIN_DANGER_Y)
