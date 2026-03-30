@@ -51,10 +51,10 @@ func increase_level() -> void:
 	set_level(_level + 1)
 
 func activate(pos: Vector2) -> bool:
-	position = pos
 	var success:bool = false
 	if not _is_active:
 		_is_active = true
+		position = pos
 		AudioController.play_radar_pulse()
 		_call_ping = true
 		success = true

@@ -109,7 +109,7 @@ func _get_cache(ts: TileSet) -> Array:
 	watcher.set_script(load("res://addons/better-terrain/Watcher.gd"))
 	watcher.tileset = ts
 	watcher.trigger.connect(_purge_cache.bind(ts))
-	add_child.call_deferred(watcher)
+	add_child(watcher)
 	ts.changed.connect(watcher.activate)
 	
 	var types = {}
@@ -177,6 +177,7 @@ func _get_cache(ts: TileSet) -> Array:
 					cache[td_meta.type].push_back([source_id, coord, alternate | flags, symmetric_peering, adjusted_probability])
 	
 	return cache
+
 
 func _get_cache_terrain(ts_meta : Dictionary, index: int) -> Array:
 	# the cache and the terrains in ts_meta don't line up because

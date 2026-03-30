@@ -1,16 +1,25 @@
-[gd_scene load_steps=13 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=18 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://b84dcw5smdx6j" path="res://assets/characters/player/player.png" id="2_03ylq"]
+[ext_resource type="Texture2D" uid="uid://c51ynju1j71dd" path="res://assets/characters/player/player_idle.png" id="2_hhnms"]
 [ext_resource type="Script" uid="uid://c3s1fv0ne5jxk" path="res://src/characters/player/player_area.gd" id="3_03ylq"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_03ylq"]
+atlas = ExtResource("2_hhnms")
+region = Rect2(0, 0, 130, 130)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhnms"]
-atlas = ExtResource("2_03ylq")
-region = Rect2(128, 0, 128, 128)
+atlas = ExtResource("2_hhnms")
+region = Rect2(130, 0, 130, 130)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf5tv"]
-atlas = ExtResource("2_03ylq")
-region = Rect2(0, 128, 128, 128)
+atlas = ExtResource("2_hhnms")
+region = Rect2(0, 130, 130, 130)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_020ow"]
+atlas = ExtResource("2_hhnms")
+region = Rect2(130, 130, 130, 130)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhaut"]
 atlas = ExtResource("2_03ylq")
@@ -24,14 +33,28 @@ region = Rect2(128, 0, 128, 128)
 atlas = ExtResource("2_03ylq")
 region = Rect2(0, 128, 128, 128)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_grn1g"]
+atlas = ExtResource("2_03ylq")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2q7jk"]
+atlas = ExtResource("2_03ylq")
+region = Rect2(0, 128, 128, 128)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_03ylq"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03ylq")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hhnms")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qf5tv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_020ow")
 }],
 "loop": true,
 "name": &"Idle",
@@ -50,6 +73,17 @@ animations = [{
 "loop": true,
 "name": &"Mine",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grn1g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2q7jk")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 4.0
 }]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_03ylq"]
@@ -82,7 +116,8 @@ script = ExtResource("1_7nd6e")
 z_index = 5
 position = Vector2(-5.96046e-08, -4.76837e-07)
 sprite_frames = SubResource("SpriteFrames_03ylq")
-animation = &"Mine"
+animation = &"Idle"
+autoplay = "Idle"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Sprite"]
 modulate = Color(0.164706, 0.117647, 0.117647, 1)

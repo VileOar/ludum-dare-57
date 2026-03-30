@@ -176,12 +176,16 @@ func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
-	if input_dir:
+	if _time_trying_to_mine > 0:
 		if _player_sprite.animation != "Mine":
 			_player_sprite.play("Mine")
 	else:
-		if _player_sprite.animation != "Idle":
-			_player_sprite.play("Idle")
+		if input_dir:
+			if _player_sprite.animation != "Move":
+				_player_sprite.play("Move")
+		else:
+			if _player_sprite.animation != "Idle":
+				_player_sprite.play("Idle")
 	
 	if input_dir.x == -1:
 			_player_sprite.flip_v = false
