@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=19 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://b84dcw5smdx6j" path="res://assets/characters/player/player.png" id="2_03ylq"]
 [ext_resource type="Texture2D" uid="uid://c51ynju1j71dd" path="res://assets/characters/player/player_idle.png" id="2_hhnms"]
 [ext_resource type="Script" uid="uid://c3s1fv0ne5jxk" path="res://src/characters/player/player_area.gd" id="3_03ylq"]
+[ext_resource type="Script" uid="uid://c6f3wjqy4kwmf" path="res://src/characters/player/player_camera.gd" id="4_hhnms"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_03ylq"]
 atlas = ExtResource("2_hhnms")
@@ -137,7 +138,7 @@ process_material = SubResource("ParticleProcessMaterial_03ylq")
 shape = SubResource("CapsuleShape2D_ej0fg")
 
 [node name="PlayerCamera" type="Camera2D" parent="."]
-position_smoothing_enabled = true
+script = ExtResource("4_hhnms")
 
 [node name="MiningCheckRay" type="RayCast2D" parent="."]
 target_position = Vector2(64, 0)
