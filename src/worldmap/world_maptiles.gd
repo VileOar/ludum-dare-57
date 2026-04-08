@@ -52,6 +52,7 @@ var load_percent: int = 0
 var are_tiles_generated: bool = false
 
 @onready var _tiles: MapTiles = $MapTiles
+@onready var _collision_tiles: TileMapLayer = $CollisionTiles
 @onready var _danger_level1: TileMapLayer = $DangerLevel1
 @onready var _danger_level2: TileMapLayer = $DangerLevel2
 @onready var _danger_level3: TileMapLayer = $DangerLevel3
@@ -125,9 +126,15 @@ func _dig_tiles(cells: Array[Vector2i]):
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
 	BetterTerrain.set_cells(_tiles, cells, terrain)
+	# set a collision cell if terrain exists, remove if not
+	var collision = 0
+	if terrain == -1:
+		collision = -1
+	BetterTerrain.set_cells(_collision_tiles, cells, collision)
 	# if cell is deleted update nearby cells
 	if terrain == -1:
 		BetterTerrain.update_terrain_cells(_tiles, cells)
+		BetterTerrain.update_terrain_cells(_collision_tiles, cells)
 	
 	for cell in cells:
 		if is_safe:
@@ -210,6 +217,7 @@ func generate_tiles():
 	_spawn_safe_zones()
 	# update terrains once generation ends
 	BetterTerrain.update_terrain_area(_tiles, FULL_MAP)
+	BetterTerrain.update_terrain_area(_collision_tiles, FULL_MAP)
 	for i in _danger_levels:
 		BetterTerrain.update_terrain_area(_danger_levels[i], FULL_MAP)
 	
