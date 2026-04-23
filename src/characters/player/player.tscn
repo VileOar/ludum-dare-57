@@ -152,5 +152,8 @@ script = ExtResource("3_03ylq")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 shape = SubResource("RectangleShape2D_03ylq")
 
+[node name="ScanCooldown" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="PlayerArea" to="PlayerArea" method="_on_body_entered"]
 [connection signal="body_exited" from="PlayerArea" to="PlayerArea" method="_on_body_exited"]

@@ -1,9 +1,10 @@
 extends Node2D
 
 var level_init: bool = false
-
 var _is_game_paused: bool = false
 var _is_shop_open: bool = false
+
+var _egg_scan_counter: int = 0
 
 @export var enemy: PackedScene
 @onready var player: CharacterBody2D = %Player
@@ -12,8 +13,10 @@ var _is_shop_open: bool = false
 @onready var _pause_menu: PauseMenu = %PauseMenu
 
 func _ready() -> void:
-	Global.enemy_holder = enemy_holder
+	Global.enemy_holder_ref = enemy_holder
 	Signals.map_stable.connect(_on_map_generated)
+	Signals.scan_caught_egg.connect(_on_scan_caught_egg)
+	# UI signals
 	Signals.shop_open.connect(_on_shop_open)
 	Signals.shop_close.connect(_on_shop_close)
 	Signals.pause_close.connect(_resume_game)
@@ -22,7 +25,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if (!level_init):
 		level_init = true
-		Global.world_map_tiles.generate_tiles()
+		Global.world_map_tiles_ref.generate_tiles()
 		Global.player_ref.set_radar_pulse($RadarPulse)
 
 func _input(event: InputEvent) -> void:
@@ -63,3 +66,9 @@ func _resume_game() -> void:
 	_pause_menu.hide()
 	_unblock_player()
 	Engine.time_scale = 1
+
+func _on_scan_caught_egg() -> void:
+	_egg_scan_counter += 1
+	if _egg_scan_counter >= Global.SCANS_BEFORE_SWARM:
+		_egg_scan_counter = 0
+		Signals.spawn_burrow.emit(Global.world_map_tiles_ref.get_random_spawn_position())

@@ -1,36 +1,29 @@
 extends Node
 
-@export var PLAYER_SPEED = 3000
-@export var ENEMY_SPEED = 450
-@export var ENEMY_DAMAGE_DONE = 10
+## The size of one tilemap cell (in pixels)
+const CELL_SIZE: int = 128
+## The name of the group where interactables are added
+const INTERACTABLE_GROUP: String = "Interactable"
 
-var max_health := 100
-var max_fuel := 10
+#region Spiders
+## How fast the spiders move
+const ENEMY_SPEED: int = 3.5 * CELL_SIZE
+## How much health the player loses when hit by a spider
+const ENEMY_DAMAGE_DONE: int = 10
+## The minimum amount of spiders that can spawn when an egg is triggered
+const ENEMIES_TO_SPAWN_MIN : int = 15
+## The maximum amount of spiders that can spawn when an egg is triggered
+const ENEMIES_TO_SPAWN_MAX : int = 25
+## The delay between each spider spawn when an egg is spawning
+const TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 
-const MIN_MONEY_GAIN: int = 25
-const MAX_MONEY_GAIN: int = 50
+## How many times eggs have to be scanned before a swarm is triggered
+const SCANS_BEFORE_SWARM: int = 4
+## How much money it costs to destroy an egg
+const EGG_DESTROY_COST: int = 10
+#endregion
 
-## get the base amount of resource to gain when digging resources
-func get_base_resource_gain(resource_id: int) -> float:
-	match resource_id:
-		TileType.HEALTH:
-			return ENEMY_DAMAGE_DONE * 2
-		TileType.FUEL:
-			return float(SCAN_COST) / 2.0
-		TileType.MONEY:
-			return randf_range(MIN_MONEY_GAIN, MAX_MONEY_GAIN)
-	return 0
-
-# used
-@export var ENEMIES_TO_SPAWN_MAX : int = 25
-@export var ENEMIES_TO_SPAWN_MIN : int = 15
-@export var ENEMIES_TO_SPAWN : int = 20
-@export var TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
-
-const CELL_SIZE = 128
-const MAX_MINING_STRENGTH: int = 3
-
-# Upgrades
+#region Upgrades
 # Health
 const HEALTH_UPGRADE_1: int = 150
 const HEALTH_UPGRADE_2: int = 200
@@ -47,31 +40,7 @@ const DRILL_UPGRADE_3: int = 3
 const SCANNER_UPGRADE_1: int = 2
 const SCANNER_UPGRADE_2: int = 3
 const SCANNER_UPGRADE_3: int = 4
-
-func get_cost_from_tier(tier) -> int:
-	var cost = 500
-	match tier:
-		1:
-			cost = 20
-		2:
-			cost = 200
-		3:
-			cost = 500
-	return cost
-
-const SCAN_COST = 2
-
-const SCANS_BEFORE_SWARM: int = 4
-
-const EGG_DESTROY_COST: int = 10
-
-const INTERACTABLE_GROUP: String = "Interactable"
-
-var rng: RandomNumberGenerator
-
-var _currency := 0
-var _current_upgrades = {}
-
+## Stores every possible upgrade
 enum Upgrades {
 	HEALTH_1,
 	HEALTH_2,
@@ -86,7 +55,25 @@ enum Upgrades {
 	SCANNER_2,
 	SCANNER_3,
 }
+## Maps every possible upgrade to 1 if owned and 0 if not owned (initialized on ready)
+var _current_upgrades: Dictionary = {}
+#endregion
 
+#region Tile Bonuses
+## Probability of spawning anything
+const TILE_SPAWN_RATIO = 0.4
+## The minimum base amount of money gained from a tile
+const MIN_BASE_MONEY_GAIN: int = 25
+## The maximum base amount of money gained from a tile
+const MAX_BASE_MONEY_GAIN: int = 50
+## Dictionary holding all the possible spawnable tile types and their weights
+const TILE_TYPE_WEIGHTS: Dictionary[TileType,float] = {
+	TileType.MONEY: 0.8,
+	TileType.HEALTH: 0.2,
+	TileType.FUEL: 1.2,
+	TileType.EGG: 1.5
+}
+## Stores every type of bonus in a tile
 enum TileType {
 	NONE,
 	MONEY,
@@ -94,51 +81,78 @@ enum TileType {
 	FUEL,
 	EGG,
 }
-## Dictionary holding all the possible spawnable tile types and their weights
-var tile_type_weights := {
-	TileType.MONEY: 0.8,
-	TileType.HEALTH: 0.2,
-	TileType.FUEL: 1.2,
-	TileType.EGG: 1.5
-}
-## Probability of spawning anything
-const TILE_SPAWN_RATIO = 0.4
+#endregion
 
-# Reference to the world map tiles scene
-var world_map_tiles: WorldMapTiles
+## How much stamina one scan costs
+const SCAN_COST: int = 2
+## How much time the player has to wait before scanning again (min 1.0)
+const SCAN_COOLDOWN: float = 1.0
 
-# Reference to Enemy Holder
-var enemy_holder: Node2D
-
-# Reference to the player scene
-var player_ref: Player
-# Reference to the HUD scene
-var hud_ref: Hud
-
-var end_state := false
-
-# Game scenes
+#region Game scenes
 var main_menu_scene: PackedScene = load("uid://b67yrqq2iad43")
 var end_menu_scene: PackedScene = load("uid://babguvhbhaser")
 var level_scene: PackedScene = load("uid://btoglak145h8n")
+#endregion
+
+#region Scene object references
+## Reference to the world map tiles scene
+var world_map_tiles_ref: WorldMapTiles
+## Reference to the enemy holder scene
+var enemy_holder_ref: Node2D
+## Reference to the player scene
+var player_ref: Player
+## Reference to the HUD scene
+var hud_ref: Hud
+#endregion
+
+## The current amount of money the player has
+var _currency := 0
+## The current maximum health amount the player can have
+var max_health := 100
+## The current maximum stamina amount the player can have
+var max_fuel := 10
+
+## Stores a random number generator
+var rng: RandomNumberGenerator
+
+var end_state := false
 
 func _ready() -> void:
 	randomize()
 	rng = RandomNumberGenerator.new()
-
+	
 	for upgrade in Upgrades.values():
 		_current_upgrades[upgrade] = 0
-
 
 func set_currency(delta: int):
 	_currency = _currency + delta
 	Signals.currency_changed.emit(_currency)
 	hud_ref.update_currency_label(_currency)
 
-
 func get_currency() -> int:
 	return _currency
 
+## Returns the base amount of resource to gain when digging resources
+func get_base_resource_gain(resource_id: int) -> float:
+	match resource_id:
+		TileType.HEALTH:
+			return ENEMY_DAMAGE_DONE * 2
+		TileType.FUEL:
+			return float(SCAN_COST) / 2.0
+		TileType.MONEY:
+			return randf_range(MIN_BASE_MONEY_GAIN, MAX_BASE_MONEY_GAIN)
+	return 0
+
+func get_cost_from_tier(tier) -> int:
+	var cost = 500
+	match tier:
+		1:
+			cost = 20
+		2:
+			cost = 200
+		3:
+			cost = 500
+	return cost
 
 func add_upgrade(upgrade_type: Upgrades):
 	_current_upgrades[upgrade_type] = 1;

@@ -1,6 +1,9 @@
 extends Node2D
 class_name RadarPulse
 
+## The duration of the shader animation that plays during a scan (dependant on the shader code)
+const _SCAN_EFFECT_DURATION: float = 1.0
+
 var _level: int = 1
 var _is_active: bool = false
 var _active_time: float = 0.0
@@ -10,6 +13,8 @@ var _call_ping: bool = false
 var _ping_frame_delay: int = 2
 var _frame_delay: int = 0
 
+var _has_scanned_an_egg: bool = false
+
 @onready var color_rect: ColorRect = $ColorRect
 @onready var detector: Area2D = $Detector
 @onready var detector_shape: CollisionShape2D = $Detector/CollisionShape2D
@@ -17,12 +22,14 @@ var _frame_delay: int = 0
 func _ready() -> void:
 	color_rect.material.set_shader_parameter("tile_size", Global.CELL_SIZE)
 	set_level(1)
+	
+	Signals.egg_scanned.connect(_on_egg_scanned)
 
 func _process(delta: float) -> void:
 	if _is_active:
 		_active_time = _active_time + delta
 		
-		if _active_time < 1.0:
+		if _active_time < _SCAN_EFFECT_DURATION:
 			color_rect.material.set_shader_parameter("time", _active_time)
 		else:
 			_active_time = 0
@@ -54,6 +61,7 @@ func activate(pos: Vector2) -> bool:
 	var success:bool = false
 	if not _is_active:
 		_is_active = true
+		_has_scanned_an_egg = false
 		position = pos
 		AudioController.play_radar_pulse()
 		_call_ping = true
@@ -64,3 +72,11 @@ func ping_detectables():
 	for other in detector.get_overlapping_areas():
 		if other is Detectable:
 			(other as Detectable).ping()
+	for other in detector.get_overlapping_bodies():
+		if other is Egg:
+			Signals.egg_scanned.emit()
+
+func _on_egg_scanned() -> void:
+	if !_has_scanned_an_egg:
+		_has_scanned_an_egg = true
+		Signals.scan_caught_egg.emit()

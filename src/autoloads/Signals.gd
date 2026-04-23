@@ -11,6 +11,11 @@ signal spawn_egg(pos)
 ## Sent when an undug egg received one too many pings so calls a random swarm event
 signal spawn_burrow(pos)
 
+## Sent whenever an egg is scanned
+signal egg_scanned
+## Sent whenever a scan caught at least one egg
+signal scan_caught_egg
+
 ## sent when a game stat is altered
 signal upgrade_selected(type, cost:int, text, button_ref)
 

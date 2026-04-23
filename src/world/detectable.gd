@@ -9,9 +9,6 @@ var _rank: float = 0
 
 var _dying := false
 
-# counter for how many pings
-var _ping_counter := 0
-
 var _particle_colours := {
 	Global.TileType.MONEY: Color.YELLOW,
 	Global.TileType.HEALTH: Color.RED,
@@ -31,10 +28,7 @@ func ping():
 		return
 	
 	if _type_id == Global.TileType.EGG:
-		_ping_counter += 1
-		if _ping_counter >= Global.SCANS_BEFORE_SWARM:
-			_ping_counter = 0
-			Signals.spawn_burrow.emit(Global.world_map_tiles.get_random_spawn_position())
+		Signals.egg_scanned.emit()
 	else:
 		_sprite.position = Vector2.ZERO
 		_sprite.modulate = Color(Color.WHITE, 1.0)

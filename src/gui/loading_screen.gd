@@ -10,8 +10,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if Global.world_map_tiles:
-		_loading_bar.value = Global.world_map_tiles.load_percent
+	if Global.world_map_tiles_ref:
+		_loading_bar.value = Global.world_map_tiles_ref.load_percent
 
 
 func _on_map_generated():

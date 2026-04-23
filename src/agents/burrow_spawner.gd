@@ -13,7 +13,7 @@ func _ready() -> void:
 func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
 	instance.position = position
-	Global.enemy_holder.add_child.call_deferred(instance)
+	Global.enemy_holder_ref.add_child.call_deferred(instance)
 
 
 func _on_timer_timeout() -> void:

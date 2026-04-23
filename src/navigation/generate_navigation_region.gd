@@ -44,8 +44,8 @@ func on_parsing_done() -> void:
 	# If we did not parse a TileMap with navigation mesh cells we may now only
 	# have obstruction outlines so add at least one traversable outline
 	# so the obstructions outlines have something to "cut" into.
-	var used_rect = Global.world_map_tiles.get_tiles().get_used_rect()
-	var tile_size = Global.world_map_tiles.get_tiles().tile_set.tile_size
+	var used_rect = Global.world_map_tiles_ref.get_tiles().get_used_rect()
+	var tile_size = Global.world_map_tiles_ref.get_tiles().tile_set.tile_size
 
 	var min_pos: Vector2 = used_rect.position * tile_size
 	var size: Vector2 = used_rect.size * tile_size

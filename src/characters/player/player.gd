@@ -1,51 +1,51 @@
 extends CharacterBody2D
 class_name Player
 
-# Position to be checked after which the the game is considered won
+## Position to be checked after which the the game is considered won
 const _VICTORY_POSITION := -2600
-# Maximum move speed of the player
+## Maximum move speed of the player
 const _MAX_MOVE_SPEED: float = 5 * Global.CELL_SIZE
-# Player movement acceleration
+## Player movement acceleration
 const _ACCELERATION: float = 20 * Global.CELL_SIZE
-# Player movement friction (controls how long the player takes to stop moving)
+## Player movement friction (controls how long the player takes to stop moving)
 const _FRICTION: float = 40 * Global.CELL_SIZE
-# The amount of the previous velocity to keep when changing direction (percentage)
+## The amount of the previous velocity to keep when changing direction (percentage)
 const _CHANGE_DIR_VEL_MULTIPLIER: float = 0.2
-# List of possible input directions
+## List of possible input directions
 const _POSSIBLE_INPUT_DIRS = ["MoveLeft", "MoveRight", "MoveUp", "MoveDown"]
 
 # Mining
-# How far from a tile the the player tries to mine
+## How far from a tile the the player tries to mine
 const _MINING_RANGE = int(float(Global.CELL_SIZE)/2.0)
-# How long it takes to mine a tile (in seconds)
+## How long it takes to mine a tile (in seconds)
 const _TIME_TO_MINE: float = 0.5
-# The color of the particles emmited when digging dirt
+## The color of the particles emmited when digging dirt
 const _DIRT_COLOR: Color = Color("#2a1e1e")
-# The color of the particles emmited when digging stone
+## The color of the particles emmited when digging stone
 const _STONE_COLOR: Color = Color("#3f5c64")
 
 # Movement
-# Stores current input direction
+## Stores current input direction
 var _curr_move_input: Vector2 = Vector2.ZERO
-# Stores previous input direction
+## Stores previous input direction
 var _prev_input_dir: Vector2 = Vector2(-1,-1)
-# Stores a priority value for each input (lower = higher priority)
+## Stores a priority value for each input (lower = higher priority)
 var _input_order: Dictionary = {
 "MoveLeft" = 0, 
 "MoveRight" = 0, 
 "MoveUp" = 0, 
 "MoveDown" = 0}
 
-# The player's current health (initialized on _ready)
+## The player's current health (initialized on _ready)
 var _health: int
-# The player's current fuel (initialized on _ready)
+## The player's current fuel (initialized on _ready)
 var _fuel: int
-# The player's current mining strength
+## The player's current mining strength
 var _mining_strength: int = 0
 
-# Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
+## Stores how long the player has been trying to mine a tile (updated by _try_to_mine)
 var _time_trying_to_mine: float = 0
-# Stores the direction the player is currently trying to mine in
+## Stores the direction the player is currently trying to mine in
 var _current_mining_direction: Vector2 = Vector2.ZERO
 
 var available_interactables: Array = []
@@ -57,6 +57,7 @@ var _radar_pulse: RadarPulse
 @onready var _player_sprite: AnimatedSprite2D = $Sprite 
 @onready var _mining_check_ray: RayCast2D = $MiningCheckRay
 @onready var _dig_particles: GPUParticles2D = $Sprite/GPUParticles2D
+@onready var _scan_cooldown: Timer = $ScanCooldown
 
 var can_play = false
 
@@ -74,18 +75,18 @@ func _ready() -> void:
 	# Initialize player variables
 	_health = Global.max_health
 	_fuel = Global.max_fuel
+	_scan_cooldown.wait_time = Global.SCAN_COOLDOWN
 	
 	# wait while the map has not yet loaded
 	var busy = true
 	while busy:
-		if Global.world_map_tiles and Global.world_map_tiles.is_stable():
+		if Global.world_map_tiles_ref and Global.world_map_tiles_ref.is_stable():
 			busy = false
 			can_play = true
 		else:
 			await Signals.map_stable
 	
 	Signals.collect_items.connect(_on_collect_items)
-
 
 func _input(event):
 	if event.is_action_pressed("Interact") && !available_interactables.is_empty():
@@ -138,7 +139,7 @@ func _move(input_dir: Vector2, delta: float) -> void:
 # Update ray cast position to face movement direction and try to mine in that direction
 func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 	_mining_check_ray.target_position = input_dir * _MINING_RANGE
-	if _mining_check_ray.is_colliding() and Global.world_map_tiles:
+	if _mining_check_ray.is_colliding() and Global.world_map_tiles_ref:
 		# Reset time trying to mine if direction changed
 		if input_dir != _current_mining_direction:
 			_current_mining_direction = input_dir
@@ -146,7 +147,7 @@ func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 		
 		# Update time trying to mine
 		_time_trying_to_mine += delta
-		var hardness = Global.world_map_tiles.can_dig_tile(
+		var hardness = Global.world_map_tiles_ref.can_dig_tile(
 			to_global(_mining_check_ray.target_position), 
 			_mining_strength)
 		var can_dig = hardness >= 0
@@ -160,7 +161,7 @@ func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 				_dig_particles.modulate = _STONE_COLOR
 			# Mine block if time trying to mine exceeds mining time
 			if _time_trying_to_mine >= _TIME_TO_MINE:
-				Global.world_map_tiles.try_dig_tile(
+				Global.world_map_tiles_ref.try_dig_tile(
 					to_global(_mining_check_ray.target_position), 
 					_mining_strength)
 			else:
@@ -243,10 +244,14 @@ func _get_movement_input() -> Vector2:
 	return new_input
 
 func _check_radar_input():
-	if Input.is_action_just_pressed("RadarPulse") and _fuel > 0:
+	if (Input.is_action_just_pressed("RadarPulse") 
+	and _fuel >= Global.SCAN_COST
+	and _scan_cooldown.is_stopped()):
+		
 		var radar_activated = _radar_pulse.activate(position)
 		if radar_activated:
 			set_fuel(-Global.SCAN_COST)
+			_scan_cooldown.start()
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:

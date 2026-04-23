@@ -181,7 +181,7 @@ size = Vector2(128, 128)
 
 [node name="Egg" type="StaticBody2D"]
 z_index = 4
-collision_layer = 8
+collision_layer = 40
 script = ExtResource("1_a234b")
 enemy = ExtResource("2_dftbw")
 

@@ -1,6 +1,6 @@
 extends StaticBody2D
+class_name Egg
 
-@onready var egg: StaticBody2D = $"."
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var time_to_hatch: Timer = $TimeToHatch
 @onready var _time_to_destroy: Timer = $TimeToDestroy
@@ -23,14 +23,10 @@ func _ready() -> void:
 	egg_spawner.egg_was_found.connect(_egg_triggered_to_spawn_enemies)
 	$InteractPrompt/CostLabel.text = str(Global.EGG_DESTROY_COST)
 
-# TODO test
 func _egg_triggered_to_spawn_enemies() -> void:
-	print("_egg_triggered_to_spawn_enemies")
 	animation_player.active = true
 	animation_player.play("Shake")
 	time_to_hatch.start()
-	
-	
 
 func _on_time_to_hatch_timeout() -> void:
 	if !enemy:
@@ -40,7 +36,7 @@ func _on_time_to_hatch_timeout() -> void:
 	animation_player.play("Explode")
 #	Spawns enemies every x time 
 	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX)
-	for n in enemies_to_spawn:
+	for i in range(enemies_to_spawn):
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 		_instantiate_enemy()
 	_time_to_destroy.start()
@@ -48,7 +44,7 @@ func _on_time_to_hatch_timeout() -> void:
 func _instantiate_enemy() -> void:
 	var instance = enemy.instantiate()
 	instance.position = position
-	Global.enemy_holder.add_child.call_deferred(instance)
+	Global.enemy_holder_ref.add_child.call_deferred(instance)
 
 func enter_interaction() -> void:
 	if _is_interactable:

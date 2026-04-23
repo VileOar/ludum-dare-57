@@ -69,7 +69,7 @@ var are_tiles_generated: bool = false
 }
 
 func _ready() -> void:
-	Global.world_map_tiles = self
+	Global.world_map_tiles_ref = self
 
 ## Attempt to dig a tile at a position.
 func try_dig_tile(pos: Vector2, dig_strength: int) -> bool:
@@ -333,8 +333,8 @@ func _spawn_safe_zones() -> void:
 		_create_safe_zone(_safe_zones[safe_zone])
 
 func _spawn_tile_data(cell_pos: Vector2i, amount: float):
-	var types = Global.tile_type_weights.keys()
-	var selected = types[Global.rng.rand_weighted(Global.tile_type_weights.values())] 
+	var types = Global.TILE_TYPE_WEIGHTS.keys()
+	var selected = types[Global.rng.rand_weighted(Global.TILE_TYPE_WEIGHTS.values())] 
 	_tiles.save_feature(cell_pos, selected, amount)
 
 
