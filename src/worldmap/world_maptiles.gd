@@ -86,10 +86,25 @@ func is_stable() -> bool:
 	return are_tiles_generated
 
 
-func get_random_spawn_position() -> Vector2:
-	var valid_cells = _nav_layer.get_used_cells()
-	var cell = valid_cells[Global.rng.randi() % valid_cells.size()]
-	return _nav_layer.map_to_local(cell)
+# Return coordinates of an empty tile in a given tile radius
+func get_spawn_position_near(world_pos: Vector2, radius_in_tiles: int) -> Vector2:
+	var center_cell = _nav_layer.local_to_map(world_pos)
+	var valid_cells : Array[Vector2i] = []
+	
+	for x in range(-radius_in_tiles, radius_in_tiles + 1):
+		for y in range(-radius_in_tiles, radius_in_tiles + 1):
+			var check_cell = center_cell + Vector2i(x, y)
+			
+			if _nav_layer.get_cell_source_id(check_cell) != -1:
+				valid_cells.append(check_cell)
+	
+	if valid_cells.is_empty():
+		return world_pos
+	
+	var chosen = valid_cells.pick_random()
+	
+	return _nav_layer.map_to_local(chosen)
+
 
 func get_tiles() -> MapTiles:
 	return _tiles

@@ -67,9 +67,9 @@ func _resume_game() -> void:
 	_unblock_player()
 	Engine.time_scale = 1
 
-func _on_scan_caught_egg() -> void:
+func _on_scan_caught_egg(pos: Vector2) -> void:
 	_egg_scan_counter += 1
 	if _egg_scan_counter >= Global.SCANS_BEFORE_SWARM:
 		_egg_scan_counter = 0
-		Signals.spawn_burrow.emit(Global.world_map_tiles_ref.get_random_spawn_position())
+		Signals.spawn_burrow.emit(pos)
 	Global.hud_ref.update_warning_level(_egg_scan_counter)

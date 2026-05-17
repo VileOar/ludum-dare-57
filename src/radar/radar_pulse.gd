@@ -7,7 +7,6 @@ const _SCAN_EFFECT_DURATION: float = 1.0
 var _level: int = 1
 var _is_active: bool = false
 var _active_time: float = 0.0
-var _pulse_size: int = Global.CELL_SIZE
 
 var _call_ping: bool = false
 var _ping_frame_delay: int = 2
@@ -45,13 +44,13 @@ func _process(delta: float) -> void:
 
 func set_level(level) -> void:
 	_level = level
-	_pulse_size = (4 + (2 * _level)) * Global.CELL_SIZE
-	color_rect.material.set_shader_parameter("pulse_size", _pulse_size)
-	color_rect.size = Vector2(_pulse_size, _pulse_size)
+	Global.set_pulse_size((4 + (2 * _level)) * Global.CELL_SIZE)
+	color_rect.material.set_shader_parameter("pulse_size", Global.get_pulse_size())
+	color_rect.size = Vector2(Global.get_pulse_size(), Global.get_pulse_size())
 	@warning_ignore("integer_division")
-	detector_shape.shape.radius = _pulse_size / 2
+	detector_shape.shape.radius = Global.get_pulse_size() / 2
 	@warning_ignore("integer_division")
-	var pos = -_pulse_size/2
+	var pos = -Global.get_pulse_size()/2
 	color_rect.position = Vector2(pos, pos)
 
 func increase_level() -> void:
@@ -79,4 +78,4 @@ func ping_detectables():
 func _on_egg_scanned() -> void:
 	if !_has_scanned_an_egg:
 		_has_scanned_an_egg = true
-		Signals.scan_caught_egg.emit()
+		Signals.scan_caught_egg.emit(global_position)

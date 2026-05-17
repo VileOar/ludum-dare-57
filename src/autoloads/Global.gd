@@ -22,6 +22,8 @@ const TIME_BETWEEN_ENEMY_SPAWNS : float = 0.15
 const SCANS_BEFORE_SWARM: int = 4
 ## How much money it costs to destroy an egg
 const EGG_DESTROY_COST: int = 10
+## When an egg is dug it alerts other eggs within this radius
+const EGG_ALERT_RADIUS: int = CELL_SIZE * 5
 #endregion
 
 #region Upgrades
@@ -113,6 +115,9 @@ var max_health := 100
 ## The current maximum stamina amount the player can have
 var max_fuel := 10
 
+## The current size of a scanner pulse
+var _pulse_size: int = 4 * CELL_SIZE
+
 ## Stores a random number generator
 var rng: RandomNumberGenerator
 
@@ -132,6 +137,12 @@ func set_currency(delta: int):
 
 func get_currency() -> int:
 	return _currency
+
+func set_pulse_size(new_size: int):
+	_pulse_size = new_size
+
+func get_pulse_size() -> int:
+	return _pulse_size
 
 ## Returns the base amount of resource to gain when digging resources
 func get_base_resource_gain(resource_id: int) -> float:

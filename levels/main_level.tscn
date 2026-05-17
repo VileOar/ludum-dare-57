@@ -47,7 +47,7 @@ unique_name_in_owner = true
 [node name="EggSpawner" type="Node2D" parent="NavGenerator"]
 unique_name_in_owner = true
 script = ExtResource("4_43k3a")
-egg = ExtResource("5_ttu8v")
+egg_scene = ExtResource("5_ttu8v")
 burrow = ExtResource("6_t6wdf")
 
 [node name="WorldMapTiles" parent="NavGenerator" instance=ExtResource("1_0vhbo")]

@@ -5,7 +5,7 @@ extends Node
 ## Sent when the map finishes loading
 signal map_stable
 
-## Sent when an egg is uncovered (order to spawn and enemy egg)
+## Sent when an egg is uncovered (in order to spawn an enemy egg)
 signal spawn_egg(pos)
 
 ## Sent when an undug egg received one too many pings so calls a random swarm event
@@ -14,9 +14,9 @@ signal spawn_burrow(pos)
 ## Sent whenever an egg is scanned
 signal egg_scanned
 ## Sent whenever a scan caught at least one egg
-signal scan_caught_egg
+signal scan_caught_egg(pos)
 
-## sent when a game stat is altered
+## Sent when a game stat is altered
 signal upgrade_selected(type, cost:int, text, button_ref)
 
 signal currency_changed(value:int)

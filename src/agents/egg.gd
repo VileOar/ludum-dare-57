@@ -8,8 +8,7 @@ class_name Egg
 
 @export var enemy : PackedScene
 
-var egg_spawner : Node2D 
-
+var _is_active: bool = false
 var _is_interactable: bool = false
 var _is_going_to_be_destroyed: bool = false
 
@@ -19,14 +18,18 @@ func _init() -> void:
 func _ready() -> void:
 	animation_player.active = true
 	animation_player.play("Shake")
-	egg_spawner = get_parent()
-	egg_spawner.egg_was_found.connect(_egg_triggered_to_spawn_enemies)
 	$InteractPrompt/CostLabel.text = str(Global.EGG_DESTROY_COST)
 
-func _egg_triggered_to_spawn_enemies() -> void:
+func spawn_enemies() -> void:
+	if _is_active:
+		return
+	
+	_is_active = true
+	
 	animation_player.active = true
 	animation_player.play("Shake")
 	time_to_hatch.start()
+
 
 func _on_time_to_hatch_timeout() -> void:
 	if !enemy:
@@ -34,7 +37,7 @@ func _on_time_to_hatch_timeout() -> void:
 		return
 		
 	animation_player.play("Explode")
-#	Spawns enemies every x time 
+	#Spawns enemies every x time 
 	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX)
 	for i in range(enemies_to_spawn):
 		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
@@ -66,6 +69,7 @@ func exit_interaction() -> void:
 		_interact_ui.stop_animation()
 
 func _on_time_to_destroy_timeout() -> void:
+	_is_active = false
 	_is_interactable = true
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
