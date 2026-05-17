@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://p50gwaoxao35"]
+[gd_scene load_steps=9 format=3 uid="uid://p50gwaoxao35"]
 
 [ext_resource type="Script" uid="uid://cfxaxlb32m4kv" path="res://src/gui/hud.gd" id="1_kqywo"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_r313a"]
 [ext_resource type="Texture2D" uid="uid://c7hs6pj40nao" path="res://assets/gui/health_icon_small.png" id="3_13k4q"]
 [ext_resource type="Texture2D" uid="uid://oprwo8d3n6p2" path="res://assets/gui/currency.png" id="4_err5h"]
 [ext_resource type="Texture2D" uid="uid://slpcanvpkd42" path="res://assets/gui/stamina_icon_small.png" id="4_r313a"]
+[ext_resource type="Texture2D" uid="uid://dwo0nru8ppsdg" path="res://assets/characters/enemy/spider_2.png" id="6_r313a"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_err5h"]
 bg_color = Color(0.856467, 0.171921, 0.18995, 1)
@@ -161,3 +162,30 @@ layout_mode = 2
 [node name="StaminaUpg" type="TextureRect" parent="UpgradesHBox"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="BotLeftHBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -106.0
+offset_right = 217.0
+offset_bottom = -32.0
+grow_vertical = 0
+
+[node name="WarningLevelLabel" type="Label" parent="BotLeftHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+size_flags_vertical = 8
+theme_type_variation = &"HeaderMedium"
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SpiderIcon" type="TextureRect" parent="BotLeftHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_r313a")

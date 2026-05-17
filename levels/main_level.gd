@@ -10,7 +10,7 @@ var _egg_scan_counter: int = 0
 @onready var player: CharacterBody2D = %Player
 @onready var enemy_holder: Node2D = %EnemyHolder
 @onready var custom_nav_region: Node2D = %NavGenerator
-@onready var _pause_menu: PauseMenu = %PauseMenu
+@onready var pause_menu: PauseMenu = %PauseMenu
 
 func _ready() -> void:
 	Global.enemy_holder_ref = enemy_holder
@@ -20,7 +20,7 @@ func _ready() -> void:
 	Signals.shop_open.connect(_on_shop_open)
 	Signals.shop_close.connect(_on_shop_close)
 	Signals.pause_close.connect(_resume_game)
-	_pause_menu.hide()
+	pause_menu.hide()
 
 func _process(_delta: float) -> void:
 	if (!level_init):
@@ -52,18 +52,18 @@ func _unblock_player() -> void:
 func _on_pause_key_press() -> void:
 	if !_is_game_paused and !_is_shop_open:
 		_pause_game()
-	elif _pause_menu.can_be_closed():
+	elif pause_menu.can_be_closed():
 		_resume_game()
 
 func _pause_game() -> void:
 	_is_game_paused = true
-	_pause_menu.show()
+	pause_menu.show()
 	_block_player()
 	Engine.time_scale = 0
 
 func _resume_game() -> void:
 	_is_game_paused = false
-	_pause_menu.hide()
+	pause_menu.hide()
 	_unblock_player()
 	Engine.time_scale = 1
 
@@ -72,3 +72,4 @@ func _on_scan_caught_egg() -> void:
 	if _egg_scan_counter >= Global.SCANS_BEFORE_SWARM:
 		_egg_scan_counter = 0
 		Signals.spawn_burrow.emit(Global.world_map_tiles_ref.get_random_spawn_position())
+	Global.hud_ref.update_warning_level(_egg_scan_counter)

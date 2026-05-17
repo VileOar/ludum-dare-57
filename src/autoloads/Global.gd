@@ -7,6 +7,7 @@ const INTERACTABLE_GROUP: String = "Interactable"
 
 #region Spiders
 ## How fast the spiders move
+@warning_ignore("narrowing_conversion")
 const ENEMY_SPEED: int = 3.5 * CELL_SIZE
 ## How much health the player loses when hit by a spider
 const ENEMY_DAMAGE_DONE: int = 10
