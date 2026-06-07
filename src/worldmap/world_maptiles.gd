@@ -38,6 +38,9 @@ const BOTTOM_STONE_Y = -5
 ## How strongly terrain deviates from depth (0 = no variation, 1 = very chaotic)
 const TERRAIN_VAR_STRENGTH: float = 0.6
 
+## Array with the center coords of every safe zone (global positions)
+var _safe_zone_centers: Array[Vector2]
+
 var _safe_zones: Dictionary[Rect2i, Array]
 
 # Dictionary holding the thresholds under which different terrains should spawn.[br]
@@ -104,6 +107,27 @@ func get_spawn_position_near(world_pos: Vector2, radius_in_tiles: int) -> Vector
 	var chosen = valid_cells.pick_random()
 	
 	return _nav_layer.map_to_local(chosen)
+
+
+func _set_safe_zone_centers() -> void:
+	for zone: Rect2i in _safe_zones.keys():
+		var tile_center := zone.get_center()
+		var global_center := to_global(_tiles.map_to_local(tile_center))
+		_safe_zone_centers.append(global_center)
+
+
+func get_closest_safe_zone(pos: Vector2) -> Vector2:
+	var closest_zone: Vector2 = _safe_zone_centers[0]
+	var best_dist := INF
+	
+	for center: Vector2 in _safe_zone_centers:
+		var dist := pos.distance_to(center)
+		
+		if dist < best_dist:
+			best_dist = dist
+			closest_zone = center
+	
+	return closest_zone
 
 
 func get_tiles() -> MapTiles:
@@ -272,6 +296,8 @@ func _generate_safe_zones() -> void:
 		var y = randi_range(y_start,y_end)
 		var safe_zone := Rect2i(Vector2i(x,y), SAFE_ZONE_DIMS)
 		_safe_zones[safe_zone] = []
+	# store the center coords of every safe zone
+	_set_safe_zone_centers()
 
 # creates a safe zone based on an ordered array of cells
 # must follow left to right then top to bot, ex. below
