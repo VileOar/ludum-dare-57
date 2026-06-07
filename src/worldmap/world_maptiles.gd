@@ -155,7 +155,7 @@ func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
 		if is_safe:
 			_nav_layer.set_cell(cell)
 		elif terrain == -1:
-			_nav_layer.set_cell(cell, 0, Vector2i(9,2))
+			_nav_layer.set_cell(cell, 0, Vector2i(0,3))
 		else:
 			_nav_layer.set_cell(cell)
 
