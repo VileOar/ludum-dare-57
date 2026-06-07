@@ -24,6 +24,8 @@ const SCANS_BEFORE_SWARM: int = 4
 const EGG_DESTROY_COST: int = 10
 ## When an egg is dug it alerts other eggs within this radius
 const EGG_ALERT_RADIUS: int = CELL_SIZE * 5
+## How long an egg takes to start spawning spiders after it is triggered
+const EGG_TIME_TO_HATCH: float = 5.0
 #endregion
 
 #region Upgrades

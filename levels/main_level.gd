@@ -4,23 +4,32 @@ var level_init: bool = false
 var _is_game_paused: bool = false
 var _is_shop_open: bool = false
 
+var _is_swarm_starting: bool = false
+
 var _egg_scan_counter: int = 0
 
 @export var enemy: PackedScene
+
 @onready var player: CharacterBody2D = %Player
 @onready var enemy_holder: Node2D = %EnemyHolder
 @onready var custom_nav_region: Node2D = %NavGenerator
 @onready var pause_menu: PauseMenu = %PauseMenu
+@onready var swarm_start_timer: Timer = %SwarmStartTimer
 
 func _ready() -> void:
 	Global.enemy_holder_ref = enemy_holder
+	
 	Signals.map_stable.connect(_on_map_generated)
 	Signals.scan_caught_egg.connect(_on_scan_caught_egg)
+	
 	# UI signals
 	Signals.shop_open.connect(_on_shop_open)
 	Signals.shop_close.connect(_on_shop_close)
 	Signals.pause_close.connect(_resume_game)
+	
 	pause_menu.hide()
+	
+	swarm_start_timer.wait_time = Global.EGG_TIME_TO_HATCH + 0.5
 
 func _process(_delta: float) -> void:
 	if (!level_init):
@@ -68,8 +77,23 @@ func _resume_game() -> void:
 	Engine.time_scale = 1
 
 func _on_scan_caught_egg(pos: Vector2) -> void:
+	if _is_swarm_starting or _is_swarm_active():
+		return
+	
 	_egg_scan_counter += 1
 	if _egg_scan_counter >= Global.SCANS_BEFORE_SWARM:
 		_egg_scan_counter = 0
 		Signals.spawn_burrow.emit(pos)
+		_is_swarm_starting = true
+		swarm_start_timer.start()
+	
 	Global.hud_ref.update_warning_level(_egg_scan_counter)
+
+func _is_swarm_active() -> bool:
+	if not enemy_holder:
+		return false
+	return enemy_holder.get_child_count() > 0
+
+
+func _on_swarm_start_timer_timeout() -> void:
+	_is_swarm_starting = false

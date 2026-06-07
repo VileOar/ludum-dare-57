@@ -22,6 +22,11 @@
 script = ExtResource("1_55n5f")
 enemy = ExtResource("2_wg11f")
 
+[node name="SwarmStartTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 5.5
+one_shot = true
+
 [node name="Parallax" type="Node2D" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="Parallax"]
@@ -127,3 +132,5 @@ z_index = 10
 position = Vector2(-333, -3261)
 scale = Vector2(20.2656, 3.58566)
 texture = ExtResource("14_v1ssk")
+
+[connection signal="timeout" from="SwarmStartTimer" to="." method="_on_swarm_start_timer_timeout"]

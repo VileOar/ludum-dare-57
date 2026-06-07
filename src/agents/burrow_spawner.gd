@@ -1,13 +1,15 @@
 extends Node2D
 
+@onready var _timer: Timer = %Timer
 
-@export var enemy : PackedScene
+@export var enemy: PackedScene
 
-var egg_spawner : Node2D
+var _egg_spawner: Node2D
 
 
 func _ready() -> void:
-	egg_spawner = get_parent()
+	_egg_spawner = get_parent()
+	_timer.wait_time = Global.EGG_TIME_TO_HATCH
 
 
 func _instantiate_enemy() -> void:
@@ -20,6 +22,6 @@ func _on_timer_timeout() -> void:
 	@warning_ignore("integer_division")
 	var enemies_to_spawn = randi_range(Global.ENEMIES_TO_SPAWN_MIN, Global.ENEMIES_TO_SPAWN_MAX) / 2
 	for n in enemies_to_spawn:
-		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 		_instantiate_enemy()
+		await get_tree().create_timer(Global.TIME_BETWEEN_ENEMY_SPAWNS).timeout
 	queue_free()
