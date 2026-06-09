@@ -27,7 +27,6 @@ var _tex_scan_up3: Texture2D = load("res://assets/gui/upgrades/radar-up-3.png")
 @onready var _stamina_hbox: HBoxContainer = %StaminaHBox
 
 @onready var _currency_label: Label = %CurrencyLabel
-@onready var _warning_level_label: Label = %WarningLevelLabel
 @onready var _upgrades: HBoxContainer = %UpgradesHBox
 
 @onready var _tr_dig: TextureRect = %DigUpg
@@ -35,6 +34,8 @@ var _tex_scan_up3: Texture2D = load("res://assets/gui/upgrades/radar-up-3.png")
 @onready var _tr_scan: TextureRect = %ScanUpg
 @onready var _tr_stamina: TextureRect = %StaminaUpg
 @onready var _upg_order: Array[TextureRect] = [_tr_dig, _tr_scan, _tr_health, _tr_stamina]
+
+@onready var _hud_anim_player: AnimationPlayer = %HudAnimPlayer
 
 func _ready() -> void:
 	Global.hud_ref = self
@@ -55,8 +56,8 @@ func update_stamina_bar(new_stamina: int) -> void:
 func update_currency_label(new_currency: int) -> void:
 	_currency_label.text = str(new_currency)
 
-func update_warning_level(new_level: int) -> void:
-	_warning_level_label.text = str(new_level)
+func show_swarm_warning() -> void:
+	_hud_anim_player.play("SwarmWarning")
 
 func add_upgrade(upgrade: Global.Upgrades) -> void:
 	match upgrade:

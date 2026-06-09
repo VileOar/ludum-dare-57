@@ -87,7 +87,7 @@ func _on_scan_caught_egg(pos: Vector2) -> void:
 		_is_swarm_starting = true
 		swarm_start_timer.start()
 	
-	Global.hud_ref.update_warning_level(_egg_scan_counter)
+	Global.hud_ref.show_swarm_warning()
 
 func _is_swarm_active() -> bool:
 	if not enemy_holder:
