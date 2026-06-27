@@ -167,13 +167,14 @@ func _try_to_mine(input_dir: Vector2, delta: float) -> void:
 			else:
 				return
 		else:
-			_dig_particles.emitting = false
 			if _time_trying_to_mine >= _TIME_TO_MINE:
 				AudioController.play_stone_dig_fail()
 			else:
 				return
+	
 	# Reset time trying to mine
 	_time_trying_to_mine = 0
+	_dig_particles.emitting = false
 
 # Updates sprite flip and rotation based on input vector
 func _update_sprite(input_dir: Vector2) -> void:
