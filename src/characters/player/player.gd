@@ -256,8 +256,9 @@ func _check_radar_input():
 
 # Player loses health when collision is detected from ENEMY
 func lose_health() -> void:
-	set_health(- Global.ENEMY_DAMAGE_DONE)
-	
+	if _health > 0:
+		set_health(- Global.ENEMY_DAMAGE_DONE)
+		_play_damage_vfx()
 
 func set_health(delta:int):
 	_health = clamp(_health + delta, 0, Global.max_health)
@@ -315,7 +316,6 @@ func set_current_interactable(new_interactable: Node2D) -> void:
 func add_interactable(interactable_to_add: Node2D) -> void:
 	available_interactables.append(interactable_to_add)
 
-
 func _on_collect_items(itype: int, amount: int):
 	AudioController.play_collect_item()
 	match itype:
@@ -325,3 +325,10 @@ func _on_collect_items(itype: int, amount: int):
 			set_fuel(amount)
 		Global.TileType.MONEY:
 			Global.set_currency(amount)
+
+func _play_damage_vfx() -> void:
+	_player_sprite.material.set_shader_parameter("flash", 0.6)
+	
+	await get_tree().create_timer(0.05).timeout
+	
+	_player_sprite.material.set_shader_parameter("flash", 0.0)

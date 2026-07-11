@@ -1,10 +1,16 @@
-[gd_scene load_steps=19 format=3 uid="uid://c41k20yhtuteq"]
+[gd_scene load_steps=21 format=3 uid="uid://c41k20yhtuteq"]
 
 [ext_resource type="Script" uid="uid://pxyjh6sau06" path="res://src/characters/player/player.gd" id="1_7nd6e"]
 [ext_resource type="Texture2D" uid="uid://b84dcw5smdx6j" path="res://assets/characters/player/player.png" id="2_03ylq"]
 [ext_resource type="Texture2D" uid="uid://c51ynju1j71dd" path="res://assets/characters/player/player_idle.png" id="2_hhnms"]
+[ext_resource type="Shader" uid="uid://bkkg3ufgjqoj1" path="res://src/characters/player/damage_vfx.gdshader" id="2_qf5tv"]
 [ext_resource type="Script" uid="uid://c3s1fv0ne5jxk" path="res://src/characters/player/player_area.gd" id="3_03ylq"]
 [ext_resource type="Script" uid="uid://c6f3wjqy4kwmf" path="res://src/characters/player/player_camera.gd" id="4_hhnms"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hhaut"]
+shader = ExtResource("2_qf5tv")
+shader_parameter/flash = 0.0
+shader_parameter/flash_color = Color(1, 0.2, 0.2, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_03ylq"]
 atlas = ExtResource("2_hhnms")
@@ -115,6 +121,7 @@ script = ExtResource("1_7nd6e")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 z_index = 5
+material = SubResource("ShaderMaterial_hhaut")
 position = Vector2(-5.96046e-08, -4.76837e-07)
 sprite_frames = SubResource("SpriteFrames_03ylq")
 animation = &"Idle"
