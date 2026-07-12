@@ -12,7 +12,6 @@ var _active_enemies: int = 0
 
 @onready var _animation_player: AnimationPlayer = $AnimationPlayer
 @onready var _time_to_hatch: Timer = $TimeToHatch
-@onready var _interact_ui: Control = $InteractPrompt
 
 
 func _init() -> void:
@@ -23,7 +22,6 @@ func _ready() -> void:
 	_time_to_hatch.wait_time = Global.EGG_TIME_TO_HATCH
 	_animation_player.active = true
 	_animation_player.play("Shake")
-	$InteractPrompt/CostLabel.text = str(Global.EGG_DESTROY_COST)
 
 
 func remove_enemy() -> void:
@@ -74,8 +72,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 #region Interaction
 func enter_interaction() -> void:
 	if _is_interactable:
-		_interact_ui.visible = true
-		_interact_ui.play_animation()
+		Global.hud_ref.show_interact_prompt(
+			"DESTROY  -" + str(Global.EGG_DESTROY_COST), true)
 
 
 func interact() -> void:
@@ -90,6 +88,5 @@ func interact() -> void:
 
 func exit_interaction() -> void:
 	if _is_interactable:
-		_interact_ui.visible = false
-		_interact_ui.stop_animation()
+		Global.hud_ref.hide_interact_prompt()
 #endregion

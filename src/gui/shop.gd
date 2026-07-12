@@ -118,6 +118,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_exit_button_pressed():
 	if visible:
 		_toggle_visibility(false)
+		Global.hud_ref.show_interact_prompt("TALK")
 		Signals.shop_close.emit()
 
 func _on_refuel_button_pressed():

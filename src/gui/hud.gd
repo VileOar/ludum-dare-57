@@ -37,6 +37,10 @@ var _tex_scan_up3: Texture2D = load("res://assets/gui/upgrades/radar-up-3.png")
 
 @onready var _hud_anim_player: AnimationPlayer = %HudAnimPlayer
 
+@onready var _interact_prompt: PanelContainer = %InteractPrompt
+@onready var _interact_label: Label = %InteractLabel
+@onready var _interact_cost_icon: TextureRect = %InteractCostIcon
+
 func _ready() -> void:
 	Global.hud_ref = self
 	update_health_bar(Global.max_health)
@@ -58,6 +62,16 @@ func update_currency_label(new_currency: int) -> void:
 
 func show_swarm_warning() -> void:
 	_hud_anim_player.play("SwarmWarning")
+
+func show_interact_prompt(text: String, show_cost_icon: bool = false) -> void:
+	_interact_label.text = text
+	if show_cost_icon:
+		_interact_cost_icon.show()
+	_interact_prompt.show()
+
+func hide_interact_prompt() -> void:
+	_interact_prompt.hide()
+	_interact_cost_icon.hide()
 
 func add_upgrade(upgrade: Global.Upgrades) -> void:
 	match upgrade:

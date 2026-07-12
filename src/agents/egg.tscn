@@ -1,10 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://kmdgdqrhrsw5"]
+[gd_scene load_steps=15 format=3 uid="uid://kmdgdqrhrsw5"]
 
 [ext_resource type="Script" uid="uid://06awtp0wlja7" path="res://src/agents/egg.gd" id="1_a234b"]
 [ext_resource type="Texture2D" uid="uid://dla0chp1b64mi" path="res://assets/characters/enemy/egg.png" id="1_aov4h"]
 [ext_resource type="PackedScene" uid="uid://c0ew4d6t5xafg" path="res://src/agents/enemy.tscn" id="2_dftbw"]
-[ext_resource type="PackedScene" uid="uid://dp0ehem5i8n0e" path="res://src/interactables/interact_prompt.tscn" id="4_8fc86"]
-[ext_resource type="Texture2D" uid="uid://oprwo8d3n6p2" path="res://assets/gui/currency.png" id="5_h3pch"]
 
 [sub_resource type="Image" id="Image_h3pch"]
 data = {
@@ -206,32 +204,6 @@ active = false
 libraries = {
 &"": SubResource("AnimationLibrary_1b0xg")
 }
-
-[node name="InteractPrompt" parent="." instance=ExtResource("4_8fc86")]
-visible = false
-offset_left = 108.0
-offset_top = 64.0
-offset_right = 108.0
-offset_bottom = 64.0
-
-[node name="CurrencyIcon" type="TextureRect" parent="InteractPrompt"]
-layout_mode = 0
-offset_left = -100.0
-offset_top = -32.0
-offset_right = -36.0
-offset_bottom = 32.0
-texture = ExtResource("5_h3pch")
-expand_mode = 1
-
-[node name="CostLabel" type="Label" parent="InteractPrompt"]
-layout_mode = 0
-offset_left = -164.0
-offset_top = -32.0
-offset_right = -109.0
-offset_bottom = 32.0
-theme_override_font_sizes/font_size = 44
-text = "XX"
-vertical_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

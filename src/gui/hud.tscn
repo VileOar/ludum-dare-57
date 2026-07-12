@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://p50gwaoxao35"]
+[gd_scene load_steps=13 format=3 uid="uid://p50gwaoxao35"]
 
 [ext_resource type="Script" uid="uid://cfxaxlb32m4kv" path="res://src/gui/hud.gd" id="1_kqywo"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_r313a"]
 [ext_resource type="Texture2D" uid="uid://c7hs6pj40nao" path="res://assets/gui/health_icon_small.png" id="3_13k4q"]
 [ext_resource type="Texture2D" uid="uid://oprwo8d3n6p2" path="res://assets/gui/currency.png" id="4_err5h"]
+[ext_resource type="Texture2D" uid="uid://djqpr7atvw2jc" path="res://assets/gui/keys/keyboard_e_outline.png" id="4_k5yws"]
 [ext_resource type="Texture2D" uid="uid://slpcanvpkd42" path="res://assets/gui/stamina_icon_small.png" id="4_r313a"]
 [ext_resource type="Texture2D" uid="uid://b5n25vm7eup0j" path="res://assets/gui/egg_warning.png" id="6_r313a"]
 
@@ -66,8 +67,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_r313a")
 script = ExtResource("1_kqywo")
+metadata/_edit_horizontal_guides_ = [1029.0]
 
-[node name="BotRightHBox" type="HBoxContainer" parent="."]
+[node name="CurrencyHBox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -81,7 +83,7 @@ offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="CurrencyLabel" type="Label" parent="BotRightHBox"]
+[node name="CurrencyLabel" type="Label" parent="CurrencyHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
@@ -89,7 +91,58 @@ text = "000"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="CurrencyIcon" type="TextureRect" parent="BotRightHBox"]
+[node name="CurrencyIcon" type="TextureRect" parent="CurrencyHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_err5h")
+
+[node name="InteractPrompt" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_top = -120.0
+offset_right = 104.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"PanelContainerBlue"
+
+[node name="MarginContainer" type="MarginContainer" parent="InteractPrompt"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="InteractHBox" type="HBoxContainer" parent="InteractPrompt/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="InteractIcon" type="TextureRect" parent="InteractPrompt/MarginContainer/InteractHBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_k5yws")
+
+[node name="InteractLabel" type="Label" parent="InteractPrompt/MarginContainer/InteractHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+theme_override_font_sizes/font_size = 36
+text = "TALK"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="InteractCostIcon" type="TextureRect" parent="InteractPrompt/MarginContainer/InteractHBox"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
