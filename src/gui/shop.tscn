@@ -53,15 +53,36 @@ theme_override_constants/margin_bottom = 5
 [node name="ShopHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="LabelsVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox"]
-custom_minimum_size = Vector2(130, 0)
+[node name="ItemsVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox"]
+custom_minimum_size = Vector2(448, 0)
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
+[node name="UpgradesLabelHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
 layout_mode = 2
-theme_override_constants/separation = 32
 
-[node name="Dig" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/UpgradesLabelHBox"]
+layout_mode = 2
+theme_override_constants/separation = 128
+
+[node name="UpgradesLabelHBox2" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/UpgradesLabelHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Upgrades" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/UpgradesLabelHBox/UpgradesLabelHBox2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"TooltipTitle"
+text = "UPGRADES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DigUpHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Dig" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/DigUpHBox"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"TooltipTitle"
@@ -71,7 +92,34 @@ STRENGTH"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Radar" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
+[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/DigUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+icon = ExtResource("4_lpuwk")
+description = "Mine stone blocks."
+type = 6
+
+[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/DigUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("5_ooxj2")
+description = "Mine blue stone."
+cost = 2
+type = 7
+
+[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/DigUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("6_f44um")
+description = "Mine purple stone."
+cost = 3
+type = 8
+
+[node name="ScanUpHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Radar" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ScanUpHBox"]
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"TooltipTitle"
@@ -81,7 +129,35 @@ AREA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Health" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
+[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ScanUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+icon = ExtResource("7_nk1ea")
+description = "Scan a larger area."
+type = 9
+
+[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ScanUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("8_bvso1")
+description = "Scan an even larger area."
+cost = 2
+type = 10
+
+[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ScanUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("9_2bowq")
+description = "Scan the largest area anyone has ever scanned."
+cost = 3
+type = 11
+
+[node name="HealthUpHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthUpHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"TooltipTitle"
@@ -90,7 +166,34 @@ text = "HEALTH"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Stamina" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
+[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+icon = ExtResource("10_bts76")
+description = "More health."
+
+[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("11_ttclu")
+description = "Even more health."
+cost = 2
+type = 1
+
+[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthUpHBox" instance=ExtResource("1_seu2g")]
+layout_mode = 2
+disabled = true
+icon = ExtResource("12_6xmt7")
+description = "Healthier than ever."
+cost = 3
+type = 2
+
+[node name="StaminaUpHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StaminaLabel" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaUpHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"TooltipTitle"
@@ -99,105 +202,13 @@ text = "STAMINA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/ShopHBox/LabelsVBox"]
-layout_mode = 2
-theme_override_constants/separation = 135
-
-[node name="ItemsVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox"]
-layout_mode = 2
-
-[node name="Upgrades" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"TooltipTitle"
-text = "UPGRADES"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ClawHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
-layout_mode = 2
-
-[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ClawHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-icon = ExtResource("4_lpuwk")
-description = "Mine stone blocks."
-type = 6
-
-[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ClawHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("5_ooxj2")
-description = "Mine blue stone."
-cost = 2
-type = 7
-
-[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/ClawHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("6_f44um")
-description = "Mine purple stone."
-cost = 3
-type = 8
-
-[node name="RadarHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
-layout_mode = 2
-
-[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RadarHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-icon = ExtResource("7_nk1ea")
-description = "Scan a larger area."
-type = 9
-
-[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RadarHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("8_bvso1")
-description = "Scan an even larger area."
-cost = 2
-type = 10
-
-[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RadarHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("9_2bowq")
-description = "Scan the largest area anyone has ever scanned."
-cost = 3
-type = 11
-
-[node name="HealthHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
-layout_mode = 2
-
-[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-icon = ExtResource("10_bts76")
-description = "More health."
-
-[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("11_ttclu")
-description = "Even more health."
-cost = 2
-type = 1
-
-[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/HealthHBox" instance=ExtResource("1_seu2g")]
-layout_mode = 2
-disabled = true
-icon = ExtResource("12_6xmt7")
-description = "Healthier than ever."
-cost = 3
-type = 2
-
-[node name="StaminaHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
-layout_mode = 2
-
-[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaHBox" instance=ExtResource("1_seu2g")]
+[node name="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaUpHBox" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 icon = ExtResource("13_mp73b")
 description = "Scan more."
 type = 3
 
-[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaHBox" instance=ExtResource("1_seu2g")]
+[node name="Button2" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaUpHBox" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 disabled = true
 icon = ExtResource("14_yfeso")
@@ -205,7 +216,7 @@ description = "Scan even more."
 cost = 2
 type = 4
 
-[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaHBox" instance=ExtResource("1_seu2g")]
+[node name="Button3" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/StaminaUpHBox" instance=ExtResource("1_seu2g")]
 layout_mode = 2
 disabled = true
 icon = ExtResource("15_wa1mf")
@@ -213,7 +224,19 @@ description = "Scan on steroids."
 cost = 3
 type = 5
 
-[node name="Restore" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+[node name="RestoreHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox"]
+layout_mode = 2
+theme_override_constants/separation = 128
+
+[node name="RestoreVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RestoreLabel" type="Label" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"TooltipTitle"
@@ -221,16 +244,16 @@ text = "RESTORE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestoreBtnsHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox"]
+[node name="RestoreBtnsHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox"]
 layout_mode = 2
 alignment = 1
 
-[node name="RepairButton" type="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreBtnsHBox"]
+[node name="RepairButton" type="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox/RestoreBtnsHBox"]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("16_6xmt7")
 
-[node name="RefuelButton" type="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreBtnsHBox"]
+[node name="RefuelButton" type="Button" parent="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox/RestoreBtnsHBox"]
 layout_mode = 2
 size_flags_vertical = 3
 icon = ExtResource("17_mp73b")
@@ -312,7 +335,7 @@ size_flags_horizontal = 8
 text = "EXIT
 "
 
-[connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreBtnsHBox/RepairButton" to="." method="_on_repair_button_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreBtnsHBox/RefuelButton" to="." method="_on_refuel_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox/RestoreBtnsHBox/RepairButton" to="." method="_on_repair_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ItemsVBox/RestoreHBox/RestoreVBox/RestoreBtnsHBox/RefuelButton" to="." method="_on_refuel_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ShopkeeperVBox/ButtonsHBox/BuyButton" to="." method="_on_buy_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/ShopHBox/ShopkeeperVBox/ButtonsHBox/ExitButton" to="." method="_on_exit_button_pressed"]

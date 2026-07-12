@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dca88eh6c0qrc"]
+[gd_scene load_steps=9 format=3 uid="uid://dca88eh6c0qrc"]
 
 [ext_resource type="Script" uid="uid://dl8muomdyln1g" path="res://src/worldmap/world_maptiles.gd" id="1_1b85c"]
+[ext_resource type="PackedScene" uid="uid://d3r0by2c0a703" path="res://src/characters/shopkeeper/shopkeeper.tscn" id="2_ry0y7"]
 [ext_resource type="TileSet" uid="uid://n1yasqcqq017" path="res://assets/tilesets/tileset.tres" id="2_vehs4"]
 [ext_resource type="Script" uid="uid://bhvqu25bi6dnv" path="res://src/worldmap/map_tiles.gd" id="3_khffx"]
 [ext_resource type="TileSet" uid="uid://b5t1cjso2kfm7" path="res://assets/tilesets/danger_shades.tres" id="4_vehs4"]
@@ -10,6 +11,7 @@
 
 [node name="WorldMapTiles" type="Node2D"]
 script = ExtResource("1_1b85c")
+shopkeeper = ExtResource("2_ry0y7")
 
 [node name="NavLayer" type="TileMapLayer" parent="."]
 visible = false

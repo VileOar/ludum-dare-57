@@ -54,6 +54,8 @@ var _terrain_noise_thresholds := {
 var load_percent: int = 0
 var are_tiles_generated: bool = false
 
+@export var shopkeeper: PackedScene
+
 @onready var _tiles: MapTiles = $MapTiles
 @onready var _collision_tiles: TileMapLayer = $CollisionTiles
 @onready var _danger_level1: TileMapLayer = $DangerLevel1
@@ -370,8 +372,21 @@ func _create_safe_zone(cells: Array):
 		idx += 1
 
 func _spawn_safe_zones() -> void:
+	const shopkpr_offset: Vector2 = Vector2(-256, -128)
+	
+	var zone_tier: int = 1
 	for safe_zone in _safe_zones:
 		_create_safe_zone(_safe_zones[safe_zone])
+		
+		_spawn_shopkeeper(_safe_zone_centers[zone_tier - 1] + shopkpr_offset, zone_tier)
+		
+		zone_tier += 1
+
+func _spawn_shopkeeper(pos: Vector2, tier: int) -> void:
+	var shopkeeper_inst: Shopkeeper = shopkeeper.instantiate()
+	shopkeeper_inst.global_position = pos
+	shopkeeper_inst.set_tier(tier)
+	get_tree().current_scene.add_child.call_deferred(shopkeeper_inst)
 
 func _spawn_tile_data(cell_pos: Vector2i, amount: float):
 	var types = Global.TILE_TYPE_WEIGHTS.keys()

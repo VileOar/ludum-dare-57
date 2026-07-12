@@ -25,15 +25,13 @@ signal health_changed(value:int)
 
 signal fuel_changed(value:int)
 
-signal change_shop_visibility(visible:bool)
-
 signal end_condition(win:bool)
 
 # send enemies
 signal collect_items(item_type: int, amount: int)
 
 ## Sent when the shop is opened
-signal shop_open
+signal shop_open(tier: int)
 
 ## Sent when the shop is closed
 signal shop_close

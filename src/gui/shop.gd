@@ -6,6 +6,15 @@ extends Control
 @onready var _cost_label: Label = %CostValue
 @onready var _buy_button: Button = %BuyButton
 
+@onready var _dig_upg_hbox: HBoxContainer = %DigUpHBox
+@onready var _scan_upg_hbox: HBoxContainer = %ScanUpHBox
+@onready var _health_upg_hbox: HBoxContainer = %HealthUpHBox
+@onready var _stamina_upg_hbox: HBoxContainer = %StaminaUpHBox
+@onready var _restore_hbox: HBoxContainer = %RestoreHBox
+
+@onready var _health_label: Label = %HealthLabel
+@onready var _stamina_label: Label = %StaminaLabel
+
 const REFUEL_MULTIPLIER := 2
 const REPAIR_MULTIPLIER := 2
 const ZERO_STRING := ""
@@ -20,24 +29,94 @@ var _refuel := false
 var _repair := false
 
 func _ready():
-	Signals.change_shop_visibility.connect(_toggle_visibility)
+	Signals.shop_open.connect(_on_shop_open)
 	Signals.upgrade_selected.connect(_on_upgrade_selected)
+	
+	_reset_inventory()
 
-func _toggle_visibility(value:bool):
-	visible = value
-	if value:
-		AudioController.play_shop_music()
-		
-		_current_cost = 0
-		_current_btn = null
-		_upgrade_selected = false
-		_viable_action = false
-		
-		_reset_cost_and_description()
-		
-		_refresh_buy_button_state()
-	else:
-		AudioController.play_music()
+func _on_shop_open(tier: int) -> void:
+	self.show()
+	AudioController.play_shop_music()
+	
+	_current_cost = 0
+	_current_btn = null
+	_upgrade_selected = false
+	_viable_action = false
+	
+	_reset_cost_and_description()
+	
+	_refresh_buy_button_state()
+	
+	_set_inventory(tier)
+
+func _close_shop() -> void:
+	self.hide()
+	AudioController.play_music()
+	
+	Global.hud_ref.show_interact_prompt("TALK")
+	
+	Signals.shop_close.emit()
+	
+	_reset_inventory()
+
+func _set_inventory(tier: int) -> void:
+	var dig_upgrades = _dig_upg_hbox.get_children()
+	for i in dig_upgrades.size():
+		if i > tier:
+			break
+		else:
+			dig_upgrades[i].show()
+	
+	var scan_upgrades = _scan_upg_hbox.get_children()
+	for i in scan_upgrades.size():
+		if i > tier:
+			break
+		else:
+			scan_upgrades[i].show()
+	
+	if tier <= 1:
+		return
+	
+	_health_label.show()
+	
+	var health_upgrades = _health_upg_hbox.get_children()
+	for i in health_upgrades.size():
+		if i > tier:
+			break
+		else:
+			health_upgrades[i].show()
+	
+	_stamina_label.show()
+	
+	var stamina_upgrades = _stamina_upg_hbox.get_children()
+	for i in stamina_upgrades.size():
+		if i > tier:
+			break
+		else:
+			stamina_upgrades[i].show()
+	
+	_restore_hbox.show()
+
+func _reset_inventory() -> void:
+	_health_label.hide()
+	_stamina_label.hide()
+	_restore_hbox.hide()
+	
+	var dig_upgrades = _dig_upg_hbox.get_children()
+	for dig_upg in dig_upgrades:
+		dig_upg.hide()
+	
+	var scan_upgrades = _scan_upg_hbox.get_children()
+	for scan_upg in scan_upgrades:
+		scan_upg.hide()
+	
+	var health_upgrades = _health_upg_hbox.get_children()
+	for health_upg in health_upgrades:
+		health_upg.hide()
+	
+	var stamina_upgrades = _stamina_upg_hbox.get_children()
+	for stamina_upg in stamina_upgrades:
+		stamina_upg.hide()
 
 func _reset_cost_and_description():
 	_description_label.text = "Welcome to my shop!"
@@ -117,9 +196,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_exit_button_pressed():
 	if visible:
-		_toggle_visibility(false)
-		Global.hud_ref.show_interact_prompt("TALK")
-		Signals.shop_close.emit()
+		_close_shop()
 
 func _on_refuel_button_pressed():
 	_viable_action = false

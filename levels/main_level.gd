@@ -44,7 +44,7 @@ func _input(event: InputEvent) -> void:
 func _on_map_generated() -> void:
 	$CanvasLayer/LoadingMsg.hide()
 
-func _on_shop_open() -> void:
+func _on_shop_open(_tier: int) -> void:
 	_is_shop_open = true
 	_block_player()
 
