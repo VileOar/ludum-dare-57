@@ -140,6 +140,9 @@ func set_currency(delta: int):
 func get_currency() -> int:
 	return _currency
 
+func reset_currency() -> void:
+	_currency = 0
+
 func set_pulse_size(new_size: int):
 	_pulse_size = new_size
 

@@ -15,6 +15,7 @@ func _ready() -> void:
 	Signals.options_close.connect(_on_options_close)
 
 func _on_play_pressed() -> void:
+	Global.reset_currency()
 	Global.deferred_change_scene(Global.level_scene)
 
 func _on_quit_pressed() -> void:
