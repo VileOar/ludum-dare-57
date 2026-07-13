@@ -31,32 +31,42 @@ func _ready() -> void:
 	
 	swarm_start_timer.wait_time = Global.EGG_TIME_TO_HATCH + 0.5
 
+
 func _process(_delta: float) -> void:
 	if (!level_init):
 		level_init = true
-		Global.world_map_tiles_ref.generate_tiles()
+		
+		SaveManager.load_or_generate_map()
+		
 		Global.player_ref.set_radar_pulse($RadarPulse)
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("CloseMenu"):
 		_on_pause_key_press()
 
+
 func _on_map_generated() -> void:
 	$CanvasLayer/LoadingMsg.hide()
+
 
 func _on_shop_open(_tier: int) -> void:
 	_is_shop_open = true
 	_block_player()
 
+
 func _on_shop_close() -> void:
 	_is_shop_open = false
 	_unblock_player()
 
+
 func _block_player() -> void:
 	Global.player_ref.set_can_play(false)
 
+
 func _unblock_player() -> void:
 	Global.player_ref.set_can_play(true)
+
 
 func _on_pause_key_press() -> void:
 	if !_is_game_paused and !_is_shop_open:
@@ -64,17 +74,20 @@ func _on_pause_key_press() -> void:
 	elif pause_menu.can_be_closed():
 		_resume_game()
 
+
 func _pause_game() -> void:
 	_is_game_paused = true
 	pause_menu.show()
 	_block_player()
 	Engine.time_scale = 0
 
+
 func _resume_game() -> void:
 	_is_game_paused = false
 	pause_menu.hide()
 	_unblock_player()
 	Engine.time_scale = 1
+
 
 func _on_scan_caught_egg(pos: Vector2) -> void:
 	if _is_swarm_starting or _is_swarm_active():
@@ -88,6 +101,7 @@ func _on_scan_caught_egg(pos: Vector2) -> void:
 		swarm_start_timer.start()
 	
 	Global.hud_ref.show_swarm_warning()
+
 
 func _is_swarm_active() -> bool:
 	if not enemy_holder:

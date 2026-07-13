@@ -1,6 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://b67yrqq2iad43"]
 
-[ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/mainmenu/main_menu.gd" id="1_pfhkm"]
+[ext_resource type="Script" uid="uid://dkl1vu3xhw8j0" path="res://src/gui/mainmenu/main_menu.gd" id="1_pfhkm"]
 [ext_resource type="Theme" uid="uid://bomll6dbw0kl1" path="res://assets/base_theme.tres" id="1_qagte"]
 [ext_resource type="Texture2D" uid="uid://bekjaa7d3d17q" path="res://assets/gui/menu_bg.png" id="2_fbsfs"]
 [ext_resource type="Texture2D" uid="uid://i21tbcx3ublj" path="res://assets/gui/logo.png" id="4_qagte"]
@@ -119,7 +119,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_qagte")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TitleMenu"]
+[node name="MainVBox" type="VBoxContainer" parent="TitleMenu"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -134,25 +135,55 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Play" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
+[node name="Play" parent="TitleMenu/MainVBox" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
 text = "PLAY"
 
-[node name="HowTo" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
+[node name="HowTo" parent="TitleMenu/MainVBox" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
 text = "HOWTO"
 
-[node name="Options" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
+[node name="Options" parent="TitleMenu/MainVBox" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
 text = "OPTIONS"
 
-[node name="Credits" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
+[node name="Credits" parent="TitleMenu/MainVBox" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
 text = "CREDITS"
 
-[node name="Quit" parent="TitleMenu/VBoxContainer" instance=ExtResource("5_iwgq0")]
+[node name="Quit" parent="TitleMenu/MainVBox" instance=ExtResource("5_iwgq0")]
 layout_mode = 2
 text = "QUIT"
+
+[node name="PlayVBox" type="VBoxContainer" parent="TitleMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.434
+anchor_right = 1.0
+anchor_bottom = 0.802
+offset_left = -565.0
+offset_top = 0.279968
+offset_right = -240.0
+offset_bottom = -0.160034
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Continue" parent="TitleMenu/PlayVBox" instance=ExtResource("5_iwgq0")]
+layout_mode = 2
+text = "CONTINUE"
+
+[node name="NewGame" parent="TitleMenu/PlayVBox" instance=ExtResource("5_iwgq0")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+text = "NEW GAME"
+
+[node name="Back" parent="TitleMenu/PlayVBox" instance=ExtResource("5_iwgq0")]
+layout_mode = 2
+text = "BACK"
 
 [node name="Credits" type="Control" parent="."]
 visible = false
@@ -504,10 +535,13 @@ text = "BACK"
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="TitleMenu/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="TitleMenu/VBoxContainer/HowTo" to="." method="_on_how_to_pressed"]
-[connection signal="pressed" from="TitleMenu/VBoxContainer/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="TitleMenu/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="TitleMenu/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="TitleMenu/MainVBox/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="TitleMenu/MainVBox/HowTo" to="." method="_on_how_to_pressed"]
+[connection signal="pressed" from="TitleMenu/MainVBox/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="TitleMenu/MainVBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="TitleMenu/MainVBox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="TitleMenu/PlayVBox/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="TitleMenu/PlayVBox/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="TitleMenu/PlayVBox/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Credits/CreditsBack" to="." method="_on_credits_back_pressed"]
 [connection signal="pressed" from="HowTo/HowToBack" to="." method="_on_how_to_back_pressed"]

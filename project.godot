@@ -18,10 +18,11 @@ config/icon="uid://v7m4wb3tou2j"
 
 [autoload]
 
-AudioController="*res://src/audio_controller/audio_controller.tscn"
+AudioController="*res://src/autoloads/audio_controller/audio_controller.tscn"
 Global="*res://src/autoloads/Global.gd"
 Signals="*res://src/autoloads/Signals.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+SaveManager="*res://src/autoloads/SaveManager.tscn"
 
 [display]
 

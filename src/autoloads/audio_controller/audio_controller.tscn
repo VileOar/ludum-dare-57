@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://c41lpw0a2v2iq"]
 
 [ext_resource type="AudioStream" uid="uid://4puijewqwfhb" path="res://assets/sounds/radar-pulse.wav" id="1_gnbjh"]
-[ext_resource type="Script" uid="uid://dgej0u7isxwm5" path="res://src/audio_controller/audio_controller.gd" id="1_hgdds"]
+[ext_resource type="Script" uid="uid://dgej0u7isxwm5" path="res://src/autoloads/audio_controller/audio_controller.gd" id="1_hgdds"]
 [ext_resource type="AudioStream" uid="uid://bhdcm0spx5qys" path="res://assets/sounds/squeak1.wav" id="2_hgdds"]
 [ext_resource type="AudioStream" uid="uid://dfhevq67oefuj" path="res://assets/sounds/music-funk.mp3" id="2_wq8em"]
 [ext_resource type="AudioStream" uid="uid://ca01x11jmyujf" path="res://assets/sounds/squeak2.wav" id="3_dwq47"]

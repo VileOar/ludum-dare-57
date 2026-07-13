@@ -38,6 +38,12 @@ const BOTTOM_STONE_Y = -5
 ## How strongly terrain deviates from depth (0 = no variation, 1 = very chaotic)
 const TERRAIN_VAR_STRENGTH: float = 0.6
 
+## The seed used to generate everything
+var master_seed: int
+
+## Array with the coords of all the tiles that have been dug
+var dug_tiles: Dictionary[Vector2i, bool] = {}
+
 ## Array with the center coords of every safe zone (global positions)
 var _safe_zone_centers: Array[Vector2]
 
@@ -150,19 +156,39 @@ func can_dig_tile(pos: Vector2i, dig_strength: int) -> int:
 	return -1
 
 
+func load_dug_tiles(saved_tiles: Array) -> void:
+	dug_tiles.clear()
+	
+	var cells: Array[Vector2i] = []
+	
+	for tile in saved_tiles:
+		var cell := Vector2i(tile[0], tile[1])
+		
+		dug_tiles[cell] = true
+		cells.append(cell)
+	
+	_dig_tiles(cells, true)
+
+
 # Method to execute a dig action on group of tile, which removes the tiles and updates necessary data.
-func _dig_tiles(cells: Array[Vector2i]):
+func _dig_tiles(cells: Array[Vector2i], loading: bool = false):
 	for cell in cells:
+		if !loading and !dug_tiles.has(cell):
+			dug_tiles[cell] = true
+			SaveManager.mark_dirty()
+		
 		# erase danger cells
 		for i in _danger_levels:
 			BetterTerrain.set_cell(_danger_levels[i], cell, -1)
 			BetterTerrain.update_terrain_cell(_danger_levels[i], cell)
-
+		
 		var cell_data = _tiles.get_cell_tile_data(cell)
-		if cell_data != null:
+		if cell_data != null and !loading:
 			# try to dig a feature tile on position
 			_tiles.try_dig_feature(cell)
+	
 	_set_cells(cells, -1)
+
 
 # Internal method to set cells to the terrain tilemap layer
 func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
@@ -185,13 +211,18 @@ func _set_cells(cells: Array[Vector2i], terrain: int, is_safe: bool = false):
 		else:
 			_nav_layer.set_cell(cell)
 
-func generate_tiles():
-	var map_seed = randi() # the main seed used to generate everything else
-	Global.rng.seed = map_seed
+func generate_tiles(map_seed: int = -1):
+	if map_seed == -1:
+		master_seed = randi()
+	else:
+		master_seed = map_seed
+	
+	Global.rng.seed = master_seed
+	
 	var danger_seed = Global.rng.randi() # get a different seed for a different noise map
 	
 	# the noise map for choosing the terrain of each tile
-	var terrain_noise = _get_noise_map(map_seed, 0.02, _terrain_noise_thresholds.size(), 0.2)
+	var terrain_noise = _get_noise_map(master_seed, 0.02, _terrain_noise_thresholds.size(), 0.2)
 	# the noise map for choosing the danger level (and spawning ratio) of enemy spawners
 	var danger_noise = _get_noise_map(danger_seed, 0.01, 4, 0.0)
 	
@@ -264,6 +295,7 @@ func generate_tiles():
 	
 	are_tiles_generated = true
 	Signals.map_stable.emit.call_deferred()
+	SaveManager.mark_dirty()
 
 func _is_cell_in_safe_zone(cell) -> Rect2i:
 	for safe_zone in _safe_zones.keys():
